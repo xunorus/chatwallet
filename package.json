@@ -1,0 +1,17 @@
+{
+  "name": "chatwallet",
+  "version": "1.0.0",
+  "main": "index.html",
+  "repository": "git@github.com:xunorus/chatwallet.git",
+  "author": "xunorus <xunorus@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@web5/api": "^0.8.4",
+    "@web5/credentials": "^0.4.1",
+    "@web5/dids": "^0.2.4",
+    "@web5/user-agent": "^0.2.5",
+    "ethers": "5.7.2",
+    "parcel": "^2.11.0",
+    "parcel-reporter-static-files-copy": "^1.5.3"
+  }
+}
