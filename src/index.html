@@ -50,7 +50,7 @@
 	<!-- /*********************************************************************************************
   .) HEADER NAV
   **********************************************************************************************/ -->
-	<!-- <div class="overlay"></div> -->
+	<div class="overlay"></div>
 
 	<nav id='navbar' class="  ">
 		<select class="left translation" id="chainSelector"> </select>
@@ -174,6 +174,34 @@
     <script type="module" ></script>
 
     <script>
+
+		/*********************************************************************************************
+		.)  SIDEBAR
+		**********************************************************************************************/
+
+		// Get the navigation button and add a click event listener
+		var navBtn = document.querySelector('.hamburger');
+		navBtn.addEventListener('click', plToggle);
+
+		// Define the plToggle function
+		function plToggle(event) {
+			console.log('TOOGLE NAVBAR', event);
+			navBtn.classList.toggle('is-active');
+
+			// Toggle classes for elements with class 'content', 'sidebar', and 'overlay'
+			document.querySelector('.sidebar').classList.toggle('isOpen');
+			document.querySelector('.overlay').classList.toggle('overlayisOpen');
+
+			// Get the container element with class 'sidebar'
+			var container = document.querySelector('.sidebar');
+		}
+
+		// Add a click event listener to the overlay element
+		document.querySelector('.overlay').addEventListener('click', function (event) {
+			console.log('clickeado en nav li');
+			plToggle();
+		});
+
 
     </script>
     </body>

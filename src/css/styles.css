@@ -892,6 +892,8 @@ height: 30vh;
 /* QUICI FIXES */
 
     #miniversion{
+    font-family: 'Major Mono Display', monospace!important;
+
       /* font-size: 0.35em; */
       font-size: 0.75em;
       position: absolute;
