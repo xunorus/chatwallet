@@ -8,12 +8,19 @@
   "dependencies": {
     "@aave/contract-helpers": "1.21.1",
     "@aave/math-utils": "1.21.1",
+    "@github/mini-throttle": "^2.1.1",
     "@web5/api": "^0.8.4",
     "@web5/credentials": "^0.4.1",
     "@web5/dids": "^0.2.4",
     "@web5/user-agent": "^0.2.5",
+    "@xmtp/xmtp-js": "11.2.0",
+    "bignumber.js": "^9.x",
+    "cropperjs": "^1.6.1",
     "ethers": "5.7.2",
     "parcel": "^2.11.0",
-    "parcel-reporter-static-files-copy": "^1.5.3"
+    "parcel-reporter-static-files-copy": "^1.5.3",
+    "qr-scanner": "^1.4.2",
+    "reflect-metadata": "^0.1.x",
+    "tslib": "^2.4.x"
   }
 }

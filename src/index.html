@@ -171,7 +171,30 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.29/Tone.min.js"></script>
 
-    <script type="module" ></script>
+    <script type="module" >
+		import QrScanner from "qr-scanner/qr-scanner.min.js";
+		window.QrScanner = QrScanner; //make global
+		QrScanner.hasCamera(); // test
+
+		import { ethers } from "ethers";
+		window.ethers = ethers;
+
+		import { Wallet } from 'ethers'
+		window.Wallet = Wallet;
+		
+		import { Client } from '@xmtp/xmtp-js'
+		window.Client = Client;
+		
+		import { CompositeCodec } from "@xmtp/xmtp-js";
+		window.CompositeCodec = CompositeCodec;
+
+	// CROPPER		
+		import Cropper from 'cropperjs'
+		window.Cropper = Cropper; //make global
+		import { throttle } from '@github/mini-throttle'
+		window.throttle = throttle; //make global
+		import 'cropperjs/dist/cropper.css'
+	</script>
 
     <script>
 
@@ -201,6 +224,13 @@
 			console.log('clickeado en nav li');
 			plToggle();
 		});
+
+		/*********************************************************************************************
+		.)   
+		**********************************************************************************************/
+
+
+		
 
 
     </script>
