@@ -892,7 +892,10 @@ height: 30vh;
 /* QUICI FIXES */
 
     #miniversion{
-      font-size: 0.35em;
+      /* font-size: 0.35em; */
+      font-size: 0.75em;
+      position: absolute;
+      bottom: 12px;
     }
 
 
