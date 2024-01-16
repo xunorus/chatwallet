@@ -6,6 +6,8 @@
   "author": "xunorus <xunorus@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@aave/contract-helpers": "1.21.1",
+    "@aave/math-utils": "1.21.1",
     "@web5/api": "^0.8.4",
     "@web5/credentials": "^0.4.1",
     "@web5/dids": "^0.2.4",
