@@ -7,9 +7,9 @@
    viewBox="0 0 61.94342 61.934494"
    version="1.1"
    id="svg5"
-   sodipodi:docname="chatwalletB.svg"
+   sodipodi:docname="chatwallet.svg"
    inkscape:version="1.1.2 (b8e25be8, 2022-02-05)"
-   inkscape:export-filename="/Users/xunorus/CWALLET.png"
+   inkscape:export-filename="/Users/xunorus/chawallet.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -26,21 +26,27 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="0.3490649"
-     inkscape:cx="-197.67098"
-     inkscape:cy="342.34322"
-     inkscape:window-width="1920"
-     inkscape:window-height="999"
+     inkscape:zoom="1.4770961"
+     inkscape:cx="76.839955"
+     inkscape:cy="172.29752"
+     inkscape:window-width="1440"
+     inkscape:window-height="819"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
      inkscape:current-layer="g197"
-     width="64mm">
+     width="64mm"
+     showguides="true"
+     inkscape:guide-bbox="true">
     <inkscape:grid
        type="xygrid"
        id="grid2752"
        originx="-1.0384512"
        originy="-1.0349084" />
+    <sodipodi:guide
+       position="-40.72595,36.511069"
+       orientation="1,0"
+       id="guide476" />
   </sodipodi:namedview>
   <defs
      id="defs2">
@@ -76,23 +82,47 @@
       </g>
       <g
          id="g197">
-        <path
-           d="M 222.47438,560.00832 H 167.8064 l 27.33399,-59.25136 z m -49.83451,-3.08341 h 45.00104 l -22.50052,-48.83446 z"
-           style="font-weight:normal;font-size:11.0648px;line-height:1.25;font-family:'Major Mono Display';-inkscape-font-specification:'Major Mono Display';fill:#ff0000;stroke-width:1.08228"
-           id="path23760" />
         <g
-           id="g2582"
-           transform="matrix(1.8435786,0,0,1.8435786,-154.64118,-446.37901)">
-          <path
-             d="m 188.40945,535.10592 -3.95509,-1.05561 3.42941,-5.94107 8.45927,8.46936 -0.32383,0.56101 -6.43065,-1.71745 4.70349,4.70956 -0.32385,0.56103 -11.56483,-3.08931 0.31554,-0.54664 10.41449,2.78968 z m -0.39201,-5.99896 -2.63226,4.56009 3.33981,0.89223 6.46772,1.71967 z"
-             style="font-weight:normal;font-size:11.0648px;line-height:1.25;font-family:'Major Mono Display';-inkscape-font-specification:'Major Mono Display';fill:#ff0000;stroke-width:0.215712"
-             id="path23764" />
+           id="g2128">
           <g
-             id="g2577">
+             id="g2119">
+            <g
+               id="g2582"
+               transform="matrix(1.8435786,0,0,1.8435786,-154.64118,-441.08731)">
+              <g
+                 id="g1994"
+                 transform="translate(0.35647151,-4.5827082)">
+                <path
+                   d="m 188.40945,535.10592 -3.95509,-1.05561 3.42941,-5.94107 8.45927,8.46936 -0.32383,0.56101 -6.43065,-1.71745 4.70349,4.70956 -0.32385,0.56103 -11.56483,-3.08931 0.31554,-0.54664 10.41449,2.78968 z m -0.39201,-5.99896 -2.63226,4.56009 3.33981,0.89223 6.46772,1.71967 z"
+                   style="font-weight:normal;font-size:11.0648px;line-height:1.25;font-family:'Major Mono Display';-inkscape-font-specification:'Major Mono Display';fill:#ff0000;stroke-width:0.215712"
+                   id="path23764" />
+                <g
+                   id="g2577">
+                  <path
+                     d="m 190.33696,535.10592 3.95509,-1.05561 -3.42941,-5.94107 -8.45927,8.46936 0.32383,0.56101 6.43065,-1.71745 -4.70349,4.70956 0.32385,0.56103 11.56483,-3.08931 -0.31554,-0.54664 -10.41449,2.78968 z m 0.39201,-5.99896 2.63226,4.56009 -3.33981,0.89223 -6.46772,1.71967 z"
+                     style="font-weight:normal;font-size:11.0648px;line-height:1.25;font-family:'Major Mono Display';-inkscape-font-specification:'Major Mono Display';fill:#ff0000;stroke-width:0.215712"
+                     id="path2494" />
+                </g>
+              </g>
+            </g>
             <path
-               d="m 190.33696,535.10592 3.95509,-1.05561 -3.42941,-5.94107 -8.45927,8.46936 0.32383,0.56101 6.43065,-1.71745 -4.70349,4.70956 0.32385,0.56103 11.56483,-3.08931 -0.31554,-0.54664 -10.41449,2.78968 z m 0.39201,-5.99896 2.63226,4.56009 -3.33981,0.89223 -6.46772,1.71967 z"
-               style="font-weight:normal;font-size:11.0648px;line-height:1.25;font-family:'Major Mono Display';-inkscape-font-specification:'Major Mono Display';fill:#ff0000;stroke-width:0.215712"
-               id="path2494" />
+               sodipodi:type="star"
+               style="fill:none;fill-opacity:0.917647;stroke:#ff0000;stroke-width:11.3386;stroke-miterlimit:4;stroke-dasharray:none;stop-color:#000000"
+               id="path916"
+               inkscape:flatsided="true"
+               sodipodi:sides="3"
+               sodipodi:cx="111.07515"
+               sodipodi:cy="116.08854"
+               sodipodi:r1="140"
+               sodipodi:r2="70"
+               sodipodi:arg1="-1.5707963"
+               sodipodi:arg2="-0.52359878"
+               inkscape:rounded="0"
+               inkscape:randomized="0"
+               d="m 111.07515,-23.911461 121.24355,210.000001 -242.487109,0 z"
+               transform="matrix(-0.11577678,-0.20186936,0.20186936,-0.11577678,184.61622,575.00642)"
+               inkscape:transform-center-y="-8.1043846"
+               inkscape:transform-center-x="0.04680311" />
           </g>
         </g>
       </g>

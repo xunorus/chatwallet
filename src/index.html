@@ -2460,7 +2460,7 @@ console.log('later ...')
 
 function now(wallet) {
 console.log('now ...')
-// backupWallet(wallet)
+backupWallet(wallet)
 }
 
 function restore() {
@@ -3318,5 +3318,13 @@ async function settings(){
 			openModalId('#settingsModal')
 
 		}
+
+
+async function backup(){
+	console.log('backup()')
+	openModalId('#walletBackp')
+	closeModalId('#settingsModal')
+
+}
     </script>
     </body>
