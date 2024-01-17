@@ -21,6 +21,7 @@
     "parcel-reporter-static-files-copy": "^1.5.3",
     "qr-scanner": "^1.4.2",
     "reflect-metadata": "^0.1.x",
+    "swiper": "^11.0.5",
     "tslib": "^2.4.x"
   }
 }

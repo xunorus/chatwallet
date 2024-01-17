@@ -169,6 +169,481 @@
 		</div>
 	</div>
 
+
+
+
+<!-----------------------------
+  MODALS 
+--------------------------->
+
+<!-- SETTINGS MODAL -->
+<div class="modal fade" id="settingsModal" data-bs-backdrop="static"  tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="settingsModalLabel">SETTINGS </h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" id="settingsCardContainer">
+					<button type="button" id="" class="btn btn-info" onclick="event.stopPropagation(); honorLoans()"> <svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512"> <path d="M80 104c0-22.1-17.9-40-40-40S0 81.9 0 104v56 64V325.5c0 25.5 10.1 49.9 28.1 67.9L128 493.3c12 12 28.3 18.7 45.3 18.7H240c26.5 0 48-21.5 48-48V385.1c0-29.7-11.8-58.2-32.8-79.2l-25.3-25.3 0 0-15.2-15.2-32-32c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l32 32 15.2 15.2c11 11 9.2 29.2-3.7 37.8c-9.7 6.5-22.7 5.2-31-3.1L98.7 309.5c-12-12-18.7-28.3-18.7-45.3V224 144 104zm480 0v40 80 40.2c0 17-6.7 33.3-18.7 45.3l-51.1 51.1c-8.3 8.3-21.3 9.6-31 3.1c-12.9-8.6-14.7-26.9-3.7-37.8l15.2-15.2 32-32c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-32 32-15.2 15.2 0 0-25.3 25.3c-21 21-32.8 49.5-32.8 79.2V464c0 26.5 21.5 48 48 48h66.7c17 0 33.3-6.7 45.3-18.7l99.9-99.9c18-18 28.1-42.4 28.1-67.9V224 160 104c0-22.1-17.9-40-40-40s-40 17.9-40 40z" /> </svg> Loans </button> 
+					<button type="button" id="" class="btn btn-reject" onclick="event.stopPropagation(); backup()"> <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M512 32c0 113.6-84.6 207.5-194.2 222c-7.1-53.4-30.6-101.6-65.3-139.3C290.8 46.3 364 0 448 0h32c17.7 0 32 14.3 32 32zM0 96C0 78.3 14.3 64 32 64H64c123.7 0 224 100.3 224 224v32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V320C100.3 320 0 219.7 0 96z"/></svg> Backup </button> 
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+	<!-- NFTS HONORLOAN MODAL -->
+	<div class="modal fade" id="nftHONORLOANModal" tabindex="-1" aria-labelledby="nftModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="nftModalLabel">HonorLoan NFTs </h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="HONORLOANnftCardContainer"> </div>
+				<div class="modal-footer">
+					<a href="your_contract_url" target="_blank" class="btn btn-info">Contract Details</a>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- HONORLOAN MODAL -->
+	<div class="modal fade" data-bs-backdrop="static" id="honorLoanModal" tabindex="-1" role="dialog" aria-labelledby=""
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="">Create the HonorLoan</h5>
+				</div>
+				<div class="modal-body" id="">
+					<div class="container mt-5" id="getminterrole">
+						<h3>Are you the?</h3>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="userType" id="lender" value="lender">
+							<label class="form-check-label" for="lender">Lender</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="userType" id="borrower" value="borrower">
+							<label class="form-check-label" for="borrower">Borrower</label>
+						</div>
+					</div>
+					<div class="container mt-5" id="amountDepositHLmodal">
+						<h3>What is the value of the honor loan?</h3>
+						<div class="custom-input-group">
+							<div class="input-group">
+								<select class="custom-select dropdown" name="currency" id="currencySelect">
+									<option value="avalance">AVAX</option>
+									<option value="matic-network" disabled>MATIC</option>
+									<option value="dai" disabled>DAI</option>
+									<option value="ethereum" disabled>ETH</option>
+								</select>
+								<p id='currencyConversor'></p>
+							</div>
+						</div>
+						<div class="custom-input-group">
+							<div class="input-group">
+								<span class="input-group-text">USD</span>
+								<input type="number" class="form-control" id="AMDusdHLmodal" step="1" min="0" required>
+							</div>
+						</div>
+						<button type="button" id="prepareDepositHLmodal" onclick="event.stopPropagation();prepareHonorLoan()" class="btn btn-approve">SEND</button>
+					</div>
+
+					<div class="responsive-svg" id="depositqrcanvasHLmodal"></div>
+					<div id="depositResultHLmodal"></div>
+					<div id="mintinSteps" style="display: none;">
+						<div id="mintnftStep0" class="step"> </div>
+						<hr>
+						<div id="mintnftStep1" class="step"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="closeDepositModalHLmodal"
+						data-translate="close">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- fin DEPOSIT MODAL-->
+
+
+	<!-- Modal WALLET SEND/-->
+	<div class="modal fade" data-bs-backdrop="static" id="walletSend" tabindex="-1" role="dialog" aria-labelledby=""
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" data-translate="walletCreation" id="">WALLET CREATION</h5>
+					<button type="button" id="addrScanner" class="btn btn-reject"
+						onclick="event.stopPropagation(); scanAddress()">
+						<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+							<path
+								d="M0 80C0 53.5 21.5 32 48 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V80zM64 96v64h64V96H64zM0 336c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V336zm64 16v64h64V352H64zM304 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H304c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48zm80 64H320v64h64V96zM256 304c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s7.2-16 16-16s16 7.2 16 16v96c0 8.8-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s-7.2-16-16-16s-16 7.2-16 16v64c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V304zM368 480a16 16 0 1 1 0-32 16 16 0 1 1 0 32zm64 0a16 16 0 1 1 0-32 16 16 0 1 1 0 32z" />
+						</svg>
+					</button>
+				</div>
+				<div class="modal-body" id="walletHiddenContent">
+					<div class="">
+						<div class="responsive-svg" id="canvas2"></div>
+						<div id="qrforsend"></div>
+						<pre id="cidResult"></pre>
+
+						<div id="txbuilder">
+							<p id="txdetails" class="container">
+								to( Address):
+								<input type="text" id="address2"
+									style="width: 100%!important; word-wrap: break-word;font-size: 1.4em;"
+									maxlength="64" />
+							</p>
+							<div class="container mt-5" id="amountView">
+								<h1>Amount</h1>
+								<div class="custom-input-group">
+									<div class="input-group">
+										<span class="input-group-text">T$</span>
+										<input type="number" class="form-control" id="amount2" step="0.01" required>
+									</div>
+								</div>
+							</div>
+							<br/>
+							<div class="container mt-5">
+
+								note: <input type="text" id="message2" size="64" maxlength="64"
+									style="display: none;" /> <br />
+								<input type="number" id="nonce2" size="4" maxlength="4" style="display: none;" />
+								<button type="button" id="" class="btn btn-approve"
+									onclick="event.stopPropagation(); sendTx()" style="display:none">OFFLINE</button>
+								<button type="button" id="SendERC20Payment" class="btn btn-approve"
+									onclick="event.stopPropagation(); senderc20TxOnline()">SEND</button>
+							</div>
+						 
+
+							<br />
+						</div>
+						<pre id="result2"></pre>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div id="txlink"></div>
+					<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="closeWalletSend"
+						data-translate="close">Close</button>
+					<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="askPeer" data-translate="askpeer"  onclick="event.stopPropagation(); askPeerToPayForGas()" disabled>ask peer</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fin SEND WALLET-->
+
+
+	<!-- Modal RECEIVE WALLET -->
+	<div class="modal fade" data-bs-backdrop="static" id="walletReceive" tabindex="-1" role="dialog" aria-labelledby=""
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" data-translate="txverification" id="">Verify Tx</h5>
+				</div>
+				<div class="modal-body" id="walletHiddenContent3">
+					<div class="">
+						<p id="dataResult3"></p>
+						<div class="responsive-svg" id="canvas3"></div>
+						<video id="qrVideo" width="300" height="300"></video>
+						<div class="responsive-svg" id="canvas3"></div>
+						<div id="qrforsend3"></div>
+						<pre id="cidResult3"></pre>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="retryScanner"
+							data-translate="retry" style="display: none;">Retry</button>
+						<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="closeScanner"
+							data-translate="close">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fin WALLET RECEIVE-->
+
+
+
+	<!-- Modal BACKUP WALLET -->
+	<div class="modal fade" data-bs-backdrop="static" id="walletBackp" tabindex="-1" role="dialog" aria-labelledby=""
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" data-translate="walletCreation" id="">WALLET CREATION</h5>
+				</div>
+				<div class="modal-body" id="walletHiddenContent">
+					<div id="displayPubKey"></div>
+					<div id="displayPK"></div>
+					<div id="displayMnemonic"></div>
+					<div id="displayDecrypt"></div>
+					<div id="success_message2" class="alert alert-success" role="alert" style="display: none;"></div>
+				</div>
+				<div class="modal-footer">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="" id="mnemonicBackedup" disabled>
+						<label class="form-check-label" for="mnemonicBackedup">
+							I wrote down the mnemonic phrase
+						</label>
+					</div>
+					<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="closeBackupmodal"
+						data-bs-dismiss="modal" data-translate="close" disabled>Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modal WALLET CREATION -->
+	<div class="modal fade" data-bs-backdrop="static" id="walletHidden" tabindex="-1" role="dialog" aria-labelledby=""
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" data-translate="walletCreation" id="">WALLET CREATION</h5>
+				</div>
+				<div class="modal-body" id="walletHiddenContent">
+
+					<div class="container">
+						<h3>1- hashes</h3>
+						<p>
+							to( Address): <input type="text" id="address" size="64" maxlength="64" /> <br />
+							amount: <input type="number" id="amount" size="64" maxlength="64" /> <br />
+							message: <input type="text" id="message" size="64" maxlength="64" /> <br />
+							nonce: <input type="number" id="nonce" size="4" maxlength="4" /> <br /> <br />
+							<button id="btnGetHash">GET HASH</button>
+						</p>
+
+						<pre id="result"></pre>
+						<br />
+
+						<h3>2- Signature</h3>
+						Hash to sign:
+						<pre id="hash"></pre>
+						<button id="btnSign">SIGN WITH METAMASK</button>
+						<button id="btnSignLocal">SIGN WITH TABULA RASA</button>
+						<pre id="sigresult"></pre>
+						<br />
+
+						<h3>3- SHARE THE QR and get it signed by your peer(OFFCHAIN verification and tx sharing)</h3>
+						<p>
+							signer( Address): <input type="text" id="vsigner" size="64" maxlength="64" /> <br />
+							to( Address): <input type="text" id="vaddress" size="64" maxlength="64" /> <br />
+							amount: <input type="number" id="vamount" size="64" maxlength="64" /> <br />
+							message: <input type="text" id="vmessage" size="64" maxlength="64" /> <br />
+							nonce: <input type="number" id="vnonce" size="4" maxlength="4" /> <br />
+							Signature: <input type="text" id="sig2verify" size="66" maxlength="66" />
+						</p>
+
+						<button id="btnVerify">VERIFY</button>
+						<pre id="verifyResult"></pre>
+
+						<h3>OPTIONAL- Verify with hash (OFFCHAIN)</h3>
+
+						<p>
+							Hash: <input type="text" id="verifywhash" size="64" maxlength="64" /> <br />
+							Signature: <input type="text" id="sig2verifywhash" size="66" maxlength="66" />
+						</p>
+
+						<button id="btnVerifywhash">VERIFY with Hash</button>
+
+
+						<h3>4- Publish the Transaction!</h3>
+						<p>
+							Verified Address:
+						<pre id="verifywhashResult"></pre>
+						Hash:
+						<pre id="hashIPFS"></pre>
+						<br />
+						Signature/s:
+						<pre id="sigIPFS"></pre>
+						</p>
+
+						<button id="btnPublish">PUBLISH</button>
+						<pre id="publishResult"></pre>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="closeWalletBkp"
+						data-bs-dismiss="modal" data-translate="close">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fin MODAL WALLET-->
+
+
+
+
+	<!-- DEPOSIT MODAL -->
+	<div class="modal fade" data-bs-backdrop="static" id="depositModal" tabindex="-1" role="dialog" aria-labelledby=""
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" data-translate="makedeposit" id="">Make a deposit</h5>
+				</div>
+				<div class="modal-body" id="">
+					<div class="container mt-5" id="amountDeposit">
+						<h1>Deposit</h1>
+						<div class="custom-input-group">
+							<div class="input-group">
+								<select class="custom-select dropdown" name="currency" id="currencySelect">
+									<option value="ethereum">ETH(sepolia)</option>
+									<option value="avalance" disabled>AVAX</option>
+									<option value="matic-network" disabled>MATIC</option>
+									<option value="dai" disabled>DAI</option>
+								</select>
+								<p id='currencyConversor'></p>
+							</div>
+						</div>
+						<div class="custom-input-group">
+							<div class="input-group">
+								<span class="input-group-text">USD</span>
+								<input type="number" class="form-control" id="AMDusd" step="1" min="0" required>
+							</div>
+						</div>
+						<div class="custom-input-group">
+							<div class="input-group">
+								<span class="input-group-text">ETH</span>
+								<input type="number" class="form-control" id="AMDcrypto" step="1" required>
+							</div>
+						</div>
+						<button type="button" id="prepareDeposit" onclick="event.stopPropagation();prepareDeposit()"
+							class="btn btn-approve">PREPARE</button>
+					</div>
+					<div class="responsive-svg" id="depositqrcanvas"></div>
+					<div class="container mt-5">
+						<p class="break" id="depositResult"></p>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="closeDepositModal" data-translate="close">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- fin DEPOSIT MODAL-->
+
+
+	<!-- SCAN MODAL -->
+	<div class="modal fade" data-bs-backdrop="static" id="scanModal" tabindex="-1" role="dialog" aria-labelledby=""
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" data-translate="scanqr" id="">Scan QR</h5>
+				</div>
+				
+				<div class="modal-body" id="">
+					<div class="">
+						<div class="responsive-svg" id="qrcanvas"></div>
+						<video id="qrScanVideo" width="300" height="300"></video>
+						<div id="scanResult"></div>
+
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="closeScanModal"
+							data-translate="close">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fin SCAN MODAL-->
+
+
+
+	<!-- NODE MODAL (not used) -->
+	<div class="modal fade" id="nodeModal" tabindex="-1" aria-labelledby="mintingModalLabel" aria-hidden="true"
+		data-tor-parent="show" data-bs-backdrop="static" data-bs-keyboard="false">
+		<div class="modal-dialog modal-dialog-centered no-transform">
+			<div class="modal-content" data-tor="show(p):{scale.from(75) fade.in} quad">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalPromoLabel2">Nodes /peers:</h5>
+					<button type="button" class="btn-close cancelMint" aria-label="Close"
+						onclick="event.stopPropagation();cancelMint((this))"></button>
+				</div>
+
+				<div class="modal-body">
+
+					<main class="pa4-l bg-snow mw7 mv5 center pa4">
+						<h1 class="pa0 f2 ma0 mb4 navy tc">TXs</h1>
+						<form id="add-file">
+							<label for="file-name" class="f5 ma0 pb2 navy fw4 db">hash de address + timestamp</label>
+							<input class="input-reset bn black-80 bg-white pa3 w-100 mb3" id="file-name"
+								name="file-name" type="text" placeholder="file.txt" required />
+							<label for="file-content" class="f5 ma0 pb2 navy fw4 db">Content</label>
+							<input class="input-reset bn black-80 bg-white pa3 w-100 mb3 ft" id="file-content" name="file-content" type="text" placeholder="Hello world" required />
+							<button class=" button-reset pv3 tc bn bg-animate bg-black-80 hover-bg-aqua white pointer w-100 " id="add-submit" type="submit"> Add file </button>
+						</form>
+
+						<h3>Output</h3>
+						<div class="window">
+							<div id="terminal" class="terminal">
+								<div id="output"></div>
+							</div>
+						</div>
+
+						<h3>Listening addresses</h3>
+						<div class="window">
+							<div id="multiaddrs" class="terminal"></div>
+						</div>
+
+						<h3>Peers</h3>
+						<div class="window"> </div>
+
+						<h3>Dial Queue</h3>
+						<div class="window">
+							<div id="dialQueue" class="terminal"></div>
+						</div>
+					</main>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="cancelMinting" class="btn mb-2 btn-danger cancelMint"
+						onclick="event.stopPropagation();cancelMint((this))">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fin NDOE MODAL -->
+
+
+	<!-- PROGRESSBAR WALLET -->
+	<div class="modal fade" data-bs-backdrop="static" id="walletProgress" tabindex="-1" role="dialog" aria-labelledby=""
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" data-translate="decryptingwallet" id="">DECRYPTING WALLET</h5>
+				</div>
+				<div class="modal-body" id="walletProgressContent">
+
+					<div id="walletProgress_success_message" class="alert alert-success" role="alert"
+						style="display: none;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fin MODAL WALLET-->
+
+
+	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.29/Tone.min.js"></script>
 
     <script type="module" >
@@ -194,45 +669,132 @@
 		import { throttle } from '@github/mini-throttle'
 		window.throttle = throttle; //make global
 		import 'cropperjs/dist/cropper.css'
+
+		import Swiper from 'swiper';
+
+
+		swiper = new Swiper('.swiper', {
+			effect: 'coverflow',
+			coverflowEffect: {
+				rotate: 30,
+				slideShadows: false,
+			},
+		});
+		
 	</script>
 
+<script src="js/base.js"></script>
     <script>
 
+
 		/*********************************************************************************************
-		.)  SIDEBAR
+		.)   WALlET IMG validation
 		**********************************************************************************************/
 
-		// Get the navigation button and add a click event listener
-		var navBtn = document.querySelector('.hamburger');
-		navBtn.addEventListener('click', plToggle);
 
-		// Define the plToggle function
-		function plToggle(event) {
-			console.log('TOOGLE NAVBAR', event);
-			navBtn.classList.toggle('is-active');
+		itemImgMINT.onclick = function (e) {
+			console.log('img clicked')
+			e.preventDefault()
+			loadCroppedImg()
+			// fileCreateItemFile.click();
 
-			// Toggle classes for elements with class 'content', 'sidebar', and 'overlay'
-			document.querySelector('.sidebar').classList.toggle('isOpen');
-			document.querySelector('.overlay').classList.toggle('overlayisOpen');
+		};
+	
 
-			// Get the container element with class 'sidebar'
-			var container = document.querySelector('.sidebar');
+		async function loadCroppedImg (){
+
+		await fileCreateItemFile.click();
+		let previewsrc;
+		fileCreateItemFile.onchange = async function () {
+		console.log("img changed");
+
+		if (fileCreateItemFile.files.length == 1) {
+			// itemImgMINT.src = ''
+
+				const data = this.files[0]
+				let name = data.name;// funciona...
+				console.log('name: ', name);
+
+
+				// IMG
+				const files = [
+					new File([data], name, { type: 'application/jpg' })
+				]
+				console.log('FILES: ', files)
+				let reader = new FileReader();
+				reader.readAsDataURL(data);
+
+				reader.onload = await function () {
+					console.log('READER ONLOAD ',reader.result)
+					previewsrc = reader.result;
+					// return reader.result;
+
+					Swal.fire({
+					title: 'Create avatar',
+					html: `
+					<img id="preview" src="${previewsrc}">
+					<div>
+					<img id="cropperjs" src="${previewsrc}">
+					</div>
+					`,
+					// didOpen: () => {
+					willOpen: () => {
+					// const image = Swal.getPopup()!.querySelector('#cropperjs') as HTMLImageElement
+					const image = Swal.getPopup().querySelector('#cropperjs') as HTMLImageElement
+					const cropper = new Cropper(image, {
+					aspectRatio: 1,
+					viewMode: 1,
+					crop: throttle(function () {
+					const croppedCanvas = cropper.getCroppedCanvas()
+					const preview = Swal.getPopup().querySelector('#preview') as HTMLImageElement
+					// const preview = Swal.getPopup()!.querySelector('#preview') as HTMLImageElement
+					preview.src = croppedCanvas.toDataURL()
+					}, 25),
+					})
+					},
+					preConfirm: () => {
+
+					const popup = Swal.getPopup();
+
+					if (popup) {
+					const previewElement = popup.querySelector('#preview') as HTMLImageElement;
+
+					console.error('Preview element not found');
+
+					const src = previewElement.src;
+					if ('previewElement:', src ) {
+					// Now you can use src safely
+					return src
+					} else {
+					console.error('Preview element not found');
+					}
+					} else {
+					console.error('Popup not found');
+					}
+
+					},
+					}).then(function (result) {
+					console.log('PRECONFIRM:',result)
+					console.log('B64:',result.value)
+					itemImgMINT.src = result.value;
+					let b64 = JSON.stringify(result.value)
+					localStorage.setItem('image', b64);
+					itemImgMINT.style.display = 'block'
+					Toast.fire('Image added', '', "success");
+					})
+
+				};
+			}
+
+		};
+ 
 		}
 
-		// Add a click event listener to the overlay element
-		document.querySelector('.overlay').addEventListener('click', function (event) {
-			console.log('clickeado en nav li');
-			plToggle();
-		});
 
 		/*********************************************************************************************
 		.) VARIABLES
 		**********************************************************************************************/
-		// created testnet subnet on fuji 
-		// https://subnets-test.avax.network/p-chain/tx/2BthBtaUTZoQiNrukPmzBaris4TXMFGT3a9PB5LX8C6BeBtkvo
 		optionsList = [
-
-		// http://127.0.0.1:9650/ext/bc/GcG3ABZzDqWdhf6uqrZvywuz6MVf3ZDZPxWg29U7rKzgrxfPC/rpc
 		{
 				"TOKEN_NAME": "GHO(Sepolia)",
 				"TOKEN_CHAIN_NAME": 'Sepolia',
@@ -348,7 +910,6 @@
 				]
 			}
 		];
-
 
 		ABIs = {
 
