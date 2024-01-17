@@ -1,6 +1,12 @@
 # chatwallet
 A self custodial gho based mutichain hot wallet 
 
+# Install 
+```
+nvm install 19
+yarn
+```
+
 # Run
 ```
 yarn parcel src/index.html   --port 7777 --https

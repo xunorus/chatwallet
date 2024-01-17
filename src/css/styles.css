@@ -114,6 +114,7 @@
         /* padding: 2em; */
           background-color: black;
           color: lawngreen;
+          color: var(--c4);
           font-size: 0.88em;
         }
         #qrcode{
@@ -246,6 +247,22 @@ background: none!important;
     .btn-reject:hover {
       background-color: #c82333;
       border-color: #bd2130;
+    }
+
+    .btn-info{
+      /* color: var(--c1)!important;
+    border-color: var(--c1)!important;
+    box-shadow: 0 0 10px var(--modalborder)!important;
+    border: 1px solid var(--modalborder)!important;
+    background-color: transparent!important; */
+    color: var(--c3);
+    border-color: var(--c1);
+    box-shadow: 0 0 10px var(--modalborder);
+    border: 1px solid var(--modalborder);
+    background-color: transparent;
+    }
+    .btn-info svg{
+      fill: var(--c3);
     }
 
 

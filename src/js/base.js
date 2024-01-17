@@ -368,11 +368,11 @@
 			} else {
 				console.log("NO hay LANG GUARDADO, muestra default lang: en ");
 				set_lang(dictionary.en);
-				globalLang = "en";
+				window.globalLang = "en";
 			}
 		}//fin reloadTranslations
 
-		// reloadTranslations()
+		reloadTranslations()
 
 	
 		/*********************************************************************************************
@@ -409,3 +409,24 @@
 			}
 	}
   
+	
+		/*********************************************************************************************
+		.) SOUNDS
+		**********************************************************************************************/
+
+		function playBeep() {
+			var AudioContext = window.AudioContext || window.webkitAudioContext;
+			var audioCtx = new AudioContext();
+
+			var oscillator = audioCtx.createOscillator();
+			oscillator.type = 'sine'; // Set the waveform type
+			oscillator.frequency.value = 864; // Set the frequency (Hz)
+
+			oscillator.connect(audioCtx.destination);
+			oscillator.start();
+
+			// Stop the oscillator after 100 milliseconds
+			setTimeout(function () {
+				oscillator.stop();
+			}, 100);
+		}

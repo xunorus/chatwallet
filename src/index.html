@@ -681,18 +681,59 @@
 			},
 		});
 		
+		import { Pool, InterestRate } from "@aave/contract-helpers";
+		window.Pool = Pool; //make global
+		window.InterestRate = InterestRate; //make global
+
+
 	</script>
 
 <script src="js/base.js"></script>
     <script>
 
+async function borrow(){
+	console.log('borrow()')
+
+
+const pool = new Pool(provider, {
+  POOL: "0x3De59b6901e7Ad0A19621D49C5b52cC9a4977e52", // Goerli GHO market
+  WETH_GATEWAY: "0x9c402E3b0D123323F0FCed781b8184Ec7E02Dd31", // Goerli GHO market
+});
+
+/*
+- @param `user` The ethereum address that will receive the borrowed amount 
+- @param `reserve` The ethereum address of the reserve asset 
+- @param `amount` The amount to be borrowed, in human readable units (e.g. 2.5 ETH)
+- @param `interestRateMode`//Whether the borrow will incur a stable (InterestRate.Stable) or variable (InterestRate.Variable) interest rate
+- @param @optional `debtTokenAddress` The ethereum address of the debt token of the asset you want to borrow. Only needed if the reserve is ETH mock address 
+- @param @optional `onBehalfOf` The ethereum address for which user is borrowing. It will default to the user address 
+*/
+// const txs: EthereumTransactionTypeExtended[] = await pool.borrow({
+//   user,
+//   reserve: "0xcbE9771eD31e761b744D3cB9eF78A1f32DD99211", // Goerli GHO market
+//   amount,
+//   interestRateMode,
+//   debtTokenAddress: "0x80aa933EfF12213022Fd3d17c2c59C066cBb91c7", // Goerli GHO market
+//   onBehalfOf,
+//   referralCode,
+// });
+const txs = await pool.borrow({
+  user,
+  reserve: "0xcbE9771eD31e761b744D3cB9eF78A1f32DD99211", // Goerli GHO market
+  amount,
+  interestRateMode,
+  debtTokenAddress: "0x80aa933EfF12213022Fd3d17c2c59C066cBb91c7", // Goerli GHO market
+  onBehalfOf,
+  referralCode,
+});
+}
 
 		/*********************************************************************************************
 		.) VARIABLES
 		**********************************************************************************************/
 		optionsList = [
 {
-		"TOKEN_NAME": "GHO(sepolia)",
+		"TOKEN_NAME": "GHO",
 		"API": 'https://ethereum-sepolia.publicnode.com',
 		"TOKEN_CHAIN_NAME": 'Sepolia',
 		"TOKEN_CHAINID": '11155111',
@@ -2558,6 +2599,24 @@ else if (document.queryCommandSupported && document.queryCommandSupported("copy"
 async function addUser() {
 console.log('ADDING NEW USER ADDRESS')
 }
+	
+// SAVE CONTACTS
+function SaveContactsToLocalStorage(contact) {
+	var a = [];
+	a = JSON.parse(localStorage.getItem('contacts')) || [];
+
+	// Check if the address already exists
+	var isDuplicate = a.some(existingContact => existingContact.address === contact.address);
+
+	if (!isDuplicate) {
+		a.push(contact);
+		localStorage.setItem('contacts', JSON.stringify(a));
+	}
+	else {
+		console.log('Address already exists in your contacts, skipping save.');
+	}
+}
+
 
 
 		// **********************************************************************************************/
@@ -2686,9 +2745,9 @@ for await (const message of await conversation.streamMessages()) {
 		chatBox.innerHTML += `<div><strong class='who'>${shortTo}:</strong> ${message.content} </div>`;
 		
 	}
-	if (message.contentType.sameAs(ContentTypeMultiplyNumber)) {
-		return message.content; // 21
-	}
+	// if (message.contentType.sameAs(ContentTypeMultiplyNumber)) {
+	// 	return message.content; // 21
+	// }
 	console.log(`[${message.senderAddress}]: ${message.content}`)
 	chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -3055,33 +3114,7 @@ chainSelector.selectedIndex = selectedIndex;
 			troqamount.innerHTML = `${optionsList[GLOBALCHAIN].TOKEN_NAME}: ${Number(balanceerc20).toFixed(3)}`
 			miniversion.innerHTML = `GAS: ${Number(balancegas).toFixed(5)}`
 
-			// let balanceerc721 = await checkERC721Balance(userAddress)//troq
-			// const decimalNumber = parseInt(balanceerc721._hex, 16);
-			// console.log('NFT BALANCE=', decimalNumber)
-
-			//   MUESTRA 1 NFT FAKE CONTENT X NFT REAL
-			// if (balanceerc721 >= 0) {
-			// for (let i = 0; i < balanceerc721; i++) {
-			// 	console.log("Iteration: ", i + 1);
-
-			// 	HONORLOANnftCardContainer.innerHTML += `  <div class="card mb-3">
-            //         <div class="card-header">
-			// 			<h4>NFT ID: #FD9</h4>
-            //         </div>
-            //         <div class="card-body">
-            //             <ul class="list-group">
-            //                 <li class="list-group-item">
-            //                     <p>Amount: $200</p>
-            //                     <p>Days Until Deadline: 10</p>
-            //                     <p>Lender Balance: 120</p>
-            //                     <p>Borrower Balance: 30</p>
-            //                     <p>Transaction Hash: <a href="your_transaction_hash_url_3" target="_blank">Tx345678</a></p>
-            //                     <button class="btn btn-success">Pay</button>
-            //                 </li>
-            //             </ul>
-            //         </div>
-            //     </div>`
-			// }
+		
 
 		}
 
@@ -3233,8 +3266,9 @@ chainSelector.selectedIndex = selectedIndex;
 		}
 
 
-
-		// BALANCES
+/*********************************************************************************************
+.)  BALANCES
+**********************************************************************************************/
 
 		async function checkERC20Balance(userAddress) {
 
@@ -3275,6 +3309,14 @@ try {
 }
 
 
+/*********************************************************************************************
+.)  SETTINGS
+**********************************************************************************************/
 
+async function settings(){
+			console.log('settings()')
+			openModalId('#settingsModal')
+
+		}
     </script>
     </body>
