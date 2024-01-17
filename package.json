@@ -23,5 +23,8 @@
     "reflect-metadata": "^0.1.x",
     "swiper": "^11.0.5",
     "tslib": "^2.4.x"
+  },
+  "staticFiles": {
+    "staticPath": "src/static"
   }
 }

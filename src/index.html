@@ -105,7 +105,7 @@
 				</div>
 			</div>
 		</div>
-		<ul id="troqContacts" class='nav'> </ul>
+		<ul id="cwContacts" class='nav'> </ul>
 	</div>
 
 
@@ -688,113 +688,33 @@
 
 
 		/*********************************************************************************************
-		.)   WALlET IMG validation
-		**********************************************************************************************/
-
-
-		itemImgMINT.onclick = function (e) {
-			console.log('img clicked')
-			e.preventDefault()
-			loadCroppedImg()
-			// fileCreateItemFile.click();
-
-		};
-	
-
-		async function loadCroppedImg (){
-
-		await fileCreateItemFile.click();
-		let previewsrc;
-		fileCreateItemFile.onchange = async function () {
-		console.log("img changed");
-
-		if (fileCreateItemFile.files.length == 1) {
-			// itemImgMINT.src = ''
-
-				const data = this.files[0]
-				let name = data.name;// funciona...
-				console.log('name: ', name);
-
-
-				// IMG
-				const files = [
-					new File([data], name, { type: 'application/jpg' })
-				]
-				console.log('FILES: ', files)
-				let reader = new FileReader();
-				reader.readAsDataURL(data);
-
-				reader.onload = await function () {
-					console.log('READER ONLOAD ',reader.result)
-					previewsrc = reader.result;
-					// return reader.result;
-
-					Swal.fire({
-					title: 'Create avatar',
-					html: `
-					<img id="preview" src="${previewsrc}">
-					<div>
-					<img id="cropperjs" src="${previewsrc}">
-					</div>
-					`,
-					// didOpen: () => {
-					willOpen: () => {
-					// const image = Swal.getPopup()!.querySelector('#cropperjs') as HTMLImageElement
-					const image = Swal.getPopup().querySelector('#cropperjs') as HTMLImageElement
-					const cropper = new Cropper(image, {
-					aspectRatio: 1,
-					viewMode: 1,
-					crop: throttle(function () {
-					const croppedCanvas = cropper.getCroppedCanvas()
-					const preview = Swal.getPopup().querySelector('#preview') as HTMLImageElement
-					// const preview = Swal.getPopup()!.querySelector('#preview') as HTMLImageElement
-					preview.src = croppedCanvas.toDataURL()
-					}, 25),
-					})
-					},
-					preConfirm: () => {
-
-					const popup = Swal.getPopup();
-
-					if (popup) {
-					const previewElement = popup.querySelector('#preview') as HTMLImageElement;
-
-					console.error('Preview element not found');
-
-					const src = previewElement.src;
-					if ('previewElement:', src ) {
-					// Now you can use src safely
-					return src
-					} else {
-					console.error('Preview element not found');
-					}
-					} else {
-					console.error('Popup not found');
-					}
-
-					},
-					}).then(function (result) {
-					console.log('PRECONFIRM:',result)
-					console.log('B64:',result.value)
-					itemImgMINT.src = result.value;
-					let b64 = JSON.stringify(result.value)
-					localStorage.setItem('image', b64);
-					itemImgMINT.style.display = 'block'
-					Toast.fire('Image added', '', "success");
-					})
-
-				};
-			}
-
-		};
- 
-		}
-
-
-		/*********************************************************************************************
 		.) VARIABLES
 		**********************************************************************************************/
 		optionsList = [
+{
+		"TOKEN_NAME": "GHO(sepolia)",
+		"API": 'https://ethereum-sepolia.publicnode.com',
+		"TOKEN_CHAIN_NAME": 'Sepolia',
+		"TOKEN_CHAINID": '11155111',
+		"ERC20_CONTRACT_ADDRESS": "0xc4bF5CbDaBE595361438F8c6a187bDc330539c60",//gho token
+		"ERC20_TOKEN_ABI": 'ghotoken',
+		"ERC721_TOKEN_ADDRESS": "0xBd37873Db48E7E082265FF08294F201D8E554BfD",//slave v3
+		"ERC721_TOKEN_ABI": "HonorloansNFT",//slave v3
+		"DEPOSIT_CONTRACT": "0x98d62eE970b6666FCa219d3507ee3922A453E24C",//depositonbehalfv9
+		"DEPOSIT_CONTRACT_ABI": 'depositonbehalfv9',//
+		"DEPOSIT_CONTRACT_CHAINID": '11155111',//sepolia
+		"DEPOSIT_CONTRACT_API": 'https://ethereum-sepolia.publicnode.com',//fuji c-chain
+		"TOKEN_ADDRESS": "0x0118148a6E156b5B39d1D184F8763e65Df8d36C7",//master v3
+		"TOKEN_ABI": 'hloantokev6',
+		"EXPLORER": 'https://sepolia.etherscan.io/',
+		"NFTSENDER_CONTRACT_ADDRESS": "0xd9A7Bba88C4bFBD2EA44d18A52Dc404eaE86C0db",//fuji
+		"NFTSENDER_CONTRACT_CHAINID": "43113",//fuji
+		"NFTSENDER_CONTRACT_CHAIN_NAME": "FUJI",//fuji
+		"NFTSENDER_CONTRACT_ABI": "SENDERnft",//fuji
+		"NFTSENDER_CONTRACT_API": "https://avalanche-fuji-c-chain.publicnode.com",//fuji
+		"CCIP_EXPLORER": "https://ccip.chain.link/"
+
+	},
 		{
 				"TOKEN_NAME": "GHO(Sepolia)",
 				"TOKEN_CHAIN_NAME": 'Sepolia',
@@ -912,14 +832,2447 @@
 		];
 
 		ABIs = {
-
+			ghotoken: [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "admin",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "AccessControlBadConfirmation",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "neededRole",
+				"type": "bytes32"
+			}
+		],
+		"name": "AccessControlUnauthorizedAccount",
+		"type": "error"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "facilitatorAddress",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "label",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "bucketCapacity",
+				"type": "uint256"
+			}
+		],
+		"name": "FacilitatorAdded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "facilitatorAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "oldCapacity",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newCapacity",
+				"type": "uint256"
+			}
+		],
+		"name": "FacilitatorBucketCapacityUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "facilitatorAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "oldLevel",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newLevel",
+				"type": "uint256"
+			}
+		],
+		"name": "FacilitatorBucketLevelUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "facilitatorAddress",
+				"type": "address"
+			}
+		],
+		"name": "FacilitatorRemoved",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "previousAdminRole",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "newAdminRole",
+				"type": "bytes32"
+			}
+		],
+		"name": "RoleAdminChanged",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "RoleGranted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "RoleRevoked",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "BUCKET_MANAGER_ROLE",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "DEFAULT_ADMIN_ROLE",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "DOMAIN_SEPARATOR",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FACILITATOR_MANAGER_ROLE",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "PERMIT_TYPEHASH",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "facilitatorAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "facilitatorLabel",
+				"type": "string"
+			},
+			{
+				"internalType": "uint128",
+				"name": "bucketCapacity",
+				"type": "uint128"
+			}
+		],
+		"name": "addFacilitator",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "burn",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "facilitator",
+				"type": "address"
+			}
+		],
+		"name": "getFacilitator",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint128",
+						"name": "bucketCapacity",
+						"type": "uint128"
+					},
+					{
+						"internalType": "uint128",
+						"name": "bucketLevel",
+						"type": "uint128"
+					},
+					{
+						"internalType": "string",
+						"name": "label",
+						"type": "string"
+					}
+				],
+				"internalType": "struct IGhoToken.Facilitator",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "facilitator",
+				"type": "address"
+			}
+		],
+		"name": "getFacilitatorBucket",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getFacilitatorsList",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			}
+		],
+		"name": "getRoleAdmin",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "grantRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "hasRole",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "nonces",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "v",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "r",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "s",
+				"type": "bytes32"
+			}
+		],
+		"name": "permit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "facilitatorAddress",
+				"type": "address"
+			}
+		],
+		"name": "removeFacilitator",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "callerConfirmation",
+				"type": "address"
+			}
+		],
+		"name": "renounceRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "revokeRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "facilitator",
+				"type": "address"
+			},
+			{
+				"internalType": "uint128",
+				"name": "newCapacity",
+				"type": "uint128"
+			}
+		],
+		"name": "setFacilitatorBucketCapacity",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
 		}
+
+		/*********************************************************************************************
+		.)   WALlET IMG validation
+		**********************************************************************************************/
+
+
+		itemImgMINT.onclick = function (e) {
+			console.log('img clicked')
+			e.preventDefault()
+			loadCroppedImg()
+			// fileCreateItemFile.click();
+
+		};
+	
+
+		async function loadCroppedImg (){
+
+		await fileCreateItemFile.click();
+		let previewsrc;
+		fileCreateItemFile.onchange = async function () {
+		console.log("img changed");
+
+		if (fileCreateItemFile.files.length == 1) {
+			// itemImgMINT.src = ''
+
+				const data = this.files[0]
+				let name = data.name;// funciona...
+				console.log('name: ', name);
+
+
+				// IMG
+				const files = [
+					new File([data], name, { type: 'application/jpg' })
+				]
+				console.log('FILES: ', files)
+				let reader = new FileReader();
+				reader.readAsDataURL(data);
+
+				reader.onload = await function () {
+					console.log('READER ONLOAD ',reader.result)
+					previewsrc = reader.result;
+					// return reader.result;
+
+					Swal.fire({
+					title: 'Create avatar',
+					html: `
+					<img id="preview" src="${previewsrc}">
+					<div>
+					<img id="cropperjs" src="${previewsrc}">
+					</div>
+					`,
+					// didOpen: () => {
+					willOpen: () => {
+					// const image = Swal.getPopup()!.querySelector('#cropperjs') as HTMLImageElement
+					const image = Swal.getPopup().querySelector('#cropperjs') as HTMLImageElement
+					const cropper = new Cropper(image, {
+					aspectRatio: 1,
+					viewMode: 1,
+					crop: throttle(function () {
+					const croppedCanvas = cropper.getCroppedCanvas()
+					const preview = Swal.getPopup().querySelector('#preview') as HTMLImageElement
+					// const preview = Swal.getPopup()!.querySelector('#preview') as HTMLImageElement
+					preview.src = croppedCanvas.toDataURL()
+					}, 25),
+					})
+					},
+					preConfirm: () => {
+
+					const popup = Swal.getPopup();
+
+					if (popup) {
+					const previewElement = popup.querySelector('#preview') as HTMLImageElement;
+
+					console.error('Preview element not found');
+
+					const src = previewElement.src;
+					if ('previewElement:', src ) {
+					// Now you can use src safely
+					return src
+					} else {
+					console.error('Preview element not found');
+					}
+					} else {
+					console.error('Popup not found');
+					}
+
+					},
+					}).then(function (result) {
+					console.log('PRECONFIRM:',result)
+					console.log('B64:',result.value)
+					itemImgMINT.src = result.value;
+					let b64 = JSON.stringify(result.value)
+					localStorage.setItem('image', b64);
+					itemImgMINT.style.display = 'block'
+					Toast.fire('Image added', '', "success");
+					})
+
+				};
+			}
+
+		};
+ 
+		}
+
 
 		/*********************************************************************************************
 		.)   
 		**********************************************************************************************/
 
 
+		/*********************************************************************************************
+			.) OPEN / CREATE WALLET
+			**********************************************************************************************/
+			function writepassword(f) {
+
+//OPEN WALLET
+if (f == 'open') {
+	console.log('write password to open wallet')
+	Swal.fire({
+		title: 'Decrypt your wallet',
+		input: 'password',
+		inputAttributes: { autocapitalize: 'off' },
+		showCancelButton: true,
+		confirmButtonText: 'Enter',
+		showLoaderOnConfirm: true,
+		backdrop: true,
+		preConfirm: (login) => { },
+		allowOutsideClick: () => {
+			const popup = Swal.getPopup()
+			popup.classList.remove('swal2-show')
+			setTimeout(() => { popup.classList.add('animate__animated', 'animate__headShake') })
+			setTimeout(() => { popup.classList.remove('animate__animated', 'animate__headShake') }, 500)
+			return false
+		}
+	})
+		.then((result) => {
+			if (result.isConfirmed) {
+				walletOptCreate.style.display = 'none'
+				document.getElementById('loader').style.display = 'block'
+				headMessages.innerHTML = '';
+				if (result.value == '') {
+					console.log('IS EMPTY');
+					Toast.fire({ icon: 'error', title: 'Password cannot be empty' });
+					return;
+				}
+				decryptWallet(result.value)
+				return result.value
+			}
+		})
+	return
+}
+
+
+
+//////////////////////
+// CREATE WALLET
+
+
+Swal.fire({
+	title: dictionary[globalLang]["createpasswordtoencryptwallet"],
+	input: 'password',
+	inputAttributes: {
+		autocapitalize: 'off'
+	},
+	showCancelButton: true,
+	confirmButtonText: 'create',
+	showLoaderOnConfirm: true,
+	// preConfirm: (login) => { },
+	backdrop: true,
+
+	inputValidator: (value) => {
+		if (!value) {
+			return 'You need to set a password to create your wallet!'
+		}
+	},
+
+	allowOutsideClick: () => {
+		const popup = Swal.getPopup()
+		popup.classList.remove('swal2-show')
+		setTimeout(() => { popup.classList.add('animate__animated', 'animate__headShake') })
+		setTimeout(() => { popup.classList.remove('animate__animated', 'animate__headShake') }, 500)
+		return false
+	},
+
+})
+	.then(async (result) => {
+		if (result.isConfirmed) {
+			console.log('PASSWORD RESULT:', result.value)
+
+			await createWallet(result.value)
+			return result.value
+		}
+	})
+
+
+}
+
+async function createWallet(pwd) {
+
+try { wallet = await ethers.Wallet.createRandom() }
+catch (error) { console.log(error.message); fixedToast.fire('Error', error.message, "error"); }
+
+console.log('address:', wallet.address)
+console.log('mnemonic:', wallet.mnemonic.phrase)
+console.log('privkey:', wallet.privateKey)
+
+let createwalletContainer = document.getElementById('CWresult');
+createwalletContainer.innerHTML = ` 
+<h3>THIS IS YOUR NEW PUBLIC KEY</h3> <pre id='waddr'>${wallet.address} </pre> 
+<h3>WRITE DOWN YOUR MNEMONIC PHRASE</h3> <pre id='wmnem'>${wallet.mnemonic.phrase} </pre>
+<h3>WRITE DOWN YOUR PRIVATE KEY</h3> <pre id='wpk'>${wallet.privateKey} </pre>
+`
+console.log('password: ', pwd)
+
+const promisseJSON = wallet.encrypt(pwd, progressCallback);
+
+// const promisseJSON = wallet.encrypt( pwd);
+promisseJSON.then((jsonWallet) => {
+	localStorage.setItem('jsonWallet', jsonWallet)
+	console.log('WALLET ENCRYPTED')
+})
+
+
+// SET WALLET CHOICE TO LOCALSTORAGE
+localStorage.setItem('wallet', 'LOCALWALLET');
+
+
+
+}
+
+// SHOW DECRYPT PROGRESS 
+const progressCallback = (percent) => {
+// Update the progress bar
+console.log(`Decrypting... ${percent * 100}%`);
+displayRestoreProgress.innerHTML = `<div class="progress">
+<div class="progress-bar" role="progressbar" style="width:  ${percent * 100}%;" aria-valuenow="${percent * 100}" aria-valuemin="0" aria-valuemax="100">${Math.round(percent * 100)}%</div>
+</div>`
+};
+
+
+/*********************************************************************************************
+.)  QR
+**********************************************************************************************/
+
+async function showqr(addr) {
+const qrColor = getComputedStyle(document.body).getPropertyValue('--qr');
+
+var isMobile = window.matchMedia("only screen and (max-width: 768px)");
+
+// let qrSize
+if (isMobile.matches) {
+	// Code for mobile screens
+	console.log("Mobile screen detected");
+	qrSize = 310;
+	window.scrollTo(0, 0);
+
+
+} else {
+	// Code for larger screens
+	console.log("Not a mobile screen");
+	qrSize = 370
+
+}
+
+//QR
+const qrCode = new QRCodeStyling({
+	width: `${qrSize}`, height: `${qrSize}`, type: "png", data: addr, image: `chatwallet.png`,
+	// dotsOptions: { color: "#1568B0", type: "extra-rounded" }, 
+	dotsOptions: { color: `${qrColor}`, type: "extra-rounded" },
+	backgroundOptions: { color: "var(--qrbackground)", },
+	imageOptions: { crossOrigin: "anonymous", margin: 0 }
+});
+qrCode.append(document.getElementById("canvas"));
+console.log('qr code APPENDED')
+}
+
+
+
+
+async function decryptWallet(pwd) {
+let encryptedjson = localStorage.getItem('jsonWallet')
+let ew = JSON.parse(encryptedjson)
+console.log('pub key of wallet in localstorage:', ew.address)
+
+
+let wallet;
+openModalId('#walletProgress')
+const progressCallback = (percent) => {
+	console.log(`Decrypting... `);
+	walletProgressContent.innerHTML = `<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width:  ${percent * 100}%;" aria-valuenow="${percent * 100}" aria-valuemin="0" aria-valuemax="100">${Math.round(percent * 100)}%</div>
+</div>`
+};
+
+
+
+try {
+	wallet = await ethers.Wallet.fromEncryptedJson(encryptedjson, pwd, progressCallback)
+		.then(async (myWallet) => {
+			console.log('mywallet: ', myWallet)
+			console.log('mywallet Address: ', myWallet.address)
+
+			const formattedAddress = ethers.utils.getAddress(myWallet.address);
+			console.log('formattedAddress', formattedAddress);
+			localStorage.setItem('preferedWallet', `LOCALWALLET, ${formattedAddress}`)
+			displayDecrypt.innerHTML = formattedAddress;
+			console.log('USERADDRESS IS SET:', formattedAddress)
+			setAddress(formattedAddress)
+
+			console.warn('INIT CHAT CLIENT!!!')
+			await initChatClient(myWallet)
+
+			closeModalId('#walletProgress')
+
+			document.getElementById('lock').style.display = 'none'
+			document.getElementById('send').style.display = 'inline'
+			document.getElementById('scan').style.display = 'inline'
+			document.getElementById('chat').style.display = 'inline'
+
+
+		})
+}
+catch (error) {
+	console.error('ERROR wallet:', error);
+	// document.getElementById('loader').style.display='none';
+	closeModalId('#walletProgress')
+	walletDisconnect()
+	await Toast.fire({ icon: 'error', title: 'Password incorrect' })
+	console.log(' DESCONECCION DE EMERGENCIA, BUG FIX')
+
+
+	// init2();
+
+	return;
+}
+
+
+
+}
+
+
+
+function setAddress(addr) {
+console.log('setAddress()')
+
+var currentURL = window.location.href;
+var baseUrl = window.location.protocol + '//' + window.location.host + '/';
+const parameters = { T2Addr: userAddress, };
+const urlParams = createURLParams(parameters);
+const url = `${baseUrl}?${urlParams}`;
+
+// 3- SHOW QR
+canvas.innerHTML = '';
+showqr(url);
+let shortAddr = userAddress.substring(0, 6) + "..." + userAddress.substring(38, 42);
+
+var preElement = document.getElementById('yourAddress');
+preElement.setAttribute('address', userAddress);
+
+yourAddress.innerHTML = `${shortAddr} <svg id='copyAddress' onclick="event.stopPropagation();copy2clipboard('${userAddress}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"> <path  d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z"/></svg>`;
+console.log(`Your address: ${userAddress} `)
+
+}
+
+
+
+// function writepassword (f){
+function backupWallet(wallet) {
+console.log('now, backupWallet()')
+//////////////////////
+// CREATE WALLET
+Swal.fire({
+	title: dictionary[globalLang]["createpasswordtoencryptwallet"],
+	input: 'password',
+	inputAttributes: {
+		autocapitalize: 'off'
+	},
+	showCancelButton: true,
+	confirmButtonText: 'create',
+	showLoaderOnConfirm: true,
+	// preConfirm: (login) => { },
+	backdrop: true,
+
+	inputValidator: (value) => {
+		if (!value) {
+			return 'You need to set a password to create your wallet!'
+		}
+	},
+
+	allowOutsideClick: () => {
+		const popup = Swal.getPopup()
+		popup.classList.remove('swal2-show')
+		setTimeout(() => { popup.classList.add('animate__animated', 'animate__headShake') })
+		setTimeout(() => { popup.classList.remove('animate__animated', 'animate__headShake') }, 500)
+		return false
+	},
+
+})
+	.then(async (result) => {
+		if (result.isConfirmed) {
+			// console.log('PASSWORD RESULT:',result.value)
+
+			await makeBackup(result.value, wallet)
+			return result.value
+		}
+	})
+
+
+}
+
+
+async function isValidAddress(address) {
+return ethers.utils.isAddress(address);
+}
+
+async function addAddress() {
+console.log('addAddress()')
+
+let addressToAdd = Swal.fire({
+	title: dictionary[globalLang]["addAddress"],
+	input: 'text',
+	inputAttributes: { autocapitalize: 'off' },
+	showCancelButton: true,
+	confirmButtonText: 'ok',
+	showLoaderOnConfirm: true,
+	preConfirm: (login) => { },
+	backdrop: true,
+	inputValidator: async (value) => {
+		if (!value) {
+			return 'You need to set a password to create your wallet!'
+		}
+
+		const isValid = await isValidAddress(value);
+
+		if (isValid) {
+			console.log(`Address ${value} is valid.`);
+
+			Toast.fire({ icon: 'success', title: 'CHAT WITH:', text: value });
+			await chatWith(value)
+			await deleteChat()
+
+		} else {
+			console.log(`Address ${value} is not valid.`);
+			return 'Address is not valid!'
+
+		}
+
+	},
+
+	allowOutsideClick: () => {
+		const popup = Swal.getPopup()
+		popup.classList.remove('swal2-show')
+		setTimeout(() => { popup.classList.add('animate__animated', 'animate__headShake') })
+		setTimeout(() => { popup.classList.remove('animate__animated', 'animate__headShake') }, 500)
+		return false
+	},
+})
+	.then(async (result) => {
+		if (result.isConfirmed) {
+			console.log('result.isConfirmed:', result.value)
+			// await decryptWallet(result.value)
+			return result.value
+		}
+	})
+console.log('addressToAdd:', addressToAdd)
+
+}
+
+
+async function unlockWallet() {
+console.log('unlockwallet()')
+// function writepassword (f){
+// closeModalId('#setupLocalwalletModal')
+//////////////////////
+// CREATE WALLET
+let jsonWalletAddress = Swal.fire({
+	title: dictionary[globalLang]["decryptlocalwallet"],
+	input: 'password',
+	inputAttributes: { autocapitalize: 'off' },
+	showCancelButton: true,
+	confirmButtonText: 'ok',
+	showLoaderOnConfirm: true,
+	preConfirm: (login) => { },
+	backdrop: true,
+	inputValidator: (value) => {
+		if (!value) {
+			return 'You need to set a password to create your wallet!'
+		}
+	},
+
+	allowOutsideClick: () => {
+		const popup = Swal.getPopup()
+		popup.classList.remove('swal2-show')
+		setTimeout(() => { popup.classList.add('animate__animated', 'animate__headShake') })
+		setTimeout(() => { popup.classList.remove('animate__animated', 'animate__headShake') }, 500)
+		return false
+	},
+})
+	.then(async (result) => {
+		if (result.isConfirmed) {
+			console.log('result.isConfirmed:', result.value)
+			await decryptWallet(result.value)
+			return result.value
+		}
+	})
+
+console.log('jsonWalletAddress:', jsonWalletAddress)
+
+// }
+
+}
+
+async function makeBackup(pwd, wallet) {
+
+console.log('MAKE BACKUP address:', wallet.address)
+console.log('MAKE BACKUP mnemonic:', wallet.mnemonic.phrase)
+
+
+
+
+// WRITE YOUR MNEMONIC PHRASE
+displayMnemonic.innerHTML = ` <h3><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height='40px' width='40px' fill="currentColor"> <path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>Write down your mnemonic phrase to access your wallet in the future! :</h3> <div class="alert alert-warning alert-dismissible fade show"> <strong>${wallet.mnemonic.phrase}</strong> </div> `
+
+
+// CREATING ENCRYPTED LOCAL WALLET
+displayMnemonic.innerHTML += ` <div  id="loaderCW"  > <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> creating encrypted wallet ... </div> `
+
+// SAVE TO LOCALSTORAGE (encrypted?)
+console.log('password: ', pwd)
+const promisseJSON = wallet.encrypt(pwd);
+promisseJSON.then((jsonWallet) => {
+	console.log(jsonWallet)
+	console.log('WALLET ENCRYPTED')
+
+	// loaderCW
+	document.getElementById('loaderCW').innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+<symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+</symbol>
+<symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+</symbol>
+<symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+<path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+</symbol>
+</svg>
+
+<div class="alert alert-success d-flex align-items-center" role="alert">
+<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+<div>
+Wallet encrypted and saved into localstorage
+</div>
+</div>
+`
+
+
+	localStorage.setItem('jsonWallet', jsonWallet)
+	console.log(' ENCRYPTED JSONWALLET SAVED INTO LOCALSTORAGE')
+	//   localStorage.setItem('encryptedAddress', wallet.address)
+	console.log(' ENCRYPTED ADDRESS SAVED INTO LOCALSTORAGE')
+
+	setTimeout(() => {
+		const checkbox = document.getElementById('mnemonicBackedup');
+		// const button = document.getElementById('closeWalletBkp');
+		const button = document.getElementById('closeBackupmodal');
+
+		mnemonicBackedup.disabled = false;
+		// closeBackupmodal
+		// Add an event listener to the checkbox to track its state
+		checkbox.addEventListener('change', function () {
+			// If the checkbox is checked, enable the button; otherwise, disable it
+			button.disabled = !this.checked;
+			mnemonicBackedup.disabled = true;
+			console.log('close mnemonic activated')
+
+			// NOW DELETE unbackedWallet
+			localStorage.removeItem('unbackedWallet')
+
+		});
+		// init();
+	}, 1000);
+
+
+});
+
+
+setTimeout(() => {
+	openModalId('#walletBackp')
+
+}, 50);
+
+}
+
+// ---------------------
+//   AUTOMATICALLY CREATE WALLET WITHOUT BACKUP ON FIRST TIME VISIT
+async function autoCreateWallet() {
+console.log('autoCreateWallet()')
+//   CONNECT TO XMTP
+
+
+// 0- CHECK IF UNBACKED WALLET INLOCALSTORAGE
+let w = localStorage.getItem('unbackedWallet')
+
+if (!w) {
+	console.log('1- NO UNBACKED WALLET');
+	let jsw = localStorage.getItem('jsonWallet')
+
+	if (!jsw) {
+		// 2- IF NO WALLET IN LOCALSTORAGE CREATE WALLET WITHOUT BACKUP
+		console.log('2- NO jsonWallet WALLET');
+		try { wallet = await ethers.Wallet.createRandom() }
+		catch (error) { console.log(error.message); fixedToast.fire('Error', error.message, "error"); }
+		console.log('RANDOM WALLET CREATED!:', wallet.address, 'mnemonic:', wallet.mnemonic.phrase, 'privkey:', wallet.privateKey)
+		localStorage.setItem('unbackedWallet', JSON.stringify(wallet.mnemonic.phrase))
+
+		console.warn('INIT CHAT CLIENT HERE!?, YES IF FIRST TIME')
+		await initChatClient(wallet)
+		// await listenNewAddresses();
+		// await listenAllNewAddresses();
+
+
+		const formattedAddress = ethers.utils.getAddress(wallet.address);
+		console.log('formattedAddress', formattedAddress);
+		localStorage.setItem('preferedWallet', `UNBACKEDLOCALWALLET, ${formattedAddress}`)
+
+		// DISPLAY SEND SCAN AND CHAT BUTTONS
+		document.getElementById('lock').style.display = 'none'
+		document.getElementById('send').style.display = 'inline'
+		document.getElementById('scan').style.display = 'inline'
+		document.getElementById('chat').style.display = 'inline'
+
+		setTimeout(() => {
+
+			let buttons = ` <button class="btn btn-secondary" onclick="clearChat()">Clear</button> `
+
+			swal({
+				toast: true,
+				html: buttons,
+				position: "bottom-end",
+				iconColor: 'white',
+				customClass: {
+					popup: 'colored-toast'
+				},
+			})
+				.then((result) => {
+					if (result.isConfirmed) { console.log('LATER ...!') }
+					else if (result.isDismissed) {
+						console.log('BACKUP??:');
+						backupWallet(wallet);
+						return false
+					}
+				})
+
+		}, 5000);
+
+	}
+	else {
+		console.log('2- YES jsonWallet WALLET');
+		// DISPLAY UNLOCK BUTTON 
+		document.getElementById('lock').style.display = 'inline'
+		document.getElementById('send').style.display = 'none'
+		document.getElementById('scan').style.display = 'none'
+		document.getElementById('chat').style.display = 'none'
+		let pWall = localStorage.getItem('preferedWallet')
+		if (!pWall) { console.error('NO preferedWallet') }
+		else { console.log('YES!: preferedWallet', pWall) }
+
+	}
+
+
+
+}
+else {
+	console.log('1- YES UNBACKED WALLET')
+	document.getElementById('lock').style.display = 'none'
+	document.getElementById('send').style.display = 'inline'
+	document.getElementById('scan').style.display = 'inline'
+	document.getElementById('chat').style.display = 'inline'
+	const walletData = JSON.parse(w);
+	try { wallet = ethers.Wallet.fromMnemonic(walletData); }
+	catch (error) { console.log(error.message, 'ERROR WALLET!'); localStorage.removeItem('unbackedWallet'); }
+	console.warn('INIT CHAT CLIENT HERE?, yes if UNBACKED WALLET')
+
+	const formattedAddress = ethers.utils.getAddress(wallet.address);
+	console.log('formattedAddress', formattedAddress);
+	localStorage.setItem('preferedWallet', `UNBACKEDLOCALWALLET, ${formattedAddress}`)
+
+
+
+
+	await initChatClient(wallet)
+	// await listenNewAddresses();
+
+	setTimeout(() => {
+
+		let buttons = `
+			<button class="btn btn-secondary" onclick="now(${wallet})">Now</button>
+			<button class="btn btn-success" onclick="restore()">Restore</button>
+			`
+
+		let backupRecordatory = localStorage.getItem('remebertoBackupWallet')
+		if (!backupRecordatory) {
+			console.log('there is no recordatory set')
+			remember()
+
+
+		} else {
+			console.log("backupRecordatory:", backupRecordatory)
+			if (backupRecordatory === 'true') {
+				console.log('MAKE RECORDATORY')
+				remember()
+			} else {
+				console.log('FORGET')
+
+			}
+		}
+
+		function remember() {
+
+			Swal.fire({
+				title: "Backup your wallet!",
+				html: buttons,
+				position: "bottom-end",
+				showConfirmButton: true,
+				confirmButtonText: 'later...',
+				customClass: {
+					popup: 'colored-toast'
+				},
+			})
+				.then((result) => {
+					if (result.isConfirmed) {
+						console.log('DONT BOTHER...!')
+						localStorage.setItem('remebertoBackupWallet', false)
+
+					}
+					else if (result.isDismissed) {
+						console.log('BACKUP X:');
+						localStorage.setItem('remebertoBackupWallet', true)
+					}
+				}
+				)
+
+		}
+
+	}, 5000);
+
+}
+
+// SET ADDRESS
+let preferedWallet = localStorage.getItem('preferedWallet');
+if (!preferedWallet) { console.log('NO PREFERED WALLET SET'); return }
+if (preferedWallet) { const values = preferedWallet.split(',').map(item => item.trim()); walletChoice = values[0]; userAddress = values[1]; }
+console.log('USERADDRESS IS SET: ', userAddress)
+// console.warn('INIT CHAT CLIENT HERE!?')
+setAddress(userAddress)
+}
+/*********************************************************************************************
+.) later now restore
+**********************************************************************************************/
+function later() {
+console.log('later ...')
+}
+
+function now(wallet) {
+console.log('now ...')
+// backupWallet(wallet)
+}
+
+function restore() {
+console.log('restore ...')
+}
+
+
+ 
+/*********************************************************************************************
+.) QRCHAT
+**********************************************************************************************/
+		async function xmtp(wallet) {
+
+let to = localStorage.getItem('toAddress')
+if (!to) {
+	console.log('NO "TO" ADDRESS')
+	const xmtp = await Client.create(wallet)
+	console.log('XMTP CLIENT CREATED: ', xmtp)
+	xm = xmtp;
+	return
+}
+else {
+	console.log('YES "TO" ADDRESS')
+	const xmtp = await Client.create(wallet)
+	localStorage.setItem('chatxmtp', xmtp)
+	// await chatWith(to)
+}
+
+
+
+}
+
+document.getElementById("user-input").addEventListener("keydown", function (event) {
+if (event.key === "Enter") {
+	var userInput = this.value.trim(); // Trim whitespace from input
+	if (userInput !== "") {
+		console.log("User input:", userInput);
+		// Do something with the user input here
+		sendMessage();
+	}
+	// var userInput = this.value;
+	// console.log("User input:", userInput);
+	// // Do something with the user input here
+	// sendMessage();
+	event.preventDefault(); // Prevents the default behavior of the Enter key (submitting a form)
+}
+});
+
+document.getElementById("user-input").addEventListener("blur", function () {
+var userInput = this.value.trim(); // Trim whitespace from input
+if (userInput !== "") {
+	console.log("User input:", userInput);
+	// Do something with the user input here
+	sendMessage();
+}
+// var userInput = this.value;
+// console.log("User input:", userInput);
+// // Do something with the user input here
+// sendMessage();
+});
+
+async function sendMessage() {
+var userInput = document.getElementById("user-input").value;
+var chatBox = document.getElementById("chat-box");
+var message = document.createElement("div");
+
+if (userInput.trim() !== "") {
+	// The input value is not empty
+	console.log("Input is not empty");
+} else {
+	// The input value is empty
+	console.log("Input is empty");
+	return
+}
+
+// message.classList.add("message");
+// message.innerHTML = `<strong>You:</strong> ${userInput}`;
+// chatBox.appendChild(message);
+document.getElementById("user-input").value = "";
+chatBox.scrollTop = chatBox.scrollHeight;
+await conversation.send(`${userInput}`);// Send a message
+
+}
+
+function setToAddress() {
+var toaddr = document.getElementById("toAddr").value;
+
+console.log('setting TO adddress: ', toaddr)
+
+if (ethers.utils.isAddress(toaddr)) {
+	console.log('VALID ADDRESS')
+	document.getElementById("invalid-address-alert").style.display = "none";
+	localStorage.setItem('toAddress', toaddr)
+	document.getElementById('results').innerHTML += `<br>TO address: ${toaddr}  <button class="btn btn-secondary" onclick="clearChat()">Clear</button>`
+
+
+} else {
+	console.log('INVALID ADDRESS')
+	document.getElementById("invalid-address-alert").style.display = "block";
+
+}
+
+
+}
+
+function copy2clipboard(text) {
+// let text = `${ipfsGateway}${cid}`;
+console.log('COPIED!', text)
+let textLink = `<a href="${text}">${text}</a>`;
+
+if (window.clipboardData && window.clipboardData.setData) {
+	ToastTop.fire('Copied to Clipboard', textLink, "success");
+	return window.clipboardData.setData("Text", text);
+}
+else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+	var textarea = document.createElement("textarea");
+	textarea.textContent = text;
+	textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+	document.body.appendChild(textarea);
+	textarea.select();
+	try {
+		ToastTop.fire('Copied to Clipboard', textLink, "success");
+		return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+	}
+	catch (ex) {
+		console.warn("Copy to clipboard failed.", ex);
+		return prompt("Copy to clipboard: Ctrl+C, Enter", text);
+	}
+	finally {
+		document.body.removeChild(textarea);
+	}
+}
+}
+
+
+async function addUser() {
+console.log('ADDING NEW USER ADDRESS')
+}
+
+
+		// **********************************************************************************************/
+
+        async function chatHistory(addr){
+
+let conversation = await troqchatclient.conversations.newConversation(addr)
+const messages = await conversation.messages()
+
+for (const message of messages) {
+	console.log(message.content);
+}
+}
+
+async function chatWith(toAddr) {
+console.log('chatWith()', toAddr)
+
+console.log('ESTABLISHING NEW CHAT WITH', toAddr)
+
+let preferedWallet = localStorage.getItem('preferedWallet');
+if (!preferedWallet) { console.log('NO PREFERED WALLET SET') }
+if (preferedWallet) {
+	const values = preferedWallet.split(',').map(item => item.trim());
+	walletChoice = values[0];
+	// userAddress = values[1];
+	userAddress = ethers.utils.getAddress(values[1]);
+	console.log('USER ADDRESS IN CHAT WITH', userAddress)
+}
+
+console.log(toAddr, userAddress)
+if (toAddr == userAddress) {
+	console.log('CANCELING chatwith() because CANNOT WITH SELF ADDRESS')
+	localStorage.removeItem('toAddress')// detele "TO" address from localStorage
+	return
+}
+
+// GOT TO CHAT TAB
+const swiperEl = document.getElementById('troqContainer');
+swiperEl.swiper.slideNext();
+
+
+// save "TO" to localwallet
+localStorage.setItem('toAddress', toAddr)
+let contact = { address: toAddr, username: null, avatar: null, did: null }
+
+SaveContactsToLocalStorage(contact)
+loadContacts()
+updateBadge()
+
+
+// add address in UI
+let shortAddr = toAddr.substring(0, 6) + "..." + toAddr.substring(38, 42);
+chatAddress.innerHTML = `${shortAddr} <svg  fill="green"  class='uiicon' onclick="event.stopPropagation();deleteChat((this.parentElement))" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg> <svg  fill="green"  class='uiicon' onclick="event.stopPropagation();createAlias(${toAddr})" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"> <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg> `
+makeHonorloan.innerHTML = ` <button type="button" id="" class="btn btn-approve" style="display: inline;" onclick="event.stopPropagation(); openSend()">SEND</button> <button class="honorloanbutton btn btn-outline-secondary" onclick="sendHonorloanRequest(${toAddr.toString()})">Loan <svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512" style=" fill: #7cfc00; "> <path d="M80 104c0-22.1-17.9-40-40-40S0 81.9 0 104v56 64V325.5c0 25.5 10.1 49.9 28.1 67.9L128 493.3c12 12 28.3 18.7 45.3 18.7H240c26.5 0 48-21.5 48-48V385.1c0-29.7-11.8-58.2-32.8-79.2l-25.3-25.3 0 0-15.2-15.2-32-32c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l32 32 15.2 15.2c11 11 9.2 29.2-3.7 37.8c-9.7 6.5-22.7 5.2-31-3.1L98.7 309.5c-12-12-18.7-28.3-18.7-45.3V224 144 104zm480 0v40 80 40.2c0 17-6.7 33.3-18.7 45.3l-51.1 51.1c-8.3 8.3-21.3 9.6-31 3.1c-12.9-8.6-14.7-26.9-3.7-37.8l15.2-15.2 32-32c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-32 32-15.2 15.2 0 0-25.3 25.3c-21 21-32.8 49.5-32.8 79.2V464c0 26.5 21.5 48 48 48h66.7c17 0 33.3-6.7 45.3-18.7l99.9-99.9c18-18 28.1-42.4 28.1-67.9V224 160 104c0-22.1-17.9-40-40-40s-40 17.9-40 40z"></path></svg> </button>`
+console.log('10192 makeHonorloan', toAddr)
+
+// ACTIVATE CHAT BUTTONS
+document.getElementById('user-input').disabled = false;
+document.getElementById('send-button').disabled = false;
+
+
+// FOCUS ON INPUT
+document.getElementById('user-input').focus();
+
+// SACAR
+const allConversations = await troqchatclient.conversations.list()
+console.log('available addresses:', allConversations.length)
+
+
+// ------------------------------------
+// AVOID REOPENING COMS WITH ADDRESESS
+const customAddressToCheck = toAddr; // Replace this with the address you want to check
+let addressExists = false;
+
+for (const conversation of allConversations) {
+	if (conversation.peerAddress === customAddressToCheck) {
+		addressExists = true;
+		break; // Exit the loop early if the address is found
+	}
+}
+
+if (addressExists) {
+	console.warn(`${customAddressToCheck} exists in the array.`);
+	// return
+} else {
+	console.warn(`${customAddressToCheck} does not exist in the array.`);
+}
+// FIN AVOID REOPENING COMS WITH ADDRESESS
+// ------------------------------------
+
+
+// CREATE CHAT (client was already created)
+conversation = await troqchatclient.conversations.newConversation(toAddr)
+console.log('conversation:', conversation)
+
+
+// // Load all messages in the conversation
+// const messages = await conversation.messages()
+ // m = messages
+// //  m[1].content
+
+var chatBox = document.getElementById("chat-box");
+
+// shorten addresses
+// let shortTo = toAddr.substring(0, 6) + "..." + toAddr.substring(38, 42);
+let shortTo =toAddr.substring(38, 42);
+
+
+
+// Listen for new messages in the conversation
+for await (const message of await conversation.streamMessages()) {
+	const now = new Date();
+	const hours = now.getHours().toString().padStart(2, '0'); // Ensure two-digit format
+	const minutes = now.getMinutes().toString().padStart(2, '0'); // Ensure two-digit format
+	const timestamp = `${hours}:${minutes}`;
+	console.log('logMSG:', message)
+	let preferedWallet = localStorage.getItem('preferedWallet');
+	if (!preferedWallet) { console.log('NO PREFERED WALLET SET') }
+	if (preferedWallet) { const values = preferedWallet.split(',').map(item => item.trim()); userAddress = values[1]; }
+	if (message.senderAddress === userAddress) {
+		console.log('YOU')
+		chatBox.innerHTML += `<div><strong class='who'>You:</strong> ${message.content}<span class="timestamp">  ${timestamp} &check; </span></div>`;
+	}
+	if (message.senderAddress == toAddr) {
+		console.log('OTHER', shortTo)
+		chatBox.innerHTML += `<div><strong class='who'>${shortTo}:</strong> ${message.content} </div>`;
+		
+	}
+	if (message.contentType.sameAs(ContentTypeMultiplyNumber)) {
+		return message.content; // 21
+	}
+	console.log(`[${message.senderAddress}]: ${message.content}`)
+	chatBox.scrollTop = chatBox.scrollHeight;
+
+}
+}
+
+var cwContacts = document.getElementById('cwContacts');
+
+cwContacts.addEventListener('contextmenu', function (e) {
+e.preventDefault(); // Prevent the default context menu
+
+// Check if the right-click was on an li element
+if (e.target.tagName === 'LI') {
+// Increment your counter or perform any other action
+console.log('Right-clicked on li element');
+}
+});
+
+async function initChatClient(wallet) {
+console.log('initChatClient()')
+// Create the client with your wallet. This will connect to the XMTP development network by default
+// const xmtp = await Client.create(wallet)
+const xmtp = await Client.create(wallet,{ env: "dev", })
+// { env: "dev", }
+
+// REGISTER CODECS
+// const xmtp = Client.create(wallet, { codecs: [new CompositeCodec()] })
+await xmtp.registerCodec(new CompositeCodec());
+
+
+// const xmtp = await Client.create(signer, {
+// env: "dev",
+// });
+// await xmtp.registerCodec(new ContentTypeMultiplyNumberCodec());
+
+
+// const troqchatclient = await Client.create(wallet)
+troqchatclient = xmtp;//make global
+
+// Listen for new conversations
+const stream = await troqchatclient.conversations.stream()
+console.log('STREAM:', stream)
+
+//  registerCodecs(xmtp)
+await listExistingConversations(troqchatclient)
+return xmtp
+}
+
+
+		// -----------------
+		// LISTEN TO ALLLLLL INCOMING!
+		async function listenAllNewAddresses() {
+			console.log('listenAllNewAddresses()')
+
+			for await (const message of await troqchatclient.conversations.streamAllMessages()) {
+				if (message.senderAddress === troqchatclient.address) {
+					// This message was sent from me
+					continue
+				}
+
+				document.getElementById('chatBadge').style.display = 'inline'
+				document.getElementById('chatBadge').innerText = '!'
+				console.log(`New message from ${message.senderAddress}: ${message.content}`)
+
+				// CHECK IF ADDRESS IS ALREADY IN YOUR CONTACTS (LOCALSTORAGE)
+				var storedContacts = [];
+				let storedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
+
+				// Find index of the message with the same address
+				var index = storedContacts.findIndex(existingContact => existingContact.address === message.senderAddress);
+
+				if (index === -1) {
+					console.log('THIS ADDRESS IS NOT IN YOUR CONTACT LIST.. Adding new UNKNOWN (and unvalidated) contact.');
+					addUnknownContact(message.senderAddress, message.content)
+					
+				} else {
+					console.log('YES: THIS ADDRES IS IN YOUR CONTACT LIST')
+					console.log('OVERWRITE last msg, INDEX:', storedContacts[index], index)
+					addknownContact(message.senderAddress, message.content)
+				}
+				
+				updateBadge()
+
+			}
+		}
+
+
+		async function listenNewChats(addr) {
+			console.log('listenNewChats(addr)')
+			const conversation = await troqchatclient.conversations.newConversation(addr)
+
+			for await (const message of await conversation.streamMessages()) {
+				if (message.senderAddress === troqchatclient.address) {
+					// This message was sent from me
+					console.log('This message was sent from me')
+					continue
+				}
+
+
+				console.log(`New chat message from ${message.senderAddress}: ${message.content}`)
+				let msg = { address: message.senderAddress, message: message.content }
+				// GET LOCAL ADDRESS
+				let preElement = document.getElementById('yourAddress');
+				let localAddr = preElement.getAttribute('address');
+
+				// IF CODE XXXX ==> UPLOAD BALANCE ON RECIPIENT
+				let balanceerc20 = await checkERC20Balance(localAddr)//troq
+				let balancegas = await checkGasBalance(localAddr)//main eth
+				console.log('NEW BALANCE:', balancegas, balanceerc20)
+
+				troqamount.innerHTML = `${optionsList[GLOBALCHAIN].TOKEN_NAME}: ${Number(balanceerc20).toFixed(3)}`
+				miniversion.innerHTML = `GAS: ${Number(balancegas).toFixed(5)}`
+
+
+
+			}
+
+		}
+
+
+		async function listExistingConversations(xmtp) {
+			console.log('listExistingConversations()')
+			// List existing conversations
+			const allConversations = await xmtp.conversations.list()
+			console.log('AVAILABLE CHATS:', allConversations.length)
+			const peerAddressesArray = [];
+
+			allConversations.forEach(async (conversation, index) => {
+				peerAddressesArray.push(conversation.peerAddress);
+				console.log(`AVAILABLE CHAT ${index}: ${conversation.peerAddress}`)
+				await listenNewChats(conversation.peerAddress)
+			})
+			paa = peerAddressesArray;
+		}
+
+/*********************************************************************************************
+.) QR SCAN
+**********************************************************************************************/
+	async function scanAddress() {
+			console.log('SCANNING FOR A NEW USER ADDRESS')
+			var audioContext = new AudioContext();
+
+			// open modal
+			openModalId('#scanModal')
+			document.getElementById('scanResult').innerHTML = ''
+			setTimeout(() => {
+				var videoElem = document.getElementById("qrScanVideo");
+				window.qrScanner = new QrScanner(videoElem, result => qrscanned(result), {
+					highlightScanRegion: true,
+					highlightCodeOutline: true,
+				});
+
+				qrScanner.setInversionMode('invert');
+				qrScanner.start();
+
+			}, 1000);
+
+		}
+
+	async function qrscanned(result) {
+			console.log('scanned decoded qr code:', result.data)
+			x1 = result.data;
+			document.getElementById('scanResult').innerHTML = ` <div class="success-message"> <svg viewBox="0 0 76 76" class="success-message__icon icon-checkmark"> <circle cx="38" cy="38" r="36"/> <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M17.7,40.9l10.9,10.9l28.7-28.7"/> </svg> <h1 class="success-message__title">SCANED!</h1> <div class="success-message__content"> <p>${result.data}</p> </div> </div> `
+			qrScanner.stop();
+			qrScanner.destroy();
+			qrScanner = null;
+			playBeep();
+			await setTimeout(() => {
+				closeModalId('#scanModal')
+			}, 1500);
+			console.log('KEEP DOING SOMETHING', result.data)
+
+			// SEARCH FOR T2Addr
+			const url = new URL(result.data);
+			const urlParams = new URLSearchParams(url.search);
+			const t2AddrValue = urlParams.get('T2Addr');
+			if (t2AddrValue !== null) {
+				console.log(`Value of T2Addr parameter: ${t2AddrValue}`);
+				Toast.fire({ icon: 'info', title: 'CHAT WITH:', text: t2AddrValue });
+
+				// NOW SETUP THE CHAT AND OPEN IT
+				await chatWith(t2AddrValue)
+				// const swiperEl = document.getElementById('troqContainer');
+				// swiperEl.swiper.slideNext();
+
+			} else {
+				console.log('T2Addr parameter not found in the URL');
+			}
+
+
+		}
+
+       
+/*********************************************************************************************
+.)  URL
+**********************************************************************************************/
+		// Function to create URL parameters from an object
+		function createURLParams(params) {
+			console.log('createURLParams', params)
+
+			const keys = Object.keys(params);
+			const encodedParams = keys.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
+			return encodedParams.join('&');
+		}
+
+/*********************************************************************************************
+.)  INIT
+**********************************************************************************************/
+
+		window.addEventListener("load", async function (event) {
+			console.log("window loaded!");
+			init();
+		});
+
+		let init = async () => {
+			console.log('init: INITIALIZING... ')
+			GLOBALCHAIN = localStorage.getItem("preferedOption");
+
+			if (GLOBALCHAIN === null) {
+				console.log('GLOBALCHAIN is null');
+				localStorage.setItem("preferedOption", 1);
+				GLOBALCHAIN =0;
+
+				} else {
+				console.log('GLOBALCHAIN is not null');
+				}
+			await autoCreateWallet() // ==> initChatClient()
+			const urlParams = new URLSearchParams(window.location.search);
+			const t2AddrValue = urlParams.get('T2Addr');
+			if (t2AddrValue !== null) {
+				console.log(`TRYING TO CHAT WITH: ${t2AddrValue}`);
+				await chatWith(t2AddrValue)
+			} else {
+				console.log('T2Addr parameter not found in the URL');
+			}
+
+			loadContacts()
+			// populate chainSelector
+			// Get the select element by ID
+			const chainSelector = document.getElementById('chainSelector');
+			document.getElementById('chainSelector').innerHTML =''
+			// Iterate through optionsList and populate the selector
+			optionsList.forEach(option => {
+				const optionElement = document.createElement('option');
+				optionElement.value = option.TOKEN_CHAIN_NAME;
+				optionElement.text = option.TOKEN_CHAIN_NAME;
+				chainSelector.appendChild(optionElement);
+			});
+
+// Set the desired index (e.g., 2 for the third option)
+var selectedIndex = GLOBALCHAIN;
+
+// Set the selectedIndex property
+chainSelector.selectedIndex = selectedIndex;
+
+
+			// check balance
+			await syncBalance()
+  setTimeout(syncBalance, 60000);
+
+			// Add an event listener for the onchange event
+			chainSelector.addEventListener('change', function () {
+				// This function will be called whenever the selected option changes
+				const selectedOption = chainSelector.options[chainSelector.selectedIndex];
+				console.log('Selected option:', selectedOption.value);
+				// Add your logic here to handle the change
+				// Display a message
+				console.log('Selected option:', selectedOption.value);
+
+				// Your logic to display a message can be more sophisticated
+				// toast.fire('Only on sepolia/avax for the moment: ');
+				Toast.fire({ icon: 'success', title: 'Done!:', text: "Network changed" });
+
+				// Reset to the first option
+				// chainSelector.selectedIndex = 0;
+
+				// add to localstorage
+				localStorage.setItem("preferedOption", chainSelector.selectedIndex);
+
+			// OPTIONSLIST SET
+			headerNotes.innerHTML =''
+			init()
+
+			});
+
+
+			// LOAD WALLET USER ICON
+
+			let loadImg = window.localStorage.getItem('image')
+			if (!loadImg) {
+				console.log('NO IAM IMG')
+				fileCreateItemFile.value = null
+			} else {
+				itemImgMINT.src = JSON.parse(loadImg);
+				itemImgMINT.style.display = 'block'
+			}
+
+			console.log((await troqchatclient.conversations.list()).length, "connected addresses.")
+			await listenAllNewAddresses();
+
+
+			// GET CONFIG 
+				let preferedOption = localStorage.getItem('preferedOption');
+				if(!preferedOption){
+					console.log('THEREs NO CONFIG SETTED');
+					preferedOption = 0;
+
+				}
+		}
+
+
+		async function checkNetwork() {
+			console.log('CHEKGINS NETWORK!')
+				let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+				var selectElement = document.getElementById('chainSelector');
+				try {
+					const blockNumber = await provider.getBlockNumber();
+					console.log('Connected to network. Latest block number:', blockNumber);
+
+					selectElement.style.color = 'green';
+
+					return true
+				} catch (error) {
+					console.error('Error connecting to network:', error.message);
+					selectElement.style.color = 'red';
+
+					return false
+				}
+
+		}
+
+
+		async function syncBalance() {
+			console.log('syncBalance()')
+			let preferedWallet = localStorage.getItem('preferedWallet');
+
+			if (!preferedWallet) { console.log('NO PREFERED WALLET SET') }
+			if (preferedWallet) {
+				const values = preferedWallet.split(',').map(item => item.trim());
+				walletChoice = values[0];
+				userAddress = values[1];
+			}
+
+
+			let network = await checkNetwork(); 
+			console.log('network:',network)
+		
+			if(network == false){
+			console.log('network FALSE:',network)
+
+			
+			headerNotes.innerHTML =`  <div class="alert alert-danger alert-dismissible fade show headerNotes"> <button type="button" class="btn-close" data-bs-dismiss="alert"></button> <strong>Danger!</strong> Error de red. </div>`
+			 
+			return
+			}
+			else if(network == true){
+			console.log('network TRUE:',network)
+			}
+
+
+			let balanceerc20 = await checkERC20Balance(userAddress)//troq
+			let balancegas = await checkGasBalance(userAddress)//main eth
+
+			troqamount.innerHTML = `${optionsList[GLOBALCHAIN].TOKEN_NAME}: ${Number(balanceerc20).toFixed(3)}`
+			miniversion.innerHTML = `GAS: ${Number(balancegas).toFixed(5)}`
+
+			// let balanceerc721 = await checkERC721Balance(userAddress)//troq
+			// const decimalNumber = parseInt(balanceerc721._hex, 16);
+			// console.log('NFT BALANCE=', decimalNumber)
+
+			//   MUESTRA 1 NFT FAKE CONTENT X NFT REAL
+			// if (balanceerc721 >= 0) {
+			// for (let i = 0; i < balanceerc721; i++) {
+			// 	console.log("Iteration: ", i + 1);
+
+			// 	HONORLOANnftCardContainer.innerHTML += `  <div class="card mb-3">
+            //         <div class="card-header">
+			// 			<h4>NFT ID: #FD9</h4>
+            //         </div>
+            //         <div class="card-body">
+            //             <ul class="list-group">
+            //                 <li class="list-group-item">
+            //                     <p>Amount: $200</p>
+            //                     <p>Days Until Deadline: 10</p>
+            //                     <p>Lender Balance: 120</p>
+            //                     <p>Borrower Balance: 30</p>
+            //                     <p>Transaction Hash: <a href="your_transaction_hash_url_3" target="_blank">Tx345678</a></p>
+            //                     <button class="btn btn-success">Pay</button>
+            //                 </li>
+            //             </ul>
+            //         </div>
+            //     </div>`
+			// }
+
+		}
+
+
+
+		async function loadContacts() {
+			console.log('loadContacts()')
+			let contct = document.getElementById('cwContacts')
+			contct.innerHTML = ''
+			let cwContacts = JSON.parse(window.localStorage.getItem('contacts'));
+			if (cwContacts) {
+				console.log('YOU HAVE', cwContacts.length, 'CONTACTS')
+
+
+
+				cwContacts.forEach((el, index) => {
+					const isAddressInArray = paa.includes(el.address);
+
+					if (isAddressInArray) {
+						console.log(`Contact ${index} is in your contacts \u2714  ${el.address} `);
+					} else {
+						console.log(`THis address  is not in your contacts \u2718 ${el.address}`);
+					}
+
+					let shortAddr = el.address.substring(0, 6) + "..." + el.address.substring(38, 42);
+					// contct.innerHTML +=` <li data-address="${el.address}"> <a onclick="event.stopPropagation();selectChat((this.parentElement))" >  <img src="./avatar.png" alt="Avatar" class="rounded-circle"> ${shortAddr} <i class="fa-solid fa-trash"></i></a> </li> `
+					contct.innerHTML += `<li data-address="${el.address}"  id="${el.address}" class=''> 
+											<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
+												<img src="./avatar.png" alt="Avatar" class="rounded-circle"> 
+													<span>${shortAddr} <span>
+												<i class="fa-solid fa-trash"></i>
+											</a> 
+										</li> `
+				})
+
+			}
+
+		}// fin loadContacts
+
+
+
+		async function addUnknownContact(addr, msg) {
+			console.log('addUnknownContact()', addr, msg)
+
+			// add unknown contact to  localstorage and check each time against the list if we add it or not into the contacts tab
+			let shortAddr = addr.substring(0, 6) + "..." + addr.substring(38, 42);
+			let shortMsg = msg.substring(0, 16);
+
+
+			let unknownContacts = JSON.parse(localStorage.getItem('unknowncontacts')) || [];
+			a = addr
+			var index = unknownContacts.findIndex(existingUnknownContacts => existingUnknownContacts === addr);
+
+			if (index === -1) {
+				console.log('PUSH UnknownContact to localstorage')
+				unknownContacts.push(addr);
+
+				document.getElementById('cwContacts').innerHTML += `
+					<li data-address="${addr}"  id="${addr}" class='newmessage'> 
+						<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
+							<img src="./anonym-icon.jpeg" alt="Avatar" class="rounded-circle"> 
+								<span>${shortMsg} <span>
+							<i class="fa-solid fa-trash"></i>
+						</a> 
+					</li> `
+
+			} else {
+				console.log('OVERWRITE last UnknownContact\'s message!.');
+
+				// Search for the element with the specified ID
+				var elementToModify = document.getElementById(addr);
+
+				// Check if the element exists
+				if (elementToModify) {
+					// Add a new class to the element
+					elementToModify.classList.add('newmessage');
+					elementToModify.querySelector("span").innerText = shortMsg
+
+				} else {
+					// If the element with the specified ID is not found, you may want to handle that case
+					console.warn("Element with ID '" + addr + "' not found");
+					document.getElementById('cwContacts').innerHTML += ` 
+					<li data-address="${addr}" id="${addr}"  class='newmessage'> 
+					<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
+						<img src="./anonym-icon.jpeg" alt="Avatar" class="rounded-circle"> 
+						<span>${shortMsg} <span>
+						<i class="fa-solid fa-trash"></i></a> </li> `
+				}
+
+
+			}
+
+			localStorage.setItem('unknowncontacts', JSON.stringify(unknownContacts));
+
+		}
+
+		async function addknownContact(addr, msg) {
+			console.log('addknownContact()', addr, msg)
+
+			let shortAddr = addr.substring(0, 6) + "..." + addr.substring(38, 42);
+			let shortMsg = msg.substring(0, 16);
+			var elementToModify = document.getElementById(addr);
+			if (elementToModify) {
+				elementToModify.classList.add('newmessage');
+				elementToModify.querySelector("span").innerText = shortMsg
+			}
+
+		}
+
+		async function updateBadge() {
+			console.log('updateBadge()')
+			var ulElement = document.getElementById('cwContacts');
+			var newMessageElements = ulElement.getElementsByClassName('newmessage');
+			var count = newMessageElements.length;
+			if (count === 0) {
+				console.log('No elements with class "newmessage" found.');
+				document.getElementById('chatBadge').style.display = 'none'
+				document.getElementById('chatBadge').innerText = ''
+			} else {
+				console.log('Number of elements with class "newmessage":', count);
+				document.getElementById('chatBadge').style.display = 'inline'
+				document.getElementById('chatBadge').innerText = `${count}`
+			}
+
+		}
+
+		async function selectChat(el) {
+			console.log('selectChat(), CLICKED CONTACT', el)
+
+			const address = el.dataset.address;
+			console.log('CONTACT SELECTED:', address);
+			
+			// 1- close navbar
+			plToggle()
+			
+			// 2- chat with address funciton 
+			await deleteChat()
+			await chatWith(address)
+			await updateBadge()
+
+		}
+
+		document.getElementById("closeScanModal").onclick = () => {
+			qrScanner.stop();
+			closeModalId('#scanModal')
+			qrScanner.destroy();
+			qrScanner = null;
+
+		}
+
+
+
+		// BALANCES
+
+		async function checkERC20Balance(userAddress) {
+
+console.log('checkERC20Balance()')
+
+try {
+
+	const abi = ABIs[optionsList[GLOBALCHAIN].ERC20_TOKEN_ABI]
+	const contractAddress = optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS //'YOUR_ERC20_CONTRACT_ADDRESS';
+	let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+	const tokenContract = new ethers.Contract(contractAddress, abi, provider);
+	const formattedAddress = ethers.utils.getAddress(userAddress);
+
+	const balance = await tokenContract.balanceOf(formattedAddress);
+	b = balance;
+	const formatedBalance = ethers.utils.formatEther(balance);
+	console.log(`Balance of ERC-20 ${optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS}: ${formatedBalance} ${optionsList[GLOBALCHAIN].TOKEN_NAME}`);
+
+	return formatedBalance
+} catch (error) {
+	console.error('Error checking balance:', error);
+	return null;
+}
+}
+
+async function checkGasBalance(walletAddress) {
+let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+try {
+	const balance = await provider.getBalance(walletAddress);
+	const gasBalance = ethers.utils.formatEther(balance);
+	console.log(`GAS Balance of ${optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS}: ${gasBalance} GAS`);
+
+	return gasBalance;
+} catch (error) {
+	console.error('Error checking balance:', error.reason);
+	return null;
+}
+}
 
 
 
