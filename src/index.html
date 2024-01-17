@@ -226,11 +226,140 @@
 		});
 
 		/*********************************************************************************************
+		.) VARIABLES
+		**********************************************************************************************/
+		// created testnet subnet on fuji 
+		// https://subnets-test.avax.network/p-chain/tx/2BthBtaUTZoQiNrukPmzBaris4TXMFGT3a9PB5LX8C6BeBtkvo
+		optionsList = [
+
+		// http://127.0.0.1:9650/ext/bc/GcG3ABZzDqWdhf6uqrZvywuz6MVf3ZDZPxWg29U7rKzgrxfPC/rpc
+		{
+				"TOKEN_NAME": "GHO(Sepolia)",
+				"TOKEN_CHAIN_NAME": 'Sepolia',
+				"TOKEN_CHAINID": '11155111',
+				"API": 'http://127.0.0.1:9652/ext/bc/VsAGbfjmEaF7NqvLcjudVi3rmrXvp7UVFiRvwK7F5xWrUX4Nr/rpc',
+				"MASTER_ADDRESS": "0xc7a280CbF424d76cf42FcE9d739032E72658490D",//subnetmaster
+				"MASTER_ABI": 'subnetmaster',
+				"ERC20_CONTRACT_ADDRESS": "0x818AFc9b99E992104567FB6c36510FeCFd45945E",//slave v3
+				"ERC20_TOKEN_ABI": 'HLOANTOKENV6',
+				"ERC721_TOKEN_ADDRESS": "0x3723A0d04ABDFA902d47426973E0cb49C2fC3B86",//slave v3
+				"ERC721_TOKEN_ABI": "HonorloansNFT",//slave v3
+				"DEPOSIT_CONTRACT": "0x98d62eE970b6666FCa219d3507ee3922A453E24C",//depositonbehalfv9
+				"DEPOSIT_CONTRACT_ABI": 'depositonbehalfv9',//fuji c-chain
+				"DEPOSIT_CONTRACT_CHAINID": '11155111',//sepolia
+				"DEPOSIT_CONTRACT_API": 'https://ethereum-sepolia.publicnode.com',//fuji c-chain
+				"EXPLORER": 'https://sepolia.etherscan.io/',
+				"NFTSENDER_CONTRACT_ADDRESS": "0xd9A7Bba88C4bFBD2EA44d18A52Dc404eaE86C0db",//fuji
+				"NFTSENDER_CONTRACT_CHAINID": "43113",//fuji
+				"NFTSENDER_CONTRACT_CHAIN_NAME": "FUJI",//fuji
+				"NFTSENDER_CONTRACT_ABI": "SENDERnft",//fuji
+				"NFTSENDER_CONTRACT_API": "https://avalanche-fuji-c-chain.publicnode.com",//fuji
+				"CCIP_EXPLORER": "https://ccip.chain.link/"
+
+			}
+			,
+
+{
+		"TOKEN_NAME": "TROK(sepolia)",
+		"API": 'https://ethereum-sepolia.publicnode.com',
+		"TOKEN_CHAIN_NAME": 'Sepolia',
+		"TOKEN_CHAINID": '11155111',
+		"ERC20_CONTRACT_ADDRESS": "0x0118148a6E156b5B39d1D184F8763e65Df8d36C7",//slave v3
+		"ERC20_TOKEN_ABI": 'HLOANTOKENV6',
+		"ERC721_TOKEN_ADDRESS": "0xBd37873Db48E7E082265FF08294F201D8E554BfD",//slave v3
+		"ERC721_TOKEN_ABI": "HonorloansNFT",//slave v3
+		"DEPOSIT_CONTRACT": "0x98d62eE970b6666FCa219d3507ee3922A453E24C",//depositonbehalfv9
+		"DEPOSIT_CONTRACT_ABI": 'depositonbehalfv9',//
+		"DEPOSIT_CONTRACT_CHAINID": '11155111',//sepolia
+		"DEPOSIT_CONTRACT_API": 'https://ethereum-sepolia.publicnode.com',//fuji c-chain
+		"TOKEN_ADDRESS": "0x0118148a6E156b5B39d1D184F8763e65Df8d36C7",//master v3
+		"TOKEN_ABI": 'hloantokev6',
+		"EXPLORER": 'https://sepolia.etherscan.io/',
+		"NFTSENDER_CONTRACT_ADDRESS": "0xd9A7Bba88C4bFBD2EA44d18A52Dc404eaE86C0db",//fuji
+		"NFTSENDER_CONTRACT_CHAINID": "43113",//fuji
+		"NFTSENDER_CONTRACT_CHAIN_NAME": "FUJI",//fuji
+		"NFTSENDER_CONTRACT_ABI": "SENDERnft",//fuji
+		"NFTSENDER_CONTRACT_API": "https://avalanche-fuji-c-chain.publicnode.com",//fuji
+		"CCIP_EXPLORER": "https://ccip.chain.link/"
+
+	}
+
+		];
+
+		chainList = [
+		{
+				"chainId": "0xaa36a7",
+				"chainName": "Sepolia",
+				"rpcUrls": [
+					"https://ethereum-sepolia.publicnode.com"
+				],
+				"nativeCurrency": {
+					"name": "Sep",
+					"symbol": "SEPOLIA",
+					"decimals": 18
+				},
+				"blockExplorerUrls": [
+					"https://sepolia.etherscan.io/"
+				]
+			},
+			{
+				"chainId": '0x89',
+				"rpcUrls": "https://rpc-mainnet.matic.network/",
+				"chainName": "Matic Mainnet",
+				"name": "MATIC",
+				"symbol": "MATIC",
+				"decimals": 18
+			},
+			{
+				"chainId": '0x5',
+				"rpcUrls": "https://rpc.slock.it/goerli",
+				"chainName": "Goerli Test Network",
+				"name": "Ethereum",
+				"symbol": "ETH",
+				"decimals": 18,
+				"blockExplorerUrls": "https://goerli.etherscan.io"
+			},
+			{
+				"chainId": '0x82751',
+				"rpcUrls": "https://alpha-rpc.scroll.io/l2",
+				"chainName": "Scroll Alpha Testnet",
+				"name": "Ethereum",
+				"symbol": "ETH",
+				"decimals": 18,
+				"blockExplorerUrls": "https://blockscout.scroll.io"
+			},
+			{
+				"chainId": "0x64",
+				"chainName": "Gnosis",
+				"rpcUrls": [
+					"https://rpc.ankr.com/gnosis"
+				],
+				"iconUrls": [
+					"https://xdaichain.com/fake/example/url/xdai.svg",
+					"https://xdaichain.com/fake/example/url/xdai.png"
+				],
+				"nativeCurrency": {
+					"name": "xDAI",
+					"symbol": "xDAI",
+					"decimals": 18
+				},
+				"blockExplorerUrls": [
+					"https://blockscout.com/poa/xdai/"
+				]
+			}
+		];
+
+
+		ABIs = {
+
+		}
+
+		/*********************************************************************************************
 		.)   
 		**********************************************************************************************/
 
 
-		
+
 
 
     </script>
