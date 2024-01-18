@@ -730,7 +730,7 @@ header, main  {
   flex-grow: 1; 
   padding: 1em;
     width: 100%;
-    height: calc(100% - 90px);
+    height: calc(100% - 90px)!important;
     overflow: hidden;
     overflow-y: scroll;
     touch-action: pan-y!important;
@@ -916,7 +916,7 @@ height: 30vh;
       /* font-size: 0.35em; */
       font-size: 0.75em;
       position: absolute;
-      bottom: 12px;
+      bottom: 3px;
     }
 
 
