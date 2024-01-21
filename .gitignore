@@ -3,3 +3,17 @@ yarn.lock
 .DS_Store
 .parcel-cache/
 dist/
+src/old/
+src/permitethers.html
+ src/permit.html
+src/permitEthers-b.html
+src/permitGHO.html
+src/permitGHOmetamask.html
+src/permit.html
+.firebase/
+.firebaserc
+firebase.json
+package-lock.json
+public/
+src/data.md        
+src/erc20permit.js

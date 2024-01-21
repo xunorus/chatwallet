@@ -17,6 +17,7 @@
     "bignumber.js": "^9.x",
     "cropperjs": "^1.6.1",
     "ethers": "5.7.2",
+    "firebase": "^10.7.2",
     "parcel": "^2.11.0",
     "parcel-reporter-static-files-copy": "^1.5.3",
     "qr-scanner": "^1.4.2",
@@ -26,5 +27,6 @@
   },
   "staticFiles": {
     "staticPath": "src/static"
-  }
+  },
+  "type": "module"
 }
