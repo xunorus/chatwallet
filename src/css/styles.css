@@ -295,6 +295,9 @@ background: none!important;
 body {
     background: var(--bk);
     height: 100vh;
+
+    background-image: radial-gradient(circle, #5c0067 0%, var(--bckmodal) 100%);
+
  
  }  
 header, main  {
@@ -784,6 +787,10 @@ swiper-container{
       box-shadow: 0 0 10px var(--modalborder);
       border: 1px solid var(--modalborder);
       /* border: 1px solid var(--border); */
+
+      /* background-image: radial-gradient(circle, #5c0067 0%, #00d4ff 100%); */
+      background-image: radial-gradient(circle, #5c0067 0%, var(--bckmodal) 100%);
+
     }
 
 
@@ -971,6 +978,7 @@ height: 30vh;
     .translation{
       width: auto!important;
     min-width: 10px;
+    color: var(--c3);
     }
 
     #networkSelector{

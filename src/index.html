@@ -170,11 +170,11 @@
 		</a>
 		<input name="inputItemImgMINT" id="fileCreateItemFile" type="file" style="display:none" accept="image/*" />
 		<img id="itemImgMINT" src="img/anonym.jpg" alt="Avatar" class="">
-		<select class="right translation" id="langswitch" style="display: none;">
+		<!-- <select class="right translation" id="langswitch" style="display: none;">
 			<option value="en">en</option>
 			<option value="fr">fr</option>
 			<option value="es">es</option>
-		</select>
+		</select> -->
 		<div class="container mt-3">
 			<div class="row">
 				<div class="col text-center">
@@ -313,6 +313,12 @@
 						</svg>
 						Restore </button>
 
+					<select class="right translation" id="langswitch">
+						<option value="en">en</option>
+						<option value="fr">fr</option>
+						<option value="es">es</option>
+					</select>
+
 
 
 				</div>
@@ -415,13 +421,15 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" data-translate="walletCreation" id="">WALLET CREATION</h5>
-					<!-- <button type="button" id="addrScanner" class="btn btn-reject"
-						onclick="event.stopPropagation(); scanAddress()">
-						<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+
+					<button type="button" class="btn  btn-reject " id="closeWalletSend">
+						<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
 							<path
-								d="M0 80C0 53.5 21.5 32 48 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V80zM64 96v64h64V96H64zM0 336c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V336zm64 16v64h64V352H64zM304 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H304c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48zm80 64H320v64h64V96zM256 304c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s7.2-16 16-16s16 7.2 16 16v96c0 8.8-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s-7.2-16-16-16s-16 7.2-16 16v64c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V304zM368 480a16 16 0 1 1 0-32 16 16 0 1 1 0 32zm64 0a16 16 0 1 1 0-32 16 16 0 1 1 0 32z" />
+								d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
 						</svg>
-					</button> -->
+					</button>
+
+
 				</div>
 				<div class="modal-body" id="walletHiddenContent">
 					<div class="">
@@ -432,13 +440,22 @@
 						<div id="txbuilder">
 							<p id="txdetails" class="container">
 								to( Address):
-								<button type="button" id="addrScanner" class="btn btn-reject"
+
+								<!-- <button type="button" id="addrScanner" class="btn btn-reject"
 									onclick="event.stopPropagation(); scanAddress()">
 									<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
 										<path
 											d="M0 80C0 53.5 21.5 32 48 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V80zM64 96v64h64V96H64zM0 336c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V336zm64 16v64h64V352H64zM304 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H304c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48zm80 64H320v64h64V96zM256 304c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s7.2-16 16-16s16 7.2 16 16v96c0 8.8-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s-7.2-16-16-16s-16 7.2-16 16v64c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V304zM368 480a16 16 0 1 1 0-32 16 16 0 1 1 0 32zm64 0a16 16 0 1 1 0-32 16 16 0 1 1 0 32z" />
 									</svg>
-								</button>
+								</button> -->
+
+								<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"
+									onclick="event.stopPropagation(); scanAddress()"
+									style="fill:#00ff00; cursor: pointer;">
+									<path
+										d="M0 80C0 53.5 21.5 32 48 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V80zM64 96v64h64V96H64zM0 336c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V336zm64 16v64h64V352H64zM304 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H304c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48zm80 64H320v64h64V96zM256 304c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s7.2-16 16-16s16 7.2 16 16v96c0 8.8-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s-7.2-16-16-16s-16 7.2-16 16v64c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V304zM368 480a16 16 0 1 1 0-32 16 16 0 1 1 0 32zm64 0a16 16 0 1 1 0-32 16 16 0 1 1 0 32z" />
+								</svg>
+
 								<input type="text" id="address2"
 									style="width: 100%!important; word-wrap: break-word;font-size: 1.4em;"
 									maxlength="64" />
@@ -472,11 +489,16 @@
 				</div>
 				<div class="modal-footer">
 					<div id="txlink"></div>
-					<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="closeWalletSend"
-						data-translate="close">Close</button>
+
+
+					<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="buygas"
+						data-translate="buygas" onclick="event.stopPropagation(); buyGas()" disabled>Buy gas</button>
+
 					<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="askPeer"
 						data-translate="askpeer" onclick="event.stopPropagation(); askPeerToPayForGas()" disabled>ask
 						peer</button>
+
+
 				</div>
 			</div>
 		</div>
@@ -3640,9 +3662,6 @@ Wallet encrypted and saved into localstorage
 			const conversation = await troqchatclient.conversations.newConversation(addr)
 			let message = `can you pay for the gas? <pre style="display: none;">peerGasPaymentReques0x20</pre> ${amount} ${optionsList[GLOBALCHAIN].TOKEN_NAME}`
 			await conversation.send(`${message}`);// Send a message
-
-
-
 		}
 
 
