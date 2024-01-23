@@ -149,7 +149,7 @@
 		<div class="center" id="center">
 			<h1 id="fontlogo"> </h1>
 			<!-- <h1 id="fontlogo">CHATWALLET </h1> -->
-			<span id="miniversion">chatwallet v1.01Alpha</span>
+			<span id="miniversion">chatwallet v1.02Alpha</span>
 		</div>
 		<span class="badge bg-warning" id="chatBadge">-</span>
 		<button id="" class="right hamburger hamburger--elastic" type="button" aria-label="Menu"
@@ -709,10 +709,10 @@
 						<div class="custom-input-group">
 							<div class="input-group">
 								<select class="custom-select dropdown" name="currency" id="currencySelect">
-									<option value="ethereum">ETH(sepolia)</option>
-									<option value="avalance" disabled>AVAX</option>
+									<!-- <option value="ethereum">ETH(sepolia)</option>
+									<option value="avalance">AVAX</option>
 									<option value="matic-network" disabled>MATIC</option>
-									<option value="dai" disabled>DAI</option>
+									<option value="dai" disabled>DAI</option> -->
 								</select>
 								<p id='currencyConversor'></p>
 							</div>
@@ -921,124 +921,45 @@
 
 			},
 			{
+				"DEPOSIT_CONTRACT_CHAINID": '11155111',//sepolia
 				"TOKEN_CHAIN_NAME": 'MyToken(sepolia)',
 				"TOKEN_NAME": "MyToken",
 				"API": 'https://ethereum-sepolia.publicnode.com',
 				"TOKEN_CHAINID": '11155111',
-				"ERC20_CONTRACT_ADDRESS": "0x2d4C40Ef4f8bd35ae4AEFD260C9fa961B65C51AB",//MyToken
-				"ERC20_TOKEN_ABI": 'ghotoken',
-				"ERC721_TOKEN_ADDRESS": "0xBd37873Db48E7E082265FF08294F201D8E554BfD",//slave v3
-				"ERC721_TOKEN_ABI": "HonorloansNFT",//slave v3
-				"DEPOSIT_CONTRACT": "0x98d62eE970b6666FCa219d3507ee3922A453E24C",//depositonbehalfv9
-				"DEPOSIT_CONTRACT_ABI": 'depositonbehalfv9',//
-				"DEPOSIT_CONTRACT_CHAINID": '11155111',//sepolia
-				"DEPOSIT_CONTRACT_API": 'https://ethereum-sepolia.publicnode.com',//fuji c-chain
-				"TOKEN_ADDRESS": "0x0118148a6E156b5B39d1D184F8763e65Df8d36C7",//master v3
-				"TOKEN_ABI": 'hloantokev6',
+				"ERC20_CONTRACT_ADDRESS": "0xa45EEE39395B32fDf753aFd53f66fa1aB88ed525",//MyToken sepolia
+				"ERC20_TOKEN_ABI": 'mytoken',
+				"DEPOSIT_CONTRACT": "0x76FCE76d2214Ec2DE56dBD43E93FDA598FA1F7cB",//deposit sepolia
+				"DEPOSIT_CONTRACT_ABI": 'depositv1',//
+				"DEPOSIT_CONTRACT_API": 'https://ethereum-sepolia.publicnode.com',//sepolia
+				"TOKEN_ADDRESS": "0xa45EEE39395B32fDf753aFd53f66fa1aB88ed525",//MyToken sepolia
+				"TOKEN_ABI": 'mytoken',
 				"EXPLORER": 'https://sepolia.etherscan.io/',
-				"NFTSENDER_CONTRACT_ADDRESS": "0xd9A7Bba88C4bFBD2EA44d18A52Dc404eaE86C0db",//fuji
-				"NFTSENDER_CONTRACT_CHAINID": "43113",//fuji
-				"NFTSENDER_CONTRACT_CHAIN_NAME": "FUJI",//fuji
-				"NFTSENDER_CONTRACT_ABI": "SENDERnft",//fuji
-				"NFTSENDER_CONTRACT_API": "https://avalanche-fuji-c-chain.publicnode.com",//fuji
 				"CCIP_EXPLORER": "https://ccip.chain.link/",
 				"AVAX_CHAINLINK_CONTRACT": "0x5498BB86BC934c8D34FDA08E81D444153d0D06aD",
 				"SEPOLIA_CHAINLINK_CONTRACT": "0x694AA1769357215DE4FAC081bf1f309aDC325306",
-				"GHO_USD_CHAINLINK_CONTRACT": '0x3f12643d3f6f874d39c2a4c9f2cd6f2dbac877fc'
+				"GHO_USD_CHAINLINK_CONTRACT": '0x3f12643d3f6f874d39c2a4c9f2cd6f2dbac877fc',
+				'deposits': [
+					{ 'value': "ethereum", 'contract': "0x76FCE76d2214Ec2DE56dBD43E93FDA598FA1F7cB", 'chainid': "11155111", 'label': "ETH(sepolia)" },
+					{ 'value': "avalanche", 'contract': "0x2", 'chainid': "43113", 'label': "AVAX" },
+					{ 'value': "polygon-network", 'label': "MATIC", 'chainid': "80001", 'disabled': 'true' },
+					{ 'value': "dai", 'label': "DAI", 'disabled': 'true' }
+				]
 
-			},
-
-			// {
-			// 	"TOKEN_NAME": "TROK(sepolia)",
-			// 	"API": 'https://ethereum-sepolia.publicnode.com',
-			// 	"TOKEN_CHAIN_NAME": 'Sepolia',
-			// 	"TOKEN_CHAINID": '11155111',
-			// 	"ERC20_CONTRACT_ADDRESS": "0x0118148a6E156b5B39d1D184F8763e65Df8d36C7",//slave v3
-			// 	"ERC20_TOKEN_ABI": 'HLOANTOKENV6',
-			// 	"ERC721_TOKEN_ADDRESS": "0xBd37873Db48E7E082265FF08294F201D8E554BfD",//slave v3
-			// 	"ERC721_TOKEN_ABI": "HonorloansNFT",//slave v3
-			// 	"DEPOSIT_CONTRACT": "0x98d62eE970b6666FCa219d3507ee3922A453E24C",//depositonbehalfv9
-			// 	"DEPOSIT_CONTRACT_ABI": 'depositonbehalfv9',//
-			// 	"DEPOSIT_CONTRACT_CHAINID": '11155111',//sepolia
-			// 	"DEPOSIT_CONTRACT_API": 'https://ethereum-sepolia.publicnode.com',//fuji c-chain
-			// 	"TOKEN_ADDRESS": "0x0118148a6E156b5B39d1D184F8763e65Df8d36C7",//master v3
-			// 	"TOKEN_ABI": 'hloantokev6',
-			// 	"EXPLORER": 'https://sepolia.etherscan.io/',
-			// 	"NFTSENDER_CONTRACT_ADDRESS": "0xd9A7Bba88C4bFBD2EA44d18A52Dc404eaE86C0db",//fuji
-			// 	"NFTSENDER_CONTRACT_CHAINID": "43113",//fuji
-			// 	"NFTSENDER_CONTRACT_CHAIN_NAME": "FUJI",//fuji
-			// 	"NFTSENDER_CONTRACT_ABI": "SENDERnft",//fuji
-			// 	"NFTSENDER_CONTRACT_API": "https://avalanche-fuji-c-chain.publicnode.com",//fuji
-			// 	"CCIP_EXPLORER": "https://ccip.chain.link/"
-
-			// }
+			}
 
 		];
 
 		chainList = [
-			{
-				"chainId": "0xaa36a7",
-				"chainName": "Sepolia",
-				"rpcUrls": [
-					"https://ethereum-sepolia.publicnode.com"
-				],
-				"nativeCurrency": {
-					"name": "Sep",
-					"symbol": "SEPOLIA",
-					"decimals": 18
-				},
-				"blockExplorerUrls": [
-					"https://sepolia.etherscan.io/"
-				]
-			},
-			{
-				"chainId": '0x89',
-				"rpcUrls": "https://rpc-mainnet.matic.network/",
-				"chainName": "Matic Mainnet",
-				"name": "MATIC",
-				"symbol": "MATIC",
-				"decimals": 18
-			},
-			{
-				"chainId": '0x5',
-				"rpcUrls": "https://rpc.slock.it/goerli",
-				"chainName": "Goerli Test Network",
-				"name": "Ethereum",
-				"symbol": "ETH",
-				"decimals": 18,
-				"blockExplorerUrls": "https://goerli.etherscan.io"
-			},
-			{
-				"chainId": '0x82751',
-				"rpcUrls": "https://alpha-rpc.scroll.io/l2",
-				"chainName": "Scroll Alpha Testnet",
-				"name": "Ethereum",
-				"symbol": "ETH",
-				"decimals": 18,
-				"blockExplorerUrls": "https://blockscout.scroll.io"
-			},
-			{
-				"chainId": "0x64",
-				"chainName": "Gnosis",
-				"rpcUrls": [
-					"https://rpc.ankr.com/gnosis"
-				],
-				"iconUrls": [
-					"https://xdaichain.com/fake/example/url/xdai.svg",
-					"https://xdaichain.com/fake/example/url/xdai.png"
-				],
-				"nativeCurrency": {
-					"name": "xDAI",
-					"symbol": "xDAI",
-					"decimals": 18
-				},
-				"blockExplorerUrls": [
-					"https://blockscout.com/poa/xdai/"
-				]
-			}
+			{ "chainId": "0xaa36a7", "chainName": "Sepolia", "rpcUrls": ["https://ethereum-sepolia.publicnode.com"], "nativeCurrency": { "name": "Sep", "symbol": "SEPOLIA", "decimals": 18 }, "blockExplorerUrls": ["https://sepolia.etherscan.io/"] },
+			{ "chainId": '0x89', "rpcUrls": "https://rpc-mainnet.matic.network/", "chainName": "Matic Mainnet", "name": "MATIC", "symbol": "MATIC", "decimals": 18 },
+			{ "chainId": '0x5', "rpcUrls": "https://rpc.slock.it/goerli", "chainName": "Goerli Test Network", "name": "Ethereum", "symbol": "ETH", "decimals": 18, "blockExplorerUrls": "https://goerli.etherscan.io" },
+			{ "chainId": '0x82751', "rpcUrls": "https://alpha-rpc.scroll.io/l2", "chainName": "Scroll Alpha Testnet", "name": "Ethereum", "symbol": "ETH", "decimals": 18, "blockExplorerUrls": "https://blockscout.scroll.io" },
+			{ "chainId": "0x64", "chainName": "Gnosis", "rpcUrls": ["https://rpc.ankr.com/gnosis"], "iconUrls": ["https://xdaichain.com/fake/example/url/xdai.svg", "https://xdaichain.com/fake/example/url/xdai.png"], "nativeCurrency": { "name": "xDAI", "symbol": "xDAI", "decimals": 18 }, "blockExplorerUrls": ["https://blockscout.com/poa/xdai/"] }
 		];
 
 		ABIs = {
+			mytoken: [{ "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [], "name": "ECDSAInvalidSignature", "type": "error" }, { "inputs": [{ "internalType": "uint256", "name": "length", "type": "uint256" }], "name": "ECDSAInvalidSignatureLength", "type": "error" }, { "inputs": [{ "internalType": "bytes32", "name": "s", "type": "bytes32" }], "name": "ECDSAInvalidSignatureS", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "allowance", "type": "uint256" }, { "internalType": "uint256", "name": "needed", "type": "uint256" }], "name": "ERC20InsufficientAllowance", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "sender", "type": "address" }, { "internalType": "uint256", "name": "balance", "type": "uint256" }, { "internalType": "uint256", "name": "needed", "type": "uint256" }], "name": "ERC20InsufficientBalance", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "approver", "type": "address" }], "name": "ERC20InvalidApprover", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "receiver", "type": "address" }], "name": "ERC20InvalidReceiver", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "sender", "type": "address" }], "name": "ERC20InvalidSender", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }], "name": "ERC20InvalidSpender", "type": "error" }, { "inputs": [{ "internalType": "uint256", "name": "deadline", "type": "uint256" }], "name": "ERC2612ExpiredSignature", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "signer", "type": "address" }, { "internalType": "address", "name": "owner", "type": "address" }], "name": "ERC2612InvalidSigner", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "uint256", "name": "currentNonce", "type": "uint256" }], "name": "InvalidAccountNonce", "type": "error" }, { "inputs": [], "name": "InvalidShortString", "type": "error" }, { "inputs": [{ "internalType": "string", "name": "str", "type": "string" }], "name": "StringTooLong", "type": "error" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "spender", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [], "name": "EIP712DomainChanged", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "inputs": [], "name": "DOMAIN_SEPARATOR", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }], "name": "INFINITEallowanceLOCAL", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" }], "name": "allowance", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "approve", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "eip712Domain", "outputs": [{ "internalType": "bytes1", "name": "fields", "type": "bytes1" }, { "internalType": "string", "name": "name", "type": "string" }, { "internalType": "string", "name": "version", "type": "string" }, { "internalType": "uint256", "name": "chainId", "type": "uint256" }, { "internalType": "address", "name": "verifyingContract", "type": "address" }, { "internalType": "bytes32", "name": "salt", "type": "bytes32" }, { "internalType": "uint256[]", "name": "extensions", "type": "uint256[]" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "mint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "name", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }], "name": "nonces", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }, { "internalType": "uint256", "name": "deadline", "type": "uint256" }, { "internalType": "uint8", "name": "v", "type": "uint8" }, { "internalType": "bytes32", "name": "r", "type": "bytes32" }, { "internalType": "bytes32", "name": "s", "type": "bytes32" }], "name": "permit", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "symbol", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalSupply", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "transfer", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "transferFrom", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }],
+			depositv1: [{ "inputs": [{ "internalType": "address", "name": "customAddress", "type": "address" }], "name": "depositToCustomAddress", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "tokenAddress", "type": "address" }], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [], "name": "withdraw", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "stateMutability": "payable", "type": "receive" }, { "inputs": [{ "internalType": "uint256", "name": "ethAmount", "type": "uint256" }], "name": "convertEthToGHO", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getLatestGHOPrice", "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getLatestPrice", "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "token", "outputs": [{ "internalType": "contract TokenInterface", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "tokenPrice", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }],
 			ghotoken: [{ "inputs": [{ "internalType": "address", "name": "admin", "type": "address" }], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "spender", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": true, "internalType": "bytes32", "name": "label", "type": "bytes32" }, { "indexed": false, "internalType": "uint256", "name": "bucketCapacity", "type": "uint256" }], "name": "FacilitatorAdded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "oldCapacity", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "newCapacity", "type": "uint256" }], "name": "FacilitatorBucketCapacityUpdated", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "oldLevel", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "newLevel", "type": "uint256" }], "name": "FacilitatorBucketLevelUpdated", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }], "name": "FacilitatorRemoved", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "bytes32", "name": "previousAdminRole", "type": "bytes32" }, { "indexed": true, "internalType": "bytes32", "name": "newAdminRole", "type": "bytes32" }], "name": "RoleAdminChanged", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }], "name": "RoleGranted", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }], "name": "RoleRevoked", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "inputs": [], "name": "BUCKET_MANAGER_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "DEFAULT_ADMIN_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "DOMAIN_SEPARATOR", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "FACILITATOR_MANAGER_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "PERMIT_TYPEHASH", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "internalType": "string", "name": "facilitatorLabel", "type": "string" }, { "internalType": "uint128", "name": "bucketCapacity", "type": "uint128" }], "name": "addFacilitator", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }, { "internalType": "address", "name": "", "type": "address" }], "name": "allowance", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "approve", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "burn", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }], "name": "getFacilitator", "outputs": [{ "components": [{ "internalType": "uint128", "name": "bucketCapacity", "type": "uint128" }, { "internalType": "uint128", "name": "bucketLevel", "type": "uint128" }, { "internalType": "string", "name": "label", "type": "string" }], "internalType": "struct IGhoToken.Facilitator", "name": "", "type": "tuple" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }], "name": "getFacilitatorBucket", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }, { "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getFacilitatorsList", "outputs": [{ "internalType": "address[]", "name": "", "type": "address[]" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }], "name": "getRoleAdmin", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "grantRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "hasRole", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "mint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "name", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "nonces", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }, { "internalType": "uint256", "name": "deadline", "type": "uint256" }, { "internalType": "uint8", "name": "v", "type": "uint8" }, { "internalType": "bytes32", "name": "r", "type": "bytes32" }, { "internalType": "bytes32", "name": "s", "type": "bytes32" }], "name": "permit", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitatorAddress", "type": "address" }], "name": "removeFacilitator", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "renounceRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "revokeRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }, { "internalType": "uint128", "name": "newCapacity", "type": "uint128" }], "name": "setFacilitatorBucketCapacity", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "symbol", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalSupply", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "transfer", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "transferFrom", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }]
 		}
 
@@ -2459,6 +2380,46 @@ Wallet encrypted and saved into localstorage
 			return encodedParams.join('&');
 		}
 
+
+		/*********************************************************************************************
+		.)  FILL CURRENCY AND DEPOSIT MENU
+		**********************************************************************************************/
+		function fillSelect() {
+			currencySelect.innerHTML = '';
+			try {
+				const selectElement = document.getElementById("currencySelect");
+
+				if (!selectElement) {
+					throw new Error("Unable to find the select element.");
+				}
+
+
+				optionsList[GLOBALCHAIN].deposits.forEach(currency => {
+					const option = document.createElement("option");
+					option.value = currency.value;
+
+					option.setAttribute("data-contract", currency.contract);
+					option.setAttribute("data-chainid", currency.chainid);
+					option.textContent = currency.label;
+
+					if (currency.disabled) { option.disabled = true; }
+
+					selectElement.appendChild(option);
+				});
+
+
+			} catch (error) {
+				console.error("wait! An error occurred:", error.message);
+				const selectElement = document.getElementById("currencySelect");
+
+				const option = document.createElement("option");
+				option.textContent = 'no deposit options';
+				selectElement.appendChild(option);
+
+			}
+
+
+		}
 		/*********************************************************************************************
 		.)  INIT
 		**********************************************************************************************/
@@ -2482,6 +2443,9 @@ Wallet encrypted and saved into localstorage
 			});
 
 
+
+
+
 			GLOBALCHAIN = localStorage.getItem("preferedOption");
 
 			if (GLOBALCHAIN === null) {
@@ -2495,6 +2459,7 @@ Wallet encrypted and saved into localstorage
 
 			}
 
+			fillSelect();
 
 			// Set the desired index (e.g., 2 for the third option)
 			var selectedIndex = GLOBALCHAIN;
@@ -2957,6 +2922,10 @@ Wallet encrypted and saved into localstorage
 		async function makeDeposit() {
 			console.log('MAKE A DEPOSIT!')
 			openModalId('#depositModal')
+
+			// rebuild the selector with available options...
+			// to do...
+
 			amountDeposit.style.display = 'block'
 			depositResult.innerHTML = ``
 			document.getElementById("depositqrcanvas").innerHTML = ``
@@ -2979,6 +2948,9 @@ Wallet encrypted and saved into localstorage
 			})
 
 
+			currencySelect.onchange = async function () {
+				console.log("deposit currency changed");
+			}
 
 
 		}
@@ -3053,6 +3025,9 @@ Wallet encrypted and saved into localstorage
 		async function prepareDeposit() {
 			console.log('prepareDeposit()')
 
+			let blockchain = currencySelect.value
+			// let contract = currencySelect.value
+
 			let cryptoDepositAmount = AMDcrypto.value;
 			let usdDepositAmount = AMDusd.value;
 			amountDeposit.style.display = 'none'
@@ -3068,6 +3043,8 @@ Wallet encrypted and saved into localstorage
 			}
 
 			// ----------
+			// SELECT DEPOSIT CONTRACTS OPTIONS
+			console.log('-----------SELECT DEPOSIT CONTRACTS OPTIONS-----------------')
 			const recipientAddress = userAddress; // Replace with the recipient's Ethereum address
 			console.log('recipientAddress:', recipientAddress)
 			const contractAddress = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT}`; // Replace with the smart contract address

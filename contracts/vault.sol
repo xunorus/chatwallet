@@ -5,7 +5,7 @@ pragma solidity ^0.8.20;
 // VAULT SEPOLIA 0x42b40D547AC889b04BDbC20BCdc78b7157FE40Ff
 // ____________________________________________________________
 
-// ERC20 address en  sepolia  0x2d4C40Ef4f8bd35ae4AEFD260C9fa961B65C51AB
+// ERC20(MYTOKEN) address en  sepolia  0x2d4C40Ef4f8bd35ae4AEFD260C9fa961B65C51AB
 
 contract chatwalletVault {
     IERC20 public immutable token;
