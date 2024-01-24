@@ -63,12 +63,24 @@ const Toastnoclose = Swal.mixin({
 const fixedToast = swal.mixin({
   toast: true,
   position: "bottom-end",
-  showConfirmButton: true,
+  showConfirmButton: false,
   showDenyButton: false,
   showCancelButton: true,
   cancelButtonText: "Now!",
   confirmButtonText: "later ...",
   denyButtonText: `Close`,
+  iconColor: "white",
+  customClass: {
+    popup: "colored-toast",
+  },
+});
+
+const simplefixedToast = swal.mixin({
+  toast: true,
+  position: "bottom-end",
+  showConfirmButton: true,
+  showDenyButton: false,
+  showCancelButton: false,
   iconColor: "white",
   customClass: {
     popup: "colored-toast",
@@ -94,8 +106,8 @@ const Queue = Swal.mixin({
 });
 
 /*********************************************************************************************
-		.)  SIDEBAR
-		**********************************************************************************************/
+.)  SIDEBAR
+**********************************************************************************************/
 
 // Get the navigation button and add a click event listener
 var navBtn = document.querySelector(".hamburger");

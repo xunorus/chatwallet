@@ -19,6 +19,7 @@
       --c2: #008080;
       --c3: #fff;
       --c4: #eee;
+      --c5: #001f67;
       --bk: linear-gradient(var(--c0), var(--c0b));
       --qr : red;
       --qrDeposit : green;
@@ -658,7 +659,9 @@ header, main  {
       background-color: var(--bckmodal);
     color: var(--reversable);
     border: 1px solid var(--modalborder);
-      box-shadow: 0 0 10px var(--modalborder)
+      box-shadow: 0 0 10px var(--modalborder);
+
+      background-image: radial-gradient(circle, var(--c5) 0%, var(--bckmodal) 100%);
       /* box-shadow: 0 0 10px var(--c3) */
     }  
     .taskInput,.form-control:disabled, .form-control[readonly]{
@@ -789,7 +792,9 @@ swiper-container{
       /* border: 1px solid var(--border); */
 
       /* background-image: radial-gradient(circle, #5c0067 0%, #00d4ff 100%); */
-      background-image: radial-gradient(circle, #5c0067 0%, var(--bckmodal) 100%);
+      /* background-image: radial-gradient(circle, #5c0067 0%, var(--bckmodal) 100%); */
+      background-image: radial-gradient(circle, var(--c5) 0%, var(--bckmodal) 100%);
+
 
     }
 

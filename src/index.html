@@ -720,7 +720,7 @@
 
 						<div class="custom-input-group">
 							<div class="input-group">
-								<span class="input-group-text">ETH</span>
+								<span class="input-group-text" id="currencyToDeposit">ETH</span>
 								<input type="number" class="form-control" id="AMDcrypto" step="0.01" required>
 							</div>
 						</div>
@@ -730,7 +730,7 @@
 
 						<div class="custom-input-group">
 							<div class="input-group">
-								<span class="input-group-text">GHO</span>
+								<span class="input-group-text" id="currencyToReceive">GHO</span>
 								<!-- <span class="input-group-text">USD</span> -->
 								<input type="number" class="form-control" id="AMDusd" step="1" min="0" required>
 							</div>
@@ -898,6 +898,7 @@
 			{
 				"TOKEN_CHAIN_NAME": 'GHO(sepolia)',
 				"TOKEN_NAME": "GHO",
+				"SYMBOL": "GHO",
 				"API": 'https://ethereum-sepolia.publicnode.com',
 				"TOKEN_CHAINID": '11155111',
 				"ERC20_CONTRACT_ADDRESS": "0xc4bF5CbDaBE595361438F8c6a187bDc330539c60",//gho token
@@ -924,6 +925,7 @@
 				"DEPOSIT_CONTRACT_CHAINID": '11155111',//sepolia
 				"TOKEN_CHAIN_NAME": 'MyToken(sepolia)',
 				"TOKEN_NAME": "MyToken",
+				"SYMBOL": "MTK",
 				"API": 'https://ethereum-sepolia.publicnode.com',
 				"TOKEN_CHAINID": '11155111',
 				"ERC20_CONTRACT_ADDRESS": "0xa45EEE39395B32fDf753aFd53f66fa1aB88ed525",//MyToken sepolia
@@ -935,12 +937,29 @@
 				"TOKEN_ABI": 'mytoken',
 				"EXPLORER": 'https://sepolia.etherscan.io/',
 				"CCIP_EXPLORER": "https://ccip.chain.link/",
-				"AVAX_CHAINLINK_CONTRACT": "0x5498BB86BC934c8D34FDA08E81D444153d0D06aD",
-				"SEPOLIA_CHAINLINK_CONTRACT": "0x694AA1769357215DE4FAC081bf1f309aDC325306",
-				"GHO_USD_CHAINLINK_CONTRACT": '0x3f12643d3f6f874d39c2a4c9f2cd6f2dbac877fc',
+				"CCIP_RECEIVER_SEPOLIA": "0x41b54c7Bc077ca9AaD9eD8D0E3bABC52F7Dd74f7",
+				"CCIP_SENDER_FUJI": "0x9664998335b10dE774DEa385C71428AE14EF7BdC",
 				'deposits': [
-					{ 'value': "ethereum", 'contract': "0x76FCE76d2214Ec2DE56dBD43E93FDA598FA1F7cB", 'chainid': "11155111", 'label': "ETH(sepolia)" },
-					{ 'value': "avalanche", 'contract': "0x2", 'chainid': "43113", 'label': "AVAX" },
+					{
+						'value': "ethereum",
+						'contract': "0x76FCE76d2214Ec2DE56dBD43E93FDA598FA1F7cB",
+						'oracle': "0x694AA1769357215DE4FAC081bf1f309aDC325306",
+						'assetSymbol': 'ETH / USD',
+						'chainid': "11155111",
+						'symbol': "ETH",
+						'api': 'https://ethereum-sepolia.publicnode.com',
+						'label': "ETH(sepolia)"
+					},
+					{
+						'value': "avalanche",
+						'contract': "0x01268fec017dA8830fA17dF2372d8B811B2A9461",
+						'oracle': "0x5498BB86BC934c8D34FDA08E81D444153d0D06aD",
+						'assetSymbol': 'AVAX / USD',
+						'chainid': "43113",
+						'symbol': "AVAX",
+						'api': 'https://avalanche-fuji-c-chain.publicnode.com',
+						'label': "AVALANCHE"
+					},
 					{ 'value': "polygon-network", 'label': "MATIC", 'chainid': "80001", 'disabled': 'true' },
 					{ 'value': "dai", 'label': "DAI", 'disabled': 'true' }
 				]
@@ -2227,7 +2246,7 @@ Wallet encrypted and saved into localstorage
 				let balancegas = await checkGasBalance(localAddr)//main eth
 				console.log('NEW BALANCE:', balancegas, balanceerc20)
 
-				troqamount.innerHTML = `${optionsList[GLOBALCHAIN].TOKEN_NAME}: ${Number(balanceerc20).toFixed(3)}`
+				troqamount.innerHTML = `${optionsList[GLOBALCHAIN].SYMBOL}: ${Number(balanceerc20).toFixed(3)}`
 				miniversion.innerHTML = `GAS: ${Number(balancegas).toFixed(5)}`
 
 
@@ -2400,6 +2419,7 @@ Wallet encrypted and saved into localstorage
 
 					option.setAttribute("data-contract", currency.contract);
 					option.setAttribute("data-chainid", currency.chainid);
+					option.setAttribute("data-api", currency.api);
 					option.textContent = currency.label;
 
 					if (currency.disabled) { option.disabled = true; }
@@ -2627,7 +2647,7 @@ Wallet encrypted and saved into localstorage
 			let balanceerc20 = await checkERC20Balance(userAddress)//troq
 			let balancegas = await checkGasBalance(userAddress)//main eth
 
-			troqamount.innerHTML = `${optionsList[GLOBALCHAIN].TOKEN_NAME}: ${Number(balanceerc20).toFixed(3)}`
+			troqamount.innerHTML = `${optionsList[GLOBALCHAIN].SYMBOL}: ${Number(balanceerc20).toFixed(3)}`
 			miniversion.innerHTML = `GAS: ${Number(balancegas).toFixed(5)}`
 
 
@@ -2930,10 +2950,21 @@ Wallet encrypted and saved into localstorage
 			depositResult.innerHTML = ``
 			document.getElementById("depositqrcanvas").innerHTML = ``
 
-			let crypto = 'sepolia'; //hardcoded here...
+			// let crypto = 'sepolia'; //hardcoded here...
 			// let crypto = 'avax'; //hardcoded here...
-			let currencyValueInUSD = await getOraclePrice(crypto);
-			console.log('currencyValueInUSD:', currencyValueInUSD)
+
+			// chainlinkContractAddress = `${optionsList[GLOBALCHAIN].AVAX_CHAINLINK_CONTRACT}`; // Chainlink Aggregator Contract Address
+			// chainlinkContractAddress = `${optionsList[GLOBALCHAIN].AVAX_CHAINLINK_CONTRACT}`; // Chainlink Aggregator Contract Address
+
+			// let currencyValueInUSD = await getOraclePrice(crypto);
+			// console.log('currencyValueInUSD:', currencyValueInUSD)
+
+			// getOraclePricefromContract
+			let oracleContract = optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].oracle;
+			let api = optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].api
+			let assetSymbol = optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].assetSymbol;
+			let currencyValueInUSD = await getOraclePricefromContract(oracleContract, api, assetSymbol);
+
 			// DEPOSIT PRICE
 			AMDcrypto.addEventListener('change', function () {
 				const usdvalue = currencyValueInUSD; // get currency (ETH,MATIC,USD)
@@ -2950,6 +2981,21 @@ Wallet encrypted and saved into localstorage
 
 			currencySelect.onchange = async function () {
 				console.log("deposit currency changed");
+
+				document.getElementById('prepareDeposit').disabled = true
+				currencyToDeposit.innerText = optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].symbol;
+				currencyToReceive.innerText = optionsList[GLOBALCHAIN].SYMBOL;
+
+				let oracleContract = optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].oracle;
+				let api = optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].api
+				let assetSymbol = optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].assetSymbol;
+				let currencyValueInUSD = await getOraclePricefromContract(oracleContract, api, assetSymbol);
+				document.getElementById('prepareDeposit').disabled = false
+
+				const usdvalue = currencyValueInUSD; // get currency (ETH,MATIC,USD)
+				const quantity = AMDusd.value; //get price
+				priceCalcInUSD(usdvalue, quantity); // Has to do this from MUMBAI
+
 			}
 
 
@@ -2980,35 +3026,10 @@ Wallet encrypted and saved into localstorage
 		}
 
 
-		async function getOraclePrice(crypto) {
-			console.log('getOraclePrice()', crypto)
-
-			// gho/eth mainnet 0x3f12643d3f6f874d39c2a4c9f2cd6f2dbac877fc
-			let chainlinkContractAddress;
-			let assetSymbol;
-			if (crypto == 'avax') {
-				// Avalanche Testnet
-				// chainlinkContractAddress = "0x5498BB86BC934c8D34FDA08E81D444153d0D06aD"; // Chainlink Aggregator Contract Address
-				chainlinkContractAddress = `${optionsList[GLOBALCHAIN].AVAX_CHAINLINK_CONTRACT}`; // Chainlink Aggregator Contract Address
-				assetSymbol = "AVAX / USD"; // Replace with the desired asset symbol
-			}
-			else if (crypto == 'sepolia') {
-				// eth sepolia
-				chainlinkContractAddress = `${optionsList[GLOBALCHAIN].SEPOLIA_CHAINLINK_CONTRACT}`; // Chainlink Aggregator Contract Address
-				// chainlinkContractAddress = "0x694AA1769357215DE4FAC081bf1f309aDC325306"; // Chainlink Aggregator Contract Address in eth sepolia
-				//  chainlinkContractAddress = "0x86d67c3D38D2bCeE722E601025C25a575021c6EA"; // Chainlink Aggregator Contract Address
-				assetSymbol = "ETH / USD"; // Replace with the desired asset symbol
-			}
-			else {
-				console.log('crypto price not available')
-				return
-			}
-			// FROM SEPOLIA TESTNET
-			let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_API}`);//SEPOLIA
-			// FROM AVAX TESTNET
-			// let provider = new ethers.providers.JsonRpcProvider(`https://avalanche-fuji-c-chain.publicnode.com`);//FUJI
-			const chainlinkContract = new ethers.Contract(chainlinkContractAddress, ["function latestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)"], provider);
-
+		async function getOraclePricefromContract(contract, api, assetSymbol) {
+			console.log('getOraclePricefromContract()', contract)
+			let provider = await new ethers.providers.JsonRpcProvider(api);//SEPOLIA
+			const chainlinkContract = await new ethers.Contract(contract, ["function latestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)"], provider);
 			try {
 				const priceData = await chainlinkContract.latestRoundData();
 				const price = ethers.utils.formatUnits(priceData.answer, 8); // Assuming 8 decimals for USD
@@ -3017,7 +3038,46 @@ Wallet encrypted and saved into localstorage
 			} catch (error) {
 				console.error("Error retrieving Chainlink price:", error);
 			}
+
 		}
+		// async function getOraclePrice(crypto) {
+		// 	console.log('getOraclePrice()', crypto)
+
+		// 	// gho/eth mainnet 0x3f12643d3f6f874d39c2a4c9f2cd6f2dbac877fc
+		// 	let chainlinkContractAddress;
+		// 	let assetSymbol;
+		// 	if (crypto == 'avax') {
+		// 		// Avalanche Testnet
+		// 		// chainlinkContractAddress = "0x5498BB86BC934c8D34FDA08E81D444153d0D06aD"; // Chainlink Aggregator Contract Address
+		// 		chainlinkContractAddress = `${optionsList[GLOBALCHAIN].AVAX_CHAINLINK_CONTRACT}`; // Chainlink Aggregator Contract Address
+		// 		assetSymbol = "AVAX / USD"; // Replace with the desired asset symbol
+		// 	}
+		// 	else if (crypto == 'sepolia') {
+		// 		// eth sepolia
+		// 		chainlinkContractAddress = `${optionsList[GLOBALCHAIN].SEPOLIA_CHAINLINK_CONTRACT}`; // Chainlink Aggregator Contract Address
+		// 		// chainlinkContractAddress = "0x694AA1769357215DE4FAC081bf1f309aDC325306"; // Chainlink Aggregator Contract Address in eth sepolia
+		// 		//  chainlinkContractAddress = "0x86d67c3D38D2bCeE722E601025C25a575021c6EA"; // Chainlink Aggregator Contract Address
+		// 		assetSymbol = "ETH / USD"; // Replace with the desired asset symbol
+		// 	}
+		// 	else {
+		// 		console.log('crypto price not available')
+		// 		return
+		// 	}
+		// 	// FROM SEPOLIA TESTNET
+		// 	let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_API}`);//SEPOLIA
+		// 	// FROM AVAX TESTNET
+		// 	// let provider = new ethers.providers.JsonRpcProvider(`https://avalanche-fuji-c-chain.publicnode.com`);//FUJI
+		// 	const chainlinkContract = new ethers.Contract(chainlinkContractAddress, ["function latestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)"], provider);
+
+		// 	try {
+		// 		const priceData = await chainlinkContract.latestRoundData();
+		// 		const price = ethers.utils.formatUnits(priceData.answer, 8); // Assuming 8 decimals for USD
+		// 		console.log(`Latest ${assetSymbol} Price: $${price}`);
+		// 		return price
+		// 	} catch (error) {
+		// 		console.error("Error retrieving Chainlink price:", error);
+		// 	}
+		// }
 
 
 
@@ -3046,13 +3106,24 @@ Wallet encrypted and saved into localstorage
 			// SELECT DEPOSIT CONTRACTS OPTIONS
 			console.log('-----------SELECT DEPOSIT CONTRACTS OPTIONS-----------------')
 			const recipientAddress = userAddress; // Replace with the recipient's Ethereum address
-			console.log('recipientAddress:', recipientAddress)
-			const contractAddress = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT}`; // Replace with the smart contract address
-			const sepoliaChainId = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_CHAINID}`; // Replace with the Sepolia testnet chain ID
-			const apiKey = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_API}`; // Replace with your Infura API key or use a different Ethereum node provider
+			// console.log('recipientAddress:', recipientAddress)
+
+			// const contractAddress = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT}`; // Replace with the smart contract address
+			// const sepoliaChainId = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_CHAINID}`; // Replace with the Sepolia testnet chain ID
+			// const apiKey = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_API}`; // Replace with your Infura API key or use a different Ethereum node provider
+
+			const contractAddress = `${optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].contract}`
+			const depositChainId = `${optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].chainid}`
+			const api = `${optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].api}`
+
+			console.log('DEPOSIT CONTRACTS OPTIONS:', contractAddress, depositChainId, recipientAddress)
+
+			let provider = await new ethers.providers.JsonRpcProvider(`${api}`);
+			// let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+
 			const functionSignature = 'depositToCustomAddress(address)'; // Function signature for the depositToCustomAddress function
 
-			let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+
 			const gasPrice = await provider.getGasPrice();
 			console.log('gasPrice: ', gasPrice)
 			const contract = new ethers.Contract(contractAddress, ['function depositToCustomAddress(address)'], provider);
@@ -3073,16 +3144,16 @@ Wallet encrypted and saved into localstorage
 
 			if (AMDcrypto.value == '') {
 				console.log('amountTosend is not set')
-				uri = `ethereum:${contractAddress}?data=${data}&chainId=${sepoliaChainId}`;
+				uri = `ethereum:${contractAddress}?data=${data}&chainId=${depositChainId}`;
 			} else {
 				console.log('amountTosend:', amountInWei)
-				uri = `ethereum:${contractAddress}?data=${data}&value=${amountInWei}&gas='0x76c0'&gasPrice='0x9184e72a000'&chainId=${sepoliaChainId}`;
+				uri = `ethereum:${contractAddress}?data=${data}&value=${amountInWei}&gas='0x76c0'&gasPrice='0x9184e72a000'&chainId=${depositChainId}`;
 
 			}
 			// <br>Waiting for your deposit: ...<br>  <div class="dot"></div>
 
 			console.log('uri:', uri)
-			let title = `DEPOSIT <span class='coloredAmount'>${cryptoDepositAmount} ETH(sepolia) </span> at ${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT} to receive <span class='coloredAmount'>${usdDepositAmount}  ${optionsList[GLOBALCHAIN].TOKEN_NAME}</span> in Sepolia Testnet. <br>
+			let title = `DEPOSIT <span class='coloredAmount'>${cryptoDepositAmount} ${optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].symbol} </span> on ${optionsList[GLOBALCHAIN].deposits[currencySelect.selectedIndex].chainid} chain at ${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT} to receive <span class='coloredAmount'>${usdDepositAmount}  ${optionsList[GLOBALCHAIN].SYMBOL}</span> in ${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_CHAINID} chain. <br>
 						<br>
 						<h5 id='waitingForDeposit'>Waiting for your deposit ...
 						<span id="waitdepositSpinner" style="" class="spinner-grow spinner-grow-sm"></span>
@@ -3210,7 +3281,7 @@ Wallet encrypted and saved into localstorage
 			if (eventListener) {
 				console.log("Event listener for newDeposit event registered successfully");
 			} else {
-				console.error("Failed to register event listener");
+				console.warn("Failed to register event listener");
 			}
 
 
@@ -3241,9 +3312,10 @@ Wallet encrypted and saved into localstorage
 
 
 			// ----------
+			// METAMASK DEPOSIT OPTIONS
 			const recipientAddress = userAddress; // Replace with the recipient's Ethereum address
 			const contractAddress = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT}`; // Replace with the smart contract address
-			const sepoliaChainId = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_CHAINID}`; // Replace with the Sepolia testnet chain ID
+			// const sepoliaChainId = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_CHAINID}`; // Replace with the Sepolia testnet chain ID
 			const apiKey = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_API}`; // Replace with your Infura API key or use a different Ethereum node provider
 			const functionSignature = 'depositToCustomAddress(address)'; // Function signature for the depositToCustomAddress function
 			const desiredChain = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_CHAINID}`;
@@ -3313,7 +3385,10 @@ Wallet encrypted and saved into localstorage
 
 			}
 			catch (error) { console.log('error:', error); return; }
+
+
 			console.log('Function executed!', tx);
+			headerNotes.innerHTML = `  <div class="alert alert-success alert-dismissible fade show headerNotes"> <button type="button" class="btn-close" data-bs-dismiss="alert"></button> <strong>Transaction success!</strong> <a href="${optionsList[GLOBALCHAIN].EXPLORER + tx}" target="_blank" rel="noopener noreferrer">${tx}</a> </div>`
 
 		}
 
@@ -3627,7 +3702,7 @@ Wallet encrypted and saved into localstorage
 			let balancegas = await checkGasBalance(localAddr)//main eth
 			console.log('NEW BALANCE:', balancegas, balanceerc20)
 
-			troqamount.innerHTML = `${optionsList[GLOBALCHAIN].TOKEN_NAME}: ${Number(balanceerc20).toFixed(3)}`
+			troqamount.innerHTML = `${optionsList[GLOBALCHAIN].SYMBOL}: ${Number(balanceerc20).toFixed(3)}`
 			miniversion.innerHTML = `GAS: ${Number(balancegas).toFixed(5)}`
 
 		}
