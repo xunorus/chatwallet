@@ -28,5 +28,4 @@ yarn parcel src/index.html   --port 7777 --https
 nvm install 19
 yarn parcel src/index.html --dist-dir public  --public-url ./
 firebase deploy --only hosting:chatwallet-gho
-
 ```

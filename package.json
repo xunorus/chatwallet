@@ -16,6 +16,7 @@
     "@xmtp/xmtp-js": "11.2.0",
     "bignumber.js": "^9.x",
     "cropperjs": "^1.6.1",
+    "crypto-js": "^4.2.0",
     "ethers": "5.7.2",
     "firebase": "^10.7.2",
     "parcel": "^2.11.0",

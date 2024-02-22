@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        :root {
+            --c0b: #222;
+            --c0: #001F3F;
+            --c1: #b79b00;
+            --c2: #136700;
+            --c3: #fff;
+            --font: green;
+
+            --bk: linear-gradient(var(--c0), var(--c0b));
+            --contrast: #000 linear-gradient(var(--c3), var(--c2));
+            --bckmodal: #262626;
+            --reversable: #000;
+            --modalborder: #fce806;
+
+            --loaderIN: #f3f3f3;
+            --loaderOUT: var(--c1)
+        }
+
+        body {
+            color: var(--font);
+            background-image: radial-gradient(circle, #5c0067 0%, var(--bckmodal) 100%);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Peer Encrypt</h1>
+
+    <div id="info"></div>
+
+
+    <script type="module">
+
+        import { ethers } from "ethers";
+        window.ethers = ethers;
+
+        import { CryptoJS } from "crypto-js"
+        window.CryptoJS = CryptoJS;
+        // Generate Ethereum key pair for peer A
+        const peerAWallet = ethers.Wallet.createRandom();
+        const peerAPublicKey = peerAWallet.address;
+        const peerAPrivateKey = peerAWallet.privateKey;
+        console.log('peerAPublicKey:', peerAPublicKey)
+
+        // Generate Ethereum key pair for peer B
+        const peerBWallet = ethers.Wallet.createRandom();
+        const peerBPublicKey = peerBWallet.address;
+        const peerBPrivateKey = peerBWallet.privateKey;
+        console.log('peerBPublicKey:', peerBPublicKey)
+
+
+
+        // Function to encrypt a message with a public key and decrypt with a private key
+        async function encryptMessageWithPublicKey(message, publicKey) {
+            // Load the public key into a BytesLike object
+            const publicKeyBytes = ethers.utils.arrayify(publicKey);
+            console.log('publicKeyBytes:', publicKeyBytes)
+
+            // Generate a random symmetric encryption key
+            const encryptionKey = ethers.utils.randomBytes(32);
+            console.log('encryptionKey:', encryptionKey)
+
+            // Encrypt the message using AES with the encryption key HASTA AQUI FUNCIONA
+            // const aesEncryptedMessage = ethers.utils.concat([ethers.utils.toUtf8Bytes("aes-256-cbc"), ethers.utils.toUtf8Bytes(ethers.utils.hexlify(encryptionKey)), ethers.utils.toUtf8Bytes(ethers.utils.hexlify(ethers.utils.randomBytes(16))), ethers.utils.toUtf8Bytes(ethers.utils.hexlify(ethers.utils.keccak256(ethers.utils.toUtf8Bytes(message))))]);
+            // console.log('aesEncryptedMessage:', aesEncryptedMessage)
+            // Compute shared secret
+            const sharedSecret = ethers.utils.computePublicKey(publicKeyBytes, encryptionKey);
+            console.log('sharedSecret:', sharedSecret)
+
+            // Use shared secret to derive encryption key
+            const derivedEncryptionKey = ethers.utils.keccak256(sharedSecret);
+
+            // Encrypt the message using AES with the derived encryption key
+            const encryptedMessage = ethers.utils.hexlify(ethers.utils.xor(ethers.utils.arrayify(message), derivedEncryptionKey));
+
+            // Return the encrypted message
+            return {
+                encryptedMessage: encryptedMessage,
+                encryptionKey: ethers.utils.hexlify(encryptionKey)
+            };
+
+        }
+
+
+        // Function to decrypt a message with a private key
+        async function decryptMessageWithPrivateKey(encryptedMessage, encryptedEncryptionKey, privateKey) {
+            // Load the private key into a BytesLike object
+            const privateKeyBytes = ethers.utils.arrayify(privateKey);
+
+            // Decrypt the symmetric encryption key using ECIES with the private key
+            const encryptionKey = await ethers.utils.decrypt(privateKeyBytes, encryptedEncryptionKey);
+
+            // Decrypt the message using AES with the encryption key
+            const decryptedMessage = await ethers.utils.decrypt(encryptionKey, encryptedMessage);
+
+            return decryptedMessage;
+        }
+
+
+        // Example usage:
+        const message = "Hello, Peer A!";
+
+        encryptMessageWithPublicKey(message, peerAPublicKey)
+            .then((result) => {
+                console.log("Encrypted Message:", result.encryptedMessage);
+                console.log("Encrypted Encryption Key:", result.encryptedEncryptionKey);
+
+                // Peer A decrypts the message
+                decryptMessageWithPrivateKey(result.encryptedMessage, result.encryptedEncryptionKey, peerAPrivateKey)
+                    .then((decryptedMessage) => {
+                        console.log("Decrypted Message by Peer A:", decryptedMessage);
+                    })
+                    .catch((error) => {
+                        console.error("Decryption by Peer A failed:", error);
+                    });
+            })
+            .catch((error) => {
+                console.error("Encryption failed:", error);
+            });
+
+    </script>
+</body>
+
+</html>

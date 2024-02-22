@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        :root {
+            --c0b: #222;
+            --c0: #001F3F;
+            --c1: #b79b00;
+            --c2: #136700;
+            --c3: #fff;
+            --font: green;
+
+            --bk: linear-gradient(var(--c0), var(--c0b));
+            --contrast: #000 linear-gradient(var(--c3), var(--c2));
+            --bckmodal: #262626;
+            --reversable: #000;
+            --modalborder: #fce806;
+
+            --loaderIN: #f3f3f3;
+            --loaderOUT: var(--c1)
+        }
+
+        body {
+            color: var(--font);
+            background-image: radial-gradient(circle, #5c0067 0%, var(--bckmodal) 100%);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Peer Encrypt</h1>
+
+    <div id="info"></div>
+
+
+    <script type="module">
+
+        import { ethers } from "ethers";
+        window.ethers = ethers;
+        // Generate Ethereum key pair for peer A
+        const peerAWallet = ethers.Wallet.createRandom();
+        const peerAPublicKey = peerAWallet.address;
+        const peerAPrivateKey = peerAWallet.privateKey;
+        console.log('peerAPublicKey:', peerAPublicKey)
+
+        // Generate Ethereum key pair for peer B
+        const peerBWallet = ethers.Wallet.createRandom();
+        const peerBPublicKey = peerBWallet.address;
+        const peerBPrivateKey = peerBWallet.privateKey;
+        console.log('peerBPublicKey:', peerBPublicKey)
+
+        // Encrypt function using peer's public key
+        function encryptMessage(message, publicKey) {
+            const encryptedMessage = ethers.utils.computePublicKey(message, publicKey);
+            return encryptedMessage;
+        }
+
+        // Decrypt function using peer's private key
+        function decryptMessage(encryptedMessage, privateKey) {
+            const decryptedMessage = ethers.utils.recoverPublicKey(encryptedMessage, privateKey);
+            return decryptedMessage;
+        }
+
+        // Encrypt function using peer's public key
+        // function encryptMessage(message, publicKey) {
+        //     const publicKeyBuffer = ethers.utils.arrayify(publicKey);
+        //     console.log('publicKeyBuffer:', peerBPublicKey)
+
+        //     console.log('message:', message)
+        //     const encryptedMessage = ethers.utils.computePublicKey(message, publicKeyBuffer);
+        //     console.log('encryptedMessage:', encryptedMessage)
+        //     return encryptedMessage;
+        // }
+
+        // // Decrypt function using peer's private key
+        // function decryptMessage(encryptedMessage, privateKey) {
+        //     const privateKeyBuffer = ethers.utils.arrayify(privateKey);
+        //     const decryptedMessage = ethers.utils.recoverPublicKey(encryptedMessage, privateKeyBuffer);
+        //     return decryptedMessage;
+        // }
+
+        // Example usage:
+        const message = "Hello, Peer B!";
+        const encryptedMessage = encryptMessage(message, peerBPublicKey);
+        console.log("Encrypted Message:", encryptedMessage);
+
+        const decryptedMessage = decryptMessage(encryptedMessage, peerBPrivateKey);
+        console.log("Decrypted Message:", decryptedMessage);
+
+    </script>
+</body>
+
+</html>
