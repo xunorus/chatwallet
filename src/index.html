@@ -149,7 +149,7 @@
 		<div class="center" id="center">
 			<h1 id="fontlogo"> </h1>
 			<!-- <h1 id="fontlogo">CHATWALLET </h1> -->
-			<span id="miniversion">chatwallet v1.06Alpha</span>
+			<span id="miniversion">chatwallet v1.07Alpha</span>
 		</div>
 		<span class="badge bg-warning" id="chatBadge">-</span>
 		<button id="" class="right hamburger hamburger--elastic" type="button" aria-label="Menu"
@@ -483,8 +483,9 @@
 							<br />
 							<div class="container mt-5">
 
-								note: <input type="text" id="message2" size="64" maxlength="64"
-									style="display: none;" /> <br />
+								<!-- note: -->
+								<input type="text" id="message2" size="64" maxlength="64" style="display: none;" />
+								<br />
 								<input type="number" id="nonce2" size="4" maxlength="4" style="display: none;" />
 								<button type="button" id="" class="btn btn-approve"
 									onclick="event.stopPropagation(); sendTx()" style="display:none">OFFLINE</button>
@@ -817,7 +818,7 @@
 
 
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.29/Tone.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.29/Tone.m	in.js"></script>
 
 	<script type="module">
 		import QrScanner from "qr-scanner/qr-scanner.min.js";
@@ -1085,13 +1086,17 @@
 							// didOpen: () => {
 							willOpen: () => {
 								// const image = Swal.getPopup()!.querySelector('#cropperjs') as HTMLImageElement
-								const image = Swal.getPopup().querySelector('#cropperjs') as HTMLImageElement
+								// const image = Swal.getPopup().querySelector('#cropperjs') as HTMLImageElement
+								const image = document.querySelector('#cropperjs');
+
 								const cropper = new Cropper(image, {
 									aspectRatio: 1,
 									viewMode: 1,
 									crop: throttle(function () {
 										const croppedCanvas = cropper.getCroppedCanvas()
-										const preview = Swal.getPopup().querySelector('#preview') as HTMLImageElement
+										// const preview = Swal.getPopup().querySelector('#preview') as HTMLImageElement
+										const preview = document.querySelector('#preview');
+
 										// const preview = Swal.getPopup()!.querySelector('#preview') as HTMLImageElement
 										preview.src = croppedCanvas.toDataURL()
 									}, 25),
@@ -1505,8 +1510,6 @@
 
 			console.log('MAKE BACKUP address:', wallet.address)
 			console.log('MAKE BACKUP mnemonic:', wallet.mnemonic.phrase)
-
-
 
 
 			// WRITE YOUR MNEMONIC PHRASE
@@ -2170,6 +2173,7 @@ Wallet encrypted and saved into localstorage
 				document.getElementById('chatBadge').style.display = 'inline'
 				document.getElementById('chatBadge').innerText = '!'
 				console.log(`New message from ${message.senderAddress}: ${message.content}`)
+				playNewMessage();
 				// if (message.content == 'can you pay for the gas? ') {
 
 				// var message = "can you pay for the gas?";
@@ -2287,6 +2291,7 @@ Wallet encrypted and saved into localstorage
 
 				console.log(`New chat message from ${message.senderAddress}: ${message.content}`)
 				let msg = { address: message.senderAddress, message: message.content }
+				playNotification()
 				// GET LOCAL ADDRESS
 				let preElement = document.getElementById('yourAddress');
 				let localAddr = preElement.getAttribute('address');
@@ -2504,6 +2509,32 @@ Wallet encrypted and saved into localstorage
 		let init = async () => {
 			console.log('init: INITIALIZING... ')
 
+
+			// NOTIFICATION API
+			// Check if the browser supports notifications
+			if (!("Notification" in window)) {
+				alert("This browser does not support desktop notification");
+			}
+
+			// Request permission for the browser to send notifications
+			Notification.requestPermission().then(function (permission) {
+				if (permission === "granted") {
+					// If permission is granted, create a new notification
+					var notification = new Notification("Hello, world!", {
+						body: "This is a notification from your web app",
+					});
+
+					// You can handle click event on the notification
+					notification.onclick = function () {
+						console.log("Notification clicked");
+						// Handle the click event as you want, e.g., open a specific page
+					};
+				}
+			});
+
+
+			// FIN NOTIFICATION API
+
 			const chainSelector = document.getElementById('chainSelector');
 			document.getElementById('chainSelector').innerHTML = ''
 			// Iterate through optionsList and populate the selector
@@ -2595,6 +2626,9 @@ Wallet encrypted and saved into localstorage
 			// check balance
 			await syncBalance()
 			setTimeout(syncBalance, 60000);
+
+			checkEIP2612Compatibility();
+
 
 			// Add an event listener for the onchange event
 			chainSelector.addEventListener('change', function () {
@@ -2882,6 +2916,38 @@ Wallet encrypted and saved into localstorage
 			}
 		}
 
+		// Check if the ERC-20 token implements the permit function
+		async function checkEIP2612Compatibility() {
+			const abi = ABIs[optionsList[GLOBALCHAIN].ERC20_TOKEN_ABI]
+			// const contractAddress = optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS //'YOUR_ERC20_CONTRACT_ADDRESS';
+			const tokenInterface = new ethers.utils.Interface(abi);
+
+
+			try {
+
+				const functionSignature = tokenInterface.getSighash('permit');
+				const hasPermitFunction = abi.some((item) => item.type === 'function' && item.signature === functionSignature);
+				console.log('EIP-2612 compatible:', hasPermitFunction);
+
+
+			} catch (error) {
+				console.log('EIP-2612 not compatible:', error);
+			}
+		}
+
+
+		// Instantiate the contract interface
+		// const tokenInterface = new ethers.utils.Interface(tokenAbi);
+
+		// Check if the ERC-20 token implements the permit function
+		// function checkEIP2612Compatibility() {
+		//   const functionSignature = tokenInterface.getSighash('permit');
+		//   const hasPermitFunction = tokenAbi.some((item) => item.type === 'function' && item.signature === functionSignature);
+		//   console.log('EIP-2612 compatible:', hasPermitFunction);
+		// }
+		// checkEIP2612Compatibility();
+
+
 		async function checkGasBalance(walletAddress) {
 			console.log('checkGasBalance() of ', walletAddress)
 
@@ -2955,7 +3021,7 @@ Wallet encrypted and saved into localstorage
 
 		function countWords(str) {
 			let lngth = str.trim().split(/\s+/).length;
-			console.log(lngth)
+			console.log('countWords:', lngth)
 			return lngth;
 		}
 
@@ -3545,13 +3611,19 @@ Wallet encrypted and saved into localstorage
 					console.warn('GAS IS UNPREDICTABLE, show ask peer button');
 					askPeer.disabled = false;
 
-				} else {
+				}
+				if (error.code == 'INSUFFICIENT_FUNDS') {
+					console.warn('INSUFFICIENT_FUNDS, show ask peer button and buy gas');
+					askPeer.disabled = false;
+					buygas.disabled = false;
+				}
+				else {
 					console.error('DUNNOU!!!');
 
 				}
 
 				txbuilder.style.display = 'none';
-				document.getElementById('result2').innerHTML = ` <div style="color: red;"> ${error.reason} </div> `
+				document.getElementById('result2').innerHTML = ` <div style="color: red;"> <div class="alert alert-danger"> ${error.reason} </div> </div> `
 
 			}
 		}

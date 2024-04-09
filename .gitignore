@@ -17,3 +17,7 @@ package-lock.json
 public/
 src/data.md        
 src/erc20permit.js
+Before you begin:.md
+src/tone.html
+src/tone2.html
+src/tonenotificacion.html

@@ -449,3 +449,108 @@ function playBeep() {
     oscillator.stop();
   }, 100);
 }
+
+// Initialize Tone.js
+Tone.start();
+console.log("tone started");
+// Create a simple click sound with different parameters
+const clickSynth = new Tone.Synth({
+  oscillator: {
+    type: "sine", // You can experiment with different oscillator types
+  },
+  envelope: {
+    attack: 0.01,
+    decay: 0.1,
+    sustain: 0.1,
+    release: 0.5,
+  },
+}).toDestination();
+
+function playNotification() {
+  // Function to play the click sound
+  // function playClickSound() {
+  clickSynth.triggerAttackRelease("C5", "8n");
+  // }
+}
+
+// Initialize Tone.js
+// Tone.start();
+
+// Create an array of frequencies representing the pitches for the TOC sound
+// const frequencies = [220, 330, 440, 550, 660];
+
+// // Create a simple envelope for the sound
+// const envelope = {
+//   attack: 0.1,
+//   decay: 0.2,
+//   sustain: 0.5,
+//   release: 0.8,
+// };
+
+// // Create a simple synthesizer
+// const synth = new Tone.Synth({
+//   oscillator: {
+//     type: "sine", // You can change the oscillator type for different sounds
+//   },
+//   envelope: envelope,
+// }).toMaster();
+
+// // Function to play the TOC sound effect
+// function playTOCSound() {
+//   // Play each frequency in the array sequentially with a short delay between them
+//   frequencies.forEach((freq, index) => {
+//     // Schedule each note to be played
+//     synth.triggerAttackRelease(freq, "16n", `+${index * 0.1}`);
+//   });
+// }
+
+// Create a simple envelope for the sound
+// const envelope2 = {
+//   attack: 0.001,
+//   decay: 0.05,
+//   sustain: 0,
+//   release: 0,
+// };
+
+// Create a noise synthesizer
+// const synth2 = new Tone.NoiseSynth({
+//   noise: {
+//     type: "white", // You can change the noise type for different sounds (white, pink, brown)
+//   },
+//   envelope: envelope2,
+// }).toMaster();
+
+const synth2 = new Tone.MonoSynth({
+  oscillator: {
+    type: "square",
+  },
+  envelope: {
+    attack: 0.1,
+  },
+}).toDestination();
+
+// Function to play the TOC sound effect
+function playNewMessage() {
+  // Trigger the noise synthesizer
+  synth2.triggerAttackRelease("C4", "16n");
+  // synth2.triggerAttackRelease("16n");
+}
+
+// Create a noise synth
+const noiseSynth = new Tone.NoiseSynth().toMaster();
+
+// Create a low-frequency oscillator (LFO) to modulate the amplitude (volume) of the noise
+const lfo = new Tone.LFO({
+  type: "sine", // You can change the LFO waveform for different modulation effects
+  frequency: 2, // Adjust the frequency to control the speed of the modulation
+  amplitude: 0.7, // Adjust the amplitude to control the depth of the modulation
+}).start();
+
+// Connect the LFO to modulate the amplitude of the noise synth
+lfo.connect(noiseSynth.volume);
+
+// Function to trigger the cat sound
+function triggerCatSound() {
+  // Trigger the noise synth to produce the cat sound
+  noiseSynth.triggerAttackRelease("8n");
+}
