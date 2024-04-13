@@ -1975,6 +1975,30 @@ Wallet encrypted and saved into localstorage
 
 
 		}
+
+
+		function updateContactList(contact) {
+    // Retrieve existing contacts from localStorage
+    var contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+
+    // Check if the contact already exists in the list
+    var existingContactIndex = contacts.findIndex(function(existingContact) {
+        return existingContact.address === contact.address;
+    });
+
+    if (existingContactIndex !== -1) {
+        // If the contact exists, update its details
+        contacts[existingContactIndex] = contact;
+    } else {
+        // If the contact doesn't exist, add it to the list
+        contacts.push(contact);
+    }
+
+    // Save the updated contact list back to localStorage
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+}
+
+
 		// SAVE CONTACTS
 		function SaveContactsToLocalStorage(contact) {
 			var a = [];
@@ -1988,7 +2012,9 @@ Wallet encrypted and saved into localstorage
 				localStorage.setItem('contacts', JSON.stringify(a));
 			}
 			else {
-				console.log('Address already exists in your contacts, skipping save.');
+				// console.log('Address already exists in your contacts, skipping save.');
+				console.log('Address already exists in your contacts, UPDATING.');
+				updateContactList(contact)
 			}
 		}
 
