@@ -5,7 +5,7 @@ yarn.lock
 dist/
 src/old/
 src/permitethers.html
- src/permit.html
+src/permit.html
 src/permitEthers-b.html
 src/permitGHO.html
 src/permitGHOmetamask.html

@@ -1,6 +1,6 @@
 # chatwallet
 
-A self custodial gho based mutichain hot wallet to chat, metatransact and more!
+A self custodial mutichain hot wallet to chat and crypto with friends!
 
 demo https://chatwallet-gho.web.app/
 

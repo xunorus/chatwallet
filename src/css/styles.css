@@ -1099,3 +1099,17 @@ height: 30vh;
   }
 }
 
+  .right {
+    /* display: none; */
+    float: right; /* Align to the right */
+    margin-left: 10px; /* Add some spacing */
+    cursor: pointer;
+}
+
+li:hover .right {
+    /* display: inline-block;  */
+}
+
+ .right:hover  {
+  color:red;
+}

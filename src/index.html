@@ -149,7 +149,7 @@
 		<div class="center" id="center">
 			<h1 id="fontlogo"> </h1>
 			<!-- <h1 id="fontlogo">CHATWALLET </h1> -->
-			<span id="miniversion">chatwallet v1.07Alpha</span>
+			<span id="miniversion">chatwallet v1.08Alpha</span>
 		</div>
 		<span class="badge bg-warning" id="chatBadge">-</span>
 		<button id="" class="right hamburger hamburger--elastic" type="button" aria-label="Menu"
@@ -1943,6 +1943,38 @@ Wallet encrypted and saved into localstorage
 			console.log('ADDING NEW USER ADDRESS')
 		}
 
+
+
+		// EDIT CONTACT
+		// el.address
+		async function editContact(addr) {
+			console.log('editContact()')
+			const inputValue = '';
+
+			const { value: userName } = await Swal.fire({
+				title: "Enter a name for this address",
+				input: "text",
+				inputLabel: "contact name",
+				inputValue,
+				showCancelButton: true,
+				inputValidator: (value) => {
+					if (!value) {
+						return "You need to write something!";
+					}
+				}
+			});
+			if (userName) {
+
+				let contact = { address: addr, username: userName, avatar: null, did: null }
+
+				SaveContactsToLocalStorage(contact)
+				loadContacts()
+				console.log('Contact Updated', userName)
+				// Swal.fire(`Your IP address is ${userName}`);
+			}
+
+
+		}
 		// SAVE CONTACTS
 		function SaveContactsToLocalStorage(contact) {
 			var a = [];
@@ -2762,12 +2794,16 @@ Wallet encrypted and saved into localstorage
 					}
 
 					let shortAddr = el.address.substring(0, 6) + "..." + el.address.substring(38, 42);
-					// contct.innerHTML +=` <li data-address="${el.address}"> <a onclick="event.stopPropagation();selectChat((this.parentElement))" >  <img src="./avatar.png" alt="Avatar" class="rounded-circle"> ${shortAddr} <i class="fa-solid fa-trash"></i></a> </li> `
 					contct.innerHTML += `<li data-address="${el.address}"  id="${el.address}" class=''> 
 											<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
 												<img src="./avatar.png" alt="Avatar" class="rounded-circle"> 
 													<span>${shortAddr} <span>
 												<i class="fa-solid fa-trash"></i>
+
+												<svg onclick="event.stopPropagation();editContact('${el.address}')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"width="20" height="25"  class='right'>
+  <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg>
+
+
 											</a> 
 										</li> `
 				})
@@ -2800,6 +2836,11 @@ Wallet encrypted and saved into localstorage
 							<img src="./anonym-icon.jpeg" alt="Avatar" class="rounded-circle"> 
 								<span>${shortMsg} <span>
 							<i class="fa-solid fa-trash"></i>
+							
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"width="18" height="16" >
+  <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg>
+
+
 						</a> 
 					</li> `
 
