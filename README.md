@@ -4,6 +4,10 @@ A self custodial mutichain hot wallet to chat and crypto with friends!
 
 demo https://chatwallet-x.web.app/
 
+# hacked at eth global
+https://ethglobal.com/showcase/chatwallet-5rp2j
+
+
 # Install
 
 ```
