@@ -1978,25 +1978,25 @@ Wallet encrypted and saved into localstorage
 
 
 		function updateContactList(contact) {
-    // Retrieve existing contacts from localStorage
-    var contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+			// Retrieve existing contacts from localStorage
+			var contacts = JSON.parse(localStorage.getItem('contacts')) || [];
 
-    // Check if the contact already exists in the list
-    var existingContactIndex = contacts.findIndex(function(existingContact) {
-        return existingContact.address === contact.address;
-    });
+			// Check if the contact already exists in the list
+			var existingContactIndex = contacts.findIndex(function (existingContact) {
+				return existingContact.address === contact.address;
+			});
 
-    if (existingContactIndex !== -1) {
-        // If the contact exists, update its details
-        contacts[existingContactIndex] = contact;
-    } else {
-        // If the contact doesn't exist, add it to the list
-        contacts.push(contact);
-    }
+			if (existingContactIndex !== -1) {
+				// If the contact exists, update its details
+				contacts[existingContactIndex] = contact;
+			} else {
+				// If the contact doesn't exist, add it to the list
+				contacts.push(contact);
+			}
 
-    // Save the updated contact list back to localStorage
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-}
+			// Save the updated contact list back to localStorage
+			localStorage.setItem('contacts', JSON.stringify(contacts));
+		}
 
 
 		// SAVE CONTACTS
@@ -2814,16 +2814,27 @@ Wallet encrypted and saved into localstorage
 					const isAddressInArray = paa.includes(el.address);
 
 					if (isAddressInArray) {
-						console.log(`Contact ${index} is in your contacts \u2714  ${el.address} `);
+						console.log(`Contact ${index} IS in your contacts \u2714  ${el.address} `);
 					} else {
-						console.log(`THis address  is not in your contacts \u2718 ${el.address}`);
+						console.log(`This address  IS NOT in your contacts \u2718 ${el.address}`);
 					}
 
-					let shortAddr = el.address.substring(0, 6) + "..." + el.address.substring(38, 42);
+					if (el.username || null) {
+						console.log('username is not null')
+
+						contactInfo = `<span>${el.username} <span>`
+					}
+					else {
+						console.log('username is  null')
+
+						let shortAddr = el.address.substring(0, 6) + "..." + el.address.substring(38, 42);
+						contactInfo = `<span>${shortAddr} <span>`
+
+					}
 					contct.innerHTML += `<li data-address="${el.address}"  id="${el.address}" class=''> 
 											<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
 												<img src="./avatar.png" alt="Avatar" class="rounded-circle"> 
-													<span>${shortAddr} <span>
+													${contactInfo} 
 												<i class="fa-solid fa-trash"></i>
 
 												<svg onclick="event.stopPropagation();editContact('${el.address}')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"width="20" height="25"  class='right'>
