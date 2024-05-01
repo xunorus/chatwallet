@@ -15,6 +15,8 @@
       --c0: #262626;
 
       --c0b: #222;
+      --mainBk: #00675c;
+
       --c1: #b79b00;
       --c2: #008080;
       --c3: #fff;
@@ -23,12 +25,14 @@
       --bk: linear-gradient(var(--c0), var(--c0b));
       --qr : red;
       --qrDeposit : green;
-      --qrbackground:transparent;
+      /* --qrbackground:transparent; */
+      --qrbackground:#ffc107;
     --qrbackgroundSweetalert: #262626;
       --contrast: #000	linear-gradient(var(--c3), var(--c2));
       --bckmodal:#262626;
       --font:lawngreen;
-      --navbar :var(--c1);
+      /* --navbar :var(--c1); */
+      --navbar: #73b700 !important;
       --font1: #fff;
       --font2: #00bc8c;
       --font3: #2196f3;
@@ -147,7 +151,10 @@
 }
 
 #address,#vsigner, #vaddress {width: 400px!important;}
-#address2 {width: 400px!important;}
+#address2 {width: 400px!important;
+  border-top: none;
+  border-left: none;
+  border-right: none;}
 #vnonce {width: 146!important;}
 #hash, #sig2verify, #verifywhash ,#sig2verifywhash {
 word-wrap: break-word;
@@ -297,7 +304,7 @@ body {
     background: var(--bk);
     height: 100vh;
 
-    background-image: radial-gradient(circle, #5c0067 0%, var(--bckmodal) 100%);
+    background-image: radial-gradient(circle, var(--mainBk) 0%, var(--bckmodal) 100%);
 
  
  }  
@@ -732,7 +739,7 @@ header, main  {
   padding: 10px;
 }
 
-#chat-box {
+#chatBox {
   flex-grow: 1; 
   padding: 1em;
     width: 100%;
@@ -748,13 +755,16 @@ header, main  {
 .timestamp{
   font-size: 0.61em;
     /* color: lightgreen; */
-    color: blue;
+    color: #8888c2;
 }
 
 
 .who{
   color: yellow;
+}
 
+.notyou{
+  color: #00ffaa;
 }
 
 #chatfooter {
@@ -970,7 +980,7 @@ height: 30vh;
       width: 100% !important;
       word-wrap: break-word;
       max-width: 80em!important; /* Set a maximum width for the input */
-      font-size: 1em!important; 
+      font-size: xx-small!important; 
     
       text-align: center; /* Center-align the text within the input */
     }
@@ -1113,3 +1123,43 @@ li:hover .right {
  .right:hover  {
   color:red;
 }
+
+
+/* #audioOp/tions */
+.options{
+  display: flex;
+    align-items: center;
+    flex-direction: row;
+
+}
+#muteCheckbox{
+  width: 30px;
+}
+
+
+#amountView h1, #txdetails{
+font-size: calc(1.375rem + 1.5vw);
+}
+.settingsBar{margin-bottom: 12px;}
+
+
+
+
+/* #modalForm {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.name {
+  flex-grow: 1;
+  flex-basis: 120px;
+}
+.avatar {
+  flex-grow: 3;
+  flex-basis: 170px;
+}
+button {
+  flex-grow: 1;
+  flex-basis: 70px;
+} */

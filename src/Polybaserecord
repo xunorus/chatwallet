@@ -1,0 +1,42 @@
+
+@public
+
+collection CHATWALLETDID {
+    id: string;
+    avatar: string;
+    cid: string; 
+    publicKey: PublicKey;
+
+  constructor (id: string, avatar: string ,cid: string ) {
+      this.id = id;
+      this.avatar = avatar;
+      this.cid = cid;
+      this.publicKey = ctx.publicKey;
+  }
+
+    updateAvatar(avatar: string) {
+         if (ctx.publicKey != this.publicKey) {
+      error('You are not the creator of this record.');
+    }
+ 
+    this.avatar = avatar;
+  }
+  
+    updateCID(cid: string) {
+       if (ctx.publicKey != this.publicKey) {
+      error('You are not the creator of this record.');
+    }
+  
+        this.cid = cid;
+  }
+
+    deleteDID () {
+        if (ctx.publicKey != this.publicKey) {
+        throw error('You are not the creator of this record');
+     }
+    selfdestruct();
+  }
+
+ 
+  
+}

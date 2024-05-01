@@ -115,9 +115,8 @@ navBtn.addEventListener("click", plToggle);
 
 // Define the plToggle function
 function plToggle(event) {
-  console.log("TOOGLE NAVBAR", event);
+  // console.log("TOOGLE NAVBAR", event);
   navBtn.classList.toggle("is-active");
-
   // Toggle classes for elements with class 'content', 'sidebar', and 'overlay'
   document.querySelector(".sidebar").classList.toggle("isOpen");
   document.querySelector(".overlay").classList.toggle("overlayisOpen");
@@ -467,59 +466,21 @@ const clickSynth = new Tone.Synth({
 }).toDestination();
 
 function playNotification() {
-  // Function to play the click sound
-  // function playClickSound() {
-  clickSynth.triggerAttackRelease("C5", "8n");
-  // }
+
+console.log('playNotification(), now fix?')
+  try {
+    // clickSynth.triggerAttackRelease("C5", "8n");
+    // Schedule the attack and release of the note
+const now = Tone.now(); // Get the current time
+clickSynth.triggerAttackRelease("C5", "8n", now); // Schedule the event to start now
+
+} catch (error) {
+    console.error("An error occurred at playNotification:", error);
+    return
 }
 
-// Initialize Tone.js
-// Tone.start();
-
-// Create an array of frequencies representing the pitches for the TOC sound
-// const frequencies = [220, 330, 440, 550, 660];
-
-// // Create a simple envelope for the sound
-// const envelope = {
-//   attack: 0.1,
-//   decay: 0.2,
-//   sustain: 0.5,
-//   release: 0.8,
-// };
-
-// // Create a simple synthesizer
-// const synth = new Tone.Synth({
-//   oscillator: {
-//     type: "sine", // You can change the oscillator type for different sounds
-//   },
-//   envelope: envelope,
-// }).toMaster();
-
-// // Function to play the TOC sound effect
-// function playTOCSound() {
-//   // Play each frequency in the array sequentially with a short delay between them
-//   frequencies.forEach((freq, index) => {
-//     // Schedule each note to be played
-//     synth.triggerAttackRelease(freq, "16n", `+${index * 0.1}`);
-//   });
-// }
-
-// Create a simple envelope for the sound
-// const envelope2 = {
-//   attack: 0.001,
-//   decay: 0.05,
-//   sustain: 0,
-//   release: 0,
-// };
-
-// Create a noise synthesizer
-// const synth2 = new Tone.NoiseSynth({
-//   noise: {
-//     type: "white", // You can change the noise type for different sounds (white, pink, brown)
-//   },
-//   envelope: envelope2,
-// }).toMaster();
-
+}
+ 
 const synth2 = new Tone.MonoSynth({
   oscillator: {
     type: "square",

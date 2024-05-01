@@ -29,7 +29,7 @@
 			cursor: pointer;
 		}
 
-		#chat-box {
+		#chatBox {
 			/* background-color: red; */
 		}
 
@@ -134,10 +134,10 @@
 	</div>
 	<!-- /container -->
 
-	<script src="js/modernizr.custom.js"></script>
+	<!-- <script src="js/modernizr.custom.js"></script>
 	<script src="js/classie.js"></script>
-	<script src="js/pathLoader.js"></script>
-	<script src="js/splash.js"></script>
+	<script src="js/pathLoader.js"></script> -->
+	<!-- <script src="js/splash.js"></script> -->
 	<!-- /*********************************************************************************************
   .) HEADER NAV
   **********************************************************************************************/ -->
@@ -147,11 +147,10 @@
 		<select class="left translation" id="chainSelector"> </select>
 		<!-- <div class="center"> <h1 id="fontlogo">CHATWALLET <span id="miniversion">chatwallet v1.00Alpha</span></h1> </div> -->
 		<div class="center" id="center">
-			<h1 id="fontlogo"> </h1>
-			<!-- <h1 id="fontlogo">CHATWALLET </h1> -->
-			<span id="miniversion">chatwallet v1.08Alpha</span>
+			<h1 id="fontlogo">CHATWALLET </h1>
+			<span id="miniversion">chatwallet v1.09Alpha</span>
 		</div>
-		<span class="badge bg-warning" id="chatBadge">-</span>
+		<span class="badge bg-primary" id="chatBadge">-</span>
 		<button id="" class="right hamburger hamburger--elastic" type="button" aria-label="Menu"
 			aria-controls="navigation">
 			<span class="hamburger-box">
@@ -170,13 +169,9 @@
 		</a>
 		<input name="inputItemImgMINT" id="fileCreateItemFile" type="file" style="display:none" accept="image/*" />
 		<img id="itemImgMINT" src="img/anonym.jpg" alt="Avatar" class="">
-		<!-- <select class="right translation" id="langswitch" style="display: none;">
-			<option value="en">en</option>
-			<option value="fr">fr</option>
-			<option value="es">es</option>
-		</select> -->
+		 
 		<div class="container mt-3">
-			<div class="row">
+			<div class="row settingsBar">
 				<div class="col text-center">
 					<button type="button" id="" class="btn btn-primary" onclick="event.stopPropagation();addAddress()">
 						<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
@@ -257,9 +252,9 @@
 				<div id="chatcontainer" class="">
 					<div id="chatheader" class="">
 						<span id="chatAddress"></span>
-						<span class="alignright " id="makeHonorloan"> </span>
+						<span class="alignright " id="actionButtons"> </span>
 					</div>
-					<div class="" id="chat-box"> </div>
+					<div class="" id="chatBox"> </div>
 					<div id="chatfooter" class="">
 						<div class="input-group">
 							<input type="text" class="form-control" id="user-input" placeholder="Type a message..."
@@ -314,11 +309,26 @@
 
 					<h4>Language</h4>
 
-					<select class="right translation" id="langswitch">
-						<option value="en">en</option>
-						<option value="fr">fr</option>
-						<option value="es">es</option>
-					</select>
+					<div class="options">
+
+						<select class="right translation" id="langswitch">
+							<option value="en">en</option>
+							<option value="fr">fr</option>
+							<option value="es">es</option>
+						</select>
+					</div>
+
+
+					<hr>
+
+					<h4>Audio</h4>
+
+					<div class="options" id="audioOptions">
+						<input type="checkbox" id="muteCheckbox" name="muteCheckbox">
+						<label for="muteCheckbox">Mute</label>
+					</div>
+
+
 				</div>
 
 				<!-- <hr> -->
@@ -339,6 +349,54 @@
 			</div>
 		</div>
 	</div>
+
+
+
+
+
+	<!-- CREATE DIDD MODAL -->
+	<div class="modal fade" data-bs-backdrop="static" id="createDIDModal" tabindex="-1" role="dialog" aria-labelledby=""
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="">Create Your DID</h5>
+				</div>
+				<div class="modal-body" id="">
+					
+					
+					
+					<div id="modalForm">
+						<label class="name" for="name-field">
+						Name:
+						<input id="name-field" />
+						</label>
+						<label class="email" for="email-field">
+						Email:
+						<input id="email-field" type="email" />
+						</label>
+						<button>
+						Submit
+						</button>
+					</div>
+
+
+
+					 
+ 
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary closeWalletBkp" id="closeDepositModalHLmodal"
+						data-translate="close">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- fin DEPOSIT MODAL-->
+
+
 
 
 	<!-- NFTS HONORLOAN MODAL -->
@@ -451,14 +509,7 @@
 						<div id="txbuilder">
 							<p id="txdetails" class="container">
 								to( Address):
-
-								<!-- <button type="button" id="addrScanner" class="btn btn-reject"
-									onclick="event.stopPropagation(); scanAddress()">
-									<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-										<path
-											d="M0 80C0 53.5 21.5 32 48 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V80zM64 96v64h64V96H64zM0 336c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V336zm64 16v64h64V352H64zM304 32h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H304c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48zm80 64H320v64h64V96zM256 304c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s7.2-16 16-16s16 7.2 16 16v96c0 8.8-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s-7.2-16-16-16s-16 7.2-16 16v64c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V304zM368 480a16 16 0 1 1 0-32 16 16 0 1 1 0 32zm64 0a16 16 0 1 1 0-32 16 16 0 1 1 0 32z" />
-									</svg>
-								</button> -->
+ 
 
 								<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"
 									onclick="event.stopPropagation(); scanAddress()"
@@ -721,10 +772,7 @@
 						<div class="custom-input-group">
 							<div class="input-group">
 								<select class="custom-select dropdown" name="currency" id="currencySelect">
-									<!-- <option value="ethereum">ETH(sepolia)</option>
-									<option value="avalance">AVAX</option>
-									<option value="matic-network" disabled>MATIC</option>
-									<option value="dai" disabled>DAI</option> -->
+							
 								</select>
 								<p id='currencyConversor'></p>
 							</div>
@@ -859,6 +907,10 @@
 		window.Pool = Pool; //make global
 		window.InterestRate = InterestRate; //make global
 
+// 		'https://cdn.jsdelivr.net/npm/@polybase/client@latest/dist/bundle.min.js',
+// 'https://cdn.jsdelivr.net/npm/@polybase/auth@latest/dist/bundle.min.js',
+import { Polybase } from "@polybase/client";
+    window.Polybase = Polybase; //make global
 
 	</script>
 
@@ -1032,114 +1084,6 @@
 			depositv1: [{ "inputs": [{ "internalType": "address", "name": "customAddress", "type": "address" }], "name": "depositToCustomAddress", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "tokenAddress", "type": "address" }], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [], "name": "withdraw", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "stateMutability": "payable", "type": "receive" }, { "inputs": [{ "internalType": "uint256", "name": "ethAmount", "type": "uint256" }], "name": "convertEthToGHO", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getLatestGHOPrice", "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getLatestPrice", "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "token", "outputs": [{ "internalType": "contract TokenInterface", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "tokenPrice", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }],
 			ghotoken: [{ "inputs": [{ "internalType": "address", "name": "admin", "type": "address" }], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "spender", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": true, "internalType": "bytes32", "name": "label", "type": "bytes32" }, { "indexed": false, "internalType": "uint256", "name": "bucketCapacity", "type": "uint256" }], "name": "FacilitatorAdded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "oldCapacity", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "newCapacity", "type": "uint256" }], "name": "FacilitatorBucketCapacityUpdated", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "oldLevel", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "newLevel", "type": "uint256" }], "name": "FacilitatorBucketLevelUpdated", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }], "name": "FacilitatorRemoved", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "bytes32", "name": "previousAdminRole", "type": "bytes32" }, { "indexed": true, "internalType": "bytes32", "name": "newAdminRole", "type": "bytes32" }], "name": "RoleAdminChanged", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }], "name": "RoleGranted", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }], "name": "RoleRevoked", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "inputs": [], "name": "BUCKET_MANAGER_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "DEFAULT_ADMIN_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "DOMAIN_SEPARATOR", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "FACILITATOR_MANAGER_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "PERMIT_TYPEHASH", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "internalType": "string", "name": "facilitatorLabel", "type": "string" }, { "internalType": "uint128", "name": "bucketCapacity", "type": "uint128" }], "name": "addFacilitator", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }, { "internalType": "address", "name": "", "type": "address" }], "name": "allowance", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "approve", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "burn", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }], "name": "getFacilitator", "outputs": [{ "components": [{ "internalType": "uint128", "name": "bucketCapacity", "type": "uint128" }, { "internalType": "uint128", "name": "bucketLevel", "type": "uint128" }, { "internalType": "string", "name": "label", "type": "string" }], "internalType": "struct IGhoToken.Facilitator", "name": "", "type": "tuple" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }], "name": "getFacilitatorBucket", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }, { "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getFacilitatorsList", "outputs": [{ "internalType": "address[]", "name": "", "type": "address[]" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }], "name": "getRoleAdmin", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "grantRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "hasRole", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "mint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "name", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "nonces", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }, { "internalType": "uint256", "name": "deadline", "type": "uint256" }, { "internalType": "uint8", "name": "v", "type": "uint8" }, { "internalType": "bytes32", "name": "r", "type": "bytes32" }, { "internalType": "bytes32", "name": "s", "type": "bytes32" }], "name": "permit", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitatorAddress", "type": "address" }], "name": "removeFacilitator", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "renounceRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "revokeRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }, { "internalType": "uint128", "name": "newCapacity", "type": "uint128" }], "name": "setFacilitatorBucketCapacity", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "symbol", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalSupply", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "transfer", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "transferFrom", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }]
 		}
-
-		/*********************************************************************************************
-		.)   WALlET IMG validation
-		**********************************************************************************************/
-
-
-		itemImgMINT.onclick = function (e) {
-			console.log('img clicked')
-			e.preventDefault()
-			loadCroppedImg()
-			// fileCreateItemFile.click();
-
-		};
-
-
-		async function loadCroppedImg() {
-
-			await fileCreateItemFile.click();
-			let previewsrc;
-			fileCreateItemFile.onchange = async function () {
-				console.log("img changed");
-
-				if (fileCreateItemFile.files.length == 1) {
-					// itemImgMINT.src = ''
-
-					const data = this.files[0]
-					let name = data.name;// funciona...
-					console.log('name: ', name);
-
-
-					// IMG
-					const files = [
-						new File([data], name, { type: 'application/jpg' })
-					]
-					console.log('FILES: ', files)
-					let reader = new FileReader();
-					reader.readAsDataURL(data);
-
-					reader.onload = await function () {
-						console.log('READER ONLOAD ', reader.result)
-						previewsrc = reader.result;
-						// return reader.result;
-
-						Swal.fire({
-							title: 'Create avatar',
-							html: `
-					<img id="preview" src="${previewsrc}">
-					<div>
-					<img id="cropperjs" src="${previewsrc}">
-					</div>
-					`,
-							// didOpen: () => {
-							willOpen: () => {
-								// const image = Swal.getPopup()!.querySelector('#cropperjs') as HTMLImageElement
-								// const image = Swal.getPopup().querySelector('#cropperjs') as HTMLImageElement
-								const image = document.querySelector('#cropperjs');
-
-								const cropper = new Cropper(image, {
-									aspectRatio: 1,
-									viewMode: 1,
-									crop: throttle(function () {
-										const croppedCanvas = cropper.getCroppedCanvas()
-										// const preview = Swal.getPopup().querySelector('#preview') as HTMLImageElement
-										const preview = document.querySelector('#preview');
-
-										// const preview = Swal.getPopup()!.querySelector('#preview') as HTMLImageElement
-										preview.src = croppedCanvas.toDataURL()
-									}, 25),
-								})
-							},
-							preConfirm: () => {
-
-								const popup = Swal.getPopup();
-
-								if (popup) {
-									const previewElement = popup.querySelector('#preview') as HTMLImageElement;
-
-									console.error('Preview element not found');
-
-									const src = previewElement.src;
-									if ('previewElement:', src) {
-										// Now you can use src safely
-										return src
-									} else {
-										console.error('Preview element not found');
-									}
-								} else {
-									console.error('Popup not found');
-								}
-
-							},
-						}).then(function (result) {
-							console.log('PRECONFIRM:', result)
-							console.log('B64:', result.value)
-							itemImgMINT.src = result.value;
-							let b64 = JSON.stringify(result.value)
-							localStorage.setItem('image', b64);
-							itemImgMINT.style.display = 'block'
-							Toast.fire('Image added', '', "success");
-						})
-
-					};
-				}
-
-			};
-
-		}
-
 
 		/*********************************************************************************************
 		.)   
@@ -1326,8 +1270,8 @@
 			const progressCallback = (percent) => {
 				console.log(`Decrypting... `);
 				walletProgressContent.innerHTML = `<div class="progress">
-  <div class="progress-bar" role="progressbar" style="width:  ${percent * 100}%;" aria-valuenow="${percent * 100}" aria-valuemin="0" aria-valuemax="100">${Math.round(percent * 100)}%</div>
-</div>`
+					<div class="progress-bar" role="progressbar" style="width:  ${percent * 100}%;" aria-valuenow="${percent * 100}" aria-valuemin="0" aria-valuemax="100">${Math.round(percent * 100)}%</div>
+					</div>`
 			};
 
 
@@ -1433,6 +1377,7 @@
 						Toast.fire({ icon: 'success', title: 'CHAT WITH:', text: value });
 						await chatWith(value)
 						await deleteChat()
+					
 
 					} else {
 						console.log(`Address ${value} is not valid.`);
@@ -1458,6 +1403,9 @@
 					}
 				})
 			console.log('addressToAdd:', addressToAdd)
+
+				// close nav
+				plToggle()
 
 		}
 
@@ -1610,9 +1558,6 @@ Wallet encrypted and saved into localstorage
 
 					console.warn('INIT CHAT CLIENT HERE!?, YES IF FIRST TIME')
 					await initChatClient(wallet)
-					// await listenNewAddresses();
-					// await listenAllNewAddresses();
-
 
 					const formattedAddress = ethers.utils.getAddress(wallet.address);
 					console.log('formattedAddress', formattedAddress);
@@ -1660,6 +1605,8 @@ Wallet encrypted and saved into localstorage
 					if (!pWall) { console.error('NO preferedWallet') }
 					else { console.log('YES!: preferedWallet', pWall) }
 
+					// COMPLETAR???
+
 				}
 
 
@@ -1684,14 +1631,12 @@ Wallet encrypted and saved into localstorage
 
 
 				await initChatClient(wallet)
-				// await listenNewAddresses();
 
 				setTimeout(() => {
-
 					let buttons = `
-			<button class="btn btn-secondary" onclick="now()">Backup</button>
-			<button class="btn btn-success" onclick="restoreWallet()">Restore</button>
-			`
+						<button class="btn btn-secondary" onclick="now()">Backup</button>
+						<button class="btn btn-success" onclick="restoreWallet()">Restore</button>
+						`
 
 					let backupRecordatory = localStorage.getItem('remebertoBackupWallet')
 					if (!backupRecordatory) {
@@ -1866,8 +1811,9 @@ Wallet encrypted and saved into localstorage
 		});
 
 		async function sendMessage() {
+			console.log('sendMessage()')
 			var userInput = document.getElementById("user-input").value;
-			var chatBox = document.getElementById("chat-box");
+			var chatBox = document.getElementById("chatBox");
 			var message = document.createElement("div");
 
 			if (userInput.trim() !== "") {
@@ -2031,6 +1977,39 @@ Wallet encrypted and saved into localstorage
 			}
 		}
 
+
+
+		function simplifyDate(dateString) {
+		// Create a new Date object
+		var date = new Date(dateString);
+
+		// Get current date
+		var currentDate = new Date();
+
+		// Define months array for formatting
+		var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+		// Format the date
+		var formattedDate;
+		if (date.toDateString() === currentDate.toDateString()) {
+		// If the date is today, display only time
+		var hours = date.getHours();
+		var minutes = date.getMinutes().toString().padStart(2, '0');
+		var seconds = date.getSeconds().toString().padStart(2, '0');
+		formattedDate = hours + ':' + minutes + ':' + seconds;
+		} else {
+		// If the date is not today, display day, month, and year
+		formattedDate = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+		}
+
+		return formattedDate;
+		}
+
+		// // Example usage:
+		// var dateString = "Wed May 01 2024 01:17:42 GMT-0300 (Argentina Standard Time)";
+		// console.log(simplifyDate(dateString)); // Output: "01 May 2024"
+
+
 		async function chatWith(toAddr) {
 			console.log('chatWith()', toAddr)
 
@@ -2060,38 +2039,65 @@ Wallet encrypted and saved into localstorage
 
 			// save "TO" to localwallet
 			localStorage.setItem('toAddress', toAddr)
-			let contact = { address: toAddr, username: null, avatar: null, did: null }
-
-			SaveContactsToLocalStorage(contact)
+			
+			// ---------
+			// ERROR AQUI
+			// let contact = { address: toAddr, username: null, avatar: null, did: null }
+			// SaveContactsToLocalStorage(contact)
+			// ---------------
 			loadContacts()
 			updateBadge()
 
 
-			// <svg  fill="green"  class='uiicon' onclick="event.stopPropagation();deleteChat((this.parentElement))" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg> 
 			// add address in UI
+			let avatar = "./anonym.jpg"
+			// let htmlData =  `<address>${toaddr}</address><br><p>no info available</p>`;
+			let htmlData =  `<address>${toAddr} <svg id="" onclick="event.stopPropagation();copy2clipboard('${toAddr}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"> <path  fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z" ></path></svg> </address><br><p>no info available</p>`;
+
+			
 			let shortAddr = toAddr.substring(0, 6) + "..." + toAddr.substring(38, 42);
-			chatAddress.innerHTML = `${shortAddr} 
-<svg  fill="green"  class='uiicon' onclick="event.stopPropagation();createAlias('${toAddr}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"> <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg> 
+			// chatAddress.innerHTML = `${shortAddr} 
+			// 		<svg  fill="green"  class='uiicon' onclick="event.stopPropagation();createAlias('${toAddr}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"> <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg> 
+			// 		`
+// -----------------
+chatAddress.innerHTML = `<div class="">
+                <img src='${avatar}' alt="avatar" class="rounded rounded-circle img-thumbnail" width='40px' id='avatarImage'>
+                <strong onclick="event.stopPropagation();copy2clipboard('${toAddr}')">${shortAddr}</strong>
+               
+                  </div>`;
 
+      avatarImage.onclick = function (e) {
+        console.log(' avatarImage img clicked')
+        Swal.fire({ imageUrl: avatar, imageWidth: 300, imageHeight: 300, imageAlt: 'Avatar image', html: htmlData,showCancelButton: false, showCloseButton: true, showConfirmButton: false, })
+      }
+
+
+// -------------------
+
+			actionButtons.innerHTML = `<button type="button" id="" class="btn btn-approve" style="display: inline;"
+					onclick="event.stopPropagation(); openSend('${toAddr.toString()}')">
+					<svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 512 512">
+						<path
+							d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480V396.4c0-4 1.5-7.8 4.2-10.7L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z" />
+						</svg>
+					SEND</button>
+				<button class="honorloanbutton btn btn-secondary" onclick="sendHonorloanRequest(${toAddr.toString()})"
+					style='display:none'>Loan
+					<svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512" style=" fill: #7cfc00; ">
+						<path
+							d="M80 104c0-22.1-17.9-40-40-40S0 81.9 0 104v56 64V325.5c0 25.5 10.1 49.9 28.1 67.9L128 493.3c12 12 28.3 18.7 45.3 18.7H240c26.5 0 48-21.5 48-48V385.1c0-29.7-11.8-58.2-32.8-79.2l-25.3-25.3 0 0-15.2-15.2-32-32c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l32 32 15.2 15.2c11 11 9.2 29.2-3.7 37.8c-9.7 6.5-22.7 5.2-31-3.1L98.7 309.5c-12-12-18.7-28.3-18.7-45.3V224 144 104zm480 0v40 80 40.2c0 17-6.7 33.3-18.7 45.3l-51.1 51.1c-8.3 8.3-21.3 9.6-31 3.1c-12.9-8.6-14.7-26.9-3.7-37.8l15.2-15.2 32-32c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-32 32-15.2 15.2 0 0-25.3 25.3c-21 21-32.8 49.5-32.8 79.2V464c0 26.5 21.5 48 48 48h66.7c17 0 33.3-6.7 45.3-18.7l99.9-99.9c18-18 28.1-42.4 28.1-67.9V224 160 104c0-22.1-17.9-40-40-40s-40 17.9-40 40z">
+						</path>
+					</svg> 
+				</button>
+
+				<button type="button" id="closeChat" class="btn btn-reject" style="display: inline;"
+					onclick="event.stopPropagation();deleteChat((this.parentElement))">
+					<svg class='uiicon' height="1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+						<path
+							d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+						</svg>
+				</button>
 `
-
-			// <svg   class='uiicon' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512" viewBox="0 0 512 512"> <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg> 
-			makeHonorloan.innerHTML = ` 
-<button type="button" id="" class="btn btn-approve" style="display: inline;" onclick="event.stopPropagation(); openSend()">
-	<svg xmlns="http://www.w3.org/2000/svg"  height="16" width="20"  viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480V396.4c0-4 1.5-7.8 4.2-10.7L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
-	SEND</button> 
-<button class="honorloanbutton btn btn-secondary" onclick="sendHonorloanRequest(${toAddr.toString()})" style='display:none'>Loan 
-	<svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512" style=" fill: #7cfc00; "> <path d="M80 104c0-22.1-17.9-40-40-40S0 81.9 0 104v56 64V325.5c0 25.5 10.1 49.9 28.1 67.9L128 493.3c12 12 28.3 18.7 45.3 18.7H240c26.5 0 48-21.5 48-48V385.1c0-29.7-11.8-58.2-32.8-79.2l-25.3-25.3 0 0-15.2-15.2-32-32c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l32 32 15.2 15.2c11 11 9.2 29.2-3.7 37.8c-9.7 6.5-22.7 5.2-31-3.1L98.7 309.5c-12-12-18.7-28.3-18.7-45.3V224 144 104zm480 0v40 80 40.2c0 17-6.7 33.3-18.7 45.3l-51.1 51.1c-8.3 8.3-21.3 9.6-31 3.1c-12.9-8.6-14.7-26.9-3.7-37.8l15.2-15.2 32-32c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-32 32-15.2 15.2 0 0-25.3 25.3c-21 21-32.8 49.5-32.8 79.2V464c0 26.5 21.5 48 48 48h66.7c17 0 33.3-6.7 45.3-18.7l99.9-99.9c18-18 28.1-42.4 28.1-67.9V224 160 104c0-22.1-17.9-40-40-40s-40 17.9-40 40z"></path></svg> </button>
-
-<button type="button" id="closeChat" class="btn btn-reject" style="display: inline;"   onclick="event.stopPropagation();deleteChat((this.parentElement))">
-	
-	<svg  class='uiicon'   height="1em"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-		<path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
-
-	</button> 
-
-`
-			console.log('10192 makeHonorloan', toAddr)
 
 			// ACTIVATE CHAT BUTTONS
 			document.getElementById('user-input').disabled = false;
@@ -2101,50 +2107,66 @@ Wallet encrypted and saved into localstorage
 			// FOCUS ON INPUT
 			document.getElementById('user-input').focus();
 
-			// SACAR
-			const allConversations = await troqchatclient.conversations.list()
-			console.log('available addresses:', allConversations.length)
-
-
 			// ------------------------------------
 			// AVOID REOPENING COMS WITH ADDRESESS
+			// SACAR/ si lo saco falla...
+			const allConversations = await troqchatclient.conversations.list()
+			console.log('available addresses:', allConversations.length)
 			const customAddressToCheck = toAddr; // Replace this with the address you want to check
 			let addressExists = false;
-
 			for (const conversation of allConversations) {
 				if (conversation.peerAddress === customAddressToCheck) {
 					addressExists = true;
-					break; // Exit the loop early if the address is found
+					cc= conversation
+				// let history = conversation.messages()
+				// console.log('history:', history)
+				// return conversation
+					break ; // Exit the loop early if the address is found
 				}
 			}
 
 			if (addressExists) {
-				console.warn(`${customAddressToCheck} exists in the array.`);
-				// return
+				console.warn(`YOU DO HAVE A CHAT HISTORY WITH ${customAddressToCheck} `);
+				console.log('USER: ', userAddress)
+				let h = await  cc.messages()
+				
+				// CREATE THIS FUNCTON ==> loadChatHistory(h)
+					for (let i = 0; i < h.length; i++) {
+						console.log('recipient address: ',h[i].recipientAddress)
+						
+				if (h[i].senderAddress === userAddress  ) {
+					console.log('YOU')
+					let timestamp = simplifyDate(h[i].sent)
+					document.getElementById('chatBox').innerHTML += `<div><strong class='who'>You:</strong> ${h[i].content}<span class="timestamp">  ${timestamp} &check; </span></div>`;
+				
+					
+				} else{
+						console.log('NOT YOU')
+						let timestamp = simplifyDate(h[i].sent)
+						let shortAddr = h[i].senderAddress.substring(38, 42);
+
+						document.getElementById('chatBox').innerHTML += `<div><strong class='who notyou'>${shortAddr}:</strong> ${h[i].content}<span class="timestamp">  ${timestamp} &check; </span></div>`;
+						} 
+				 
+					}
+
+
+				console.log('history:', history)
 			} else {
-				console.warn(`${customAddressToCheck} does not exist in the array.`);
+				console.warn(`YOU DONT HAVE A CHAT HISTORY WITH ${customAddressToCheck} `);
+
 			}
 			// FIN AVOID REOPENING COMS WITH ADDRESESS
 			// ------------------------------------
 
-
 			// CREATE CHAT (client was already created)
 			conversation = await troqchatclient.conversations.newConversation(toAddr)
 			console.log('conversation:', conversation)
-
-
-			// // Load all messages in the conversation
-			// const messages = await conversation.messages()
-			// m = messages
-			// //  m[1].content
-
-			var chatBox = document.getElementById("chat-box");
+			var chatBox = document.getElementById("chatBox");
 
 			// shorten addresses
 			// let shortTo = toAddr.substring(0, 6) + "..." + toAddr.substring(38, 42);
 			let shortTo = toAddr.substring(38, 42);
-
-
 
 			// Listen for new messages in the conversation
 			for await (const message of await conversation.streamMessages()) {
@@ -2162,7 +2184,11 @@ Wallet encrypted and saved into localstorage
 				}
 				if (message.senderAddress == toAddr) {
 					console.log('OTHER', shortTo)
+					mm = message;
+					// let timestamp = message
 					chatBox.innerHTML += `<div><strong class='who'>${shortTo}:</strong> ${message.content} </div>`;
+					document.getElementById('chatBox').innerHTML += `<div><strong class='who notyou'>${shortTo}:</strong> ${message.content}<span class="timestamp">  ${timestamp} &check; </span></div>`;
+
 
 				}
 				// if (message.contentType.sameAs(ContentTypeMultiplyNumber)) {
@@ -2281,10 +2307,6 @@ Wallet encrypted and saved into localstorage
 						if (result.isConfirmed) {
 
 							Swal.fire({ title: `You are paying for the gas for ${message.senderAddress} (it is being automaticalle discounted from your gas balance)!`, width: 600, padding: "3em", color: "#716add", background: "#fff ", backdrop: ` rgba(0,0,123,0.4) url("./nyan-cat.gif") left top no-repeat ` });
-							// let addr = address2.value;
-							// const conversation = troqchatclient.conversations.newConversation(message.senderAddress)
-							// let message = `user accepted to pay for the gas! <pre style="display: none;">peerGasPaymentAccepted0x21</pre>`
-							// conversation.send(`${message}`);// Send a message
 
 							await conversation.send(`user accepted to pay for the gas! <pre style="display: none;">peerGasPaymentAccepted0x21</pre>`);// Send a message
 
@@ -2336,32 +2358,21 @@ Wallet encrypted and saved into localstorage
 
 
 		async function listenNewChats(addr) {
-			console.log('listenNewChats(addr)')
+			console.log('listenNewChats(addr):',addr)
 			const conversation = await troqchatclient.conversations.newConversation(addr)
 
 			for await (const message of await conversation.streamMessages()) {
 				if (message.senderAddress === troqchatclient.address) {
-					// This message was sent from me
-					console.log('This message was sent from me')
+					console.log('This message was sent from me',message)
 					continue
 				}
 
 
 				console.log(`New chat message from ${message.senderAddress}: ${message.content}`)
-				let msg = { address: message.senderAddress, message: message.content }
+				console.log('MSG TYPE:', message.contentType.typeId)
+				// let msg = { address: message.senderAddress, message: message.content }
 				playNotification()
-				// GET LOCAL ADDRESS
-				let preElement = document.getElementById('yourAddress');
-				let localAddr = preElement.getAttribute('address');
-
-				// IF CODE XXXX ==> UPLOAD BALANCE ON RECIPIENT
-				let balanceerc20 = await checkERC20Balance(localAddr)//troq
-				let balancegas = await checkGasBalance(localAddr)//main eth
-				console.log('NEW BALANCE:', balancegas, balanceerc20)
-
-				troqamount.innerHTML = `${optionsList[GLOBALCHAIN].SYMBOL}: ${Number(balanceerc20).toFixed(3)}`
-				miniversion.innerHTML = `GAS: ${Number(balancegas).toFixed(5)}`
-
+			 
 
 
 			}
@@ -2378,7 +2389,7 @@ Wallet encrypted and saved into localstorage
 
 			allConversations.forEach(async (conversation, index) => {
 				peerAddressesArray.push(conversation.peerAddress);
-				console.log(`AVAILABLE CHAT ${index}: ${conversation.peerAddress}`)
+				// console.log(`AVAILABLE CHAT ${index}: ${conversation.peerAddress}`)
 				await listenNewChats(conversation.peerAddress)
 			})
 			paa = peerAddressesArray;
@@ -2402,7 +2413,7 @@ Wallet encrypted and saved into localstorage
 
 			//clear UI
 			chatAddress.innerHTML = ''
-			document.getElementById('chat-box').innerHTML = ''
+			document.getElementById('chatBox').innerHTML = ''
 
 			// DEACTIVATE BUTTONS
 			document.getElementById('user-input').disabled = true;
@@ -2491,6 +2502,9 @@ Wallet encrypted and saved into localstorage
 
 				// NOW SETUP THE CHAT AND OPEN IT
 				await chatWith(t2AddrValue)
+
+				// // close nav
+				// plToggle()
 				// const swiperEl = document.getElementById('troqContainer');
 				// swiperEl.swiper.slideNext();
 
@@ -2519,6 +2533,7 @@ Wallet encrypted and saved into localstorage
 		.)  FILL CURRENCY AND DEPOSIT MENU
 		**********************************************************************************************/
 		function fillSelect() {
+			console.log('filleSelect()')
 			currencySelect.innerHTML = '';
 			try {
 				const selectElement = document.getElementById("currencySelect");
@@ -2567,93 +2582,77 @@ Wallet encrypted and saved into localstorage
 		let init = async () => {
 			console.log('init: INITIALIZING... ')
 
-
-			// NOTIFICATION API
-			// Check if the browser supports notifications
+			// -----------------------------------------
+			// NOTIFICATION API 
 			if (!("Notification" in window)) {
 				alert("This browser does not support desktop notification");
 			}
 
-			// Request permission for the browser to send notifications
 			Notification.requestPermission().then(function (permission) {
+				// BUG: [Violation] Only request notification permission in response to a user gesture.
 				if (permission === "granted") {
-					// If permission is granted, create a new notification
 					var notification = new Notification("Hello, world!", {
 						body: "This is a notification from your web app",
 					});
 
-					// You can handle click event on the notification
 					notification.onclick = function () {
 						console.log("Notification clicked");
-						// Handle the click event as you want, e.g., open a specific page
 					};
 				}
 			});
 
 
-			// FIN NOTIFICATION API
 
+
+			// -----------------------------------------
+			// POPULATE TOKEN LIST AND SET LAST SELECTED TOKEN
 			const chainSelector = document.getElementById('chainSelector');
 			document.getElementById('chainSelector').innerHTML = ''
-			// Iterate through optionsList and populate the selector
 			optionsList.forEach(option => {
 				const optionElement = document.createElement('option');
 				optionElement.value = option.TOKEN_CHAIN_NAME;
 				optionElement.text = option.TOKEN_CHAIN_NAME;
 				chainSelector.appendChild(optionElement);
 			});
-
-
-
-
-
 			GLOBALCHAIN = localStorage.getItem("preferedOption");
-
 			if (GLOBALCHAIN === null) {
 				console.log('GLOBALCHAIN is null');
 				localStorage.setItem("preferedOption", 1);
 				GLOBALCHAIN = 0;
 
 			} else {
-				console.log('GLOBALCHAIN is not null');
 				console.log('GLOBALCHAIN length:', chainSelector.length);
-
 			}
 
 			fillSelect();
-
-			// Set the desired index (e.g., 2 for the third option)
 			var selectedIndex = GLOBALCHAIN;
-
-			// Set the selectedIndex property
 			chainSelector.selectedIndex = selectedIndex;
 
-
-			// CHECK IF WALLET IS LOCKED
+			// -----------------------------------------
+			// CHECK IF UNBACKED WALLET OR IF WALLET IS LOCKED
 			let w = localStorage.getItem('unbackedWallet')
-
 			if (!w) {
 				console.log('NO UNBACKED WALLET');
 				let jsw = localStorage.getItem('jsonWallet')
 
 				if (!jsw) {
-					// 2-  NO WALLET IN LOCALSTORAGE 
-					console.log(' WALLET UNLOCKED(NO jsonWallet WALLET)');
-					// await autoCreateWallet() // ==> initChatClient()
-
+					console.log(' NO JSONWALLET ');
 				} else {
-					console.log('WALLET LOCKED (YES jsonWallet WALLET)');
+					console.log('YES JSONWALLET  ==> WALLET LOCKED ',jsw);
 					let pWall = localStorage.getItem('preferedWallet')
 					if (!pWall) { console.error('NO preferedWallet') }
 					else { console.log('YES!: preferedWallet', pWall) }
-
 					await unlockWallet()
-
 				}
 			}
 
+
+			// return 
+
 			console.log('CONTINUE.. to autocreateWallet')
 			await autoCreateWallet() // ==> initChatClient()
+			
+			
 			const urlParams = new URLSearchParams(window.location.search);
 			const t2AddrValue = urlParams.get('T2Addr');
 			if (t2AddrValue !== null) {
@@ -2663,23 +2662,10 @@ Wallet encrypted and saved into localstorage
 				console.log('T2Addr parameter not found in the URL');
 			}
 
+
+			// AVATAR AQUI?
 			loadContacts()
-			// 			const chainSelector = document.getElementById('chainSelector');
-			// 			document.getElementById('chainSelector').innerHTML =''
-			// 			// Iterate through optionsList and populate the selector
-			// 			optionsList.forEach(option => {
-			// 				const optionElement = document.createElement('option');
-			// 				optionElement.value = option.TOKEN_CHAIN_NAME;
-			// 				optionElement.text = option.TOKEN_CHAIN_NAME;
-			// 				chainSelector.appendChild(optionElement);
-			// 			});
-
-			// // Set the desired index (e.g., 2 for the third option)
-			// var selectedIndex = GLOBALCHAIN;
-
-			// // Set the selectedIndex property
-			// chainSelector.selectedIndex = selectedIndex;
-
+		 
 
 			// check balance
 			await syncBalance()
@@ -2709,23 +2695,42 @@ Wallet encrypted and saved into localstorage
 
 				// OPTIONSLIST SET
 				headerNotes.innerHTML = ''
-				init()
+				init()//???
 
 			});
 
 
-			// LOAD WALLET USER ICON
+			// LOAD WALLET USER AVATAR
+			let avatar = localStorage.getItem('avatar')
 
-			let loadImg = window.localStorage.getItem('image')
-			if (!loadImg) {
-				console.log('NO IAM IMG')
-				fileCreateItemFile.value = null
+			if (avatar) {
+				itemImgMINT.src = JSON.parse(avatar);
+			 
 			} else {
-				itemImgMINT.src = JSON.parse(loadImg);
-				itemImgMINT.style.display = 'block'
+				console.error("loadImg is undefined or null.");
+				// let q= await readDIDRecord('did:ethr:0xA400439DaAaA84eBe1fE9c17649e59D5cc3fc612')
+
+
 			}
 
-			console.log((await troqchatclient.conversations.list()).length, "connected addresses.")
+
+			// console.log((await troqchatclient.conversations.list()).length, "connected addresses.")
+			let chatList = await troqchatclient.conversations.list()
+			c= chatList;
+			// console.log("chatList: ",chatList)
+			let chatLength = chatList.length;
+			console.log(chatLength, "connected addresses.")
+
+			// Using a for loop
+			let peerAddresses = [];
+			for (let i = 0; i < chatLength; i++) {
+				// console.log(chatList[i].peerAddress);
+				peerAddresses.push(chatList[i].peerAddress);
+
+			}
+			console.log('PeerAddresses:', peerAddresses);
+
+
 			await listenAllNewAddresses();
 
 
@@ -2771,14 +2776,11 @@ Wallet encrypted and saved into localstorage
 				userAddress = values[1];
 			}
 
-
 			let network = await checkNetwork();
 			console.log('network:', network)
 
 			if (network == false) {
 				console.log('network FALSE:', network)
-
-
 				headerNotes.innerHTML = `  <div class="alert alert-danger alert-dismissible fade show headerNotes"> <button type="button" class="btn-close" data-bs-dismiss="alert"></button> <strong>Danger!</strong> Error de red. </div>`
 
 				return
@@ -2787,15 +2789,11 @@ Wallet encrypted and saved into localstorage
 				console.log('network TRUE:', network)
 			}
 
-
 			let balanceerc20 = await checkERC20Balance(userAddress)//troq
 			let balancegas = await checkGasBalance(userAddress)//main eth
 
 			troqamount.innerHTML = `${optionsList[GLOBALCHAIN].SYMBOL}: ${Number(balanceerc20).toFixed(3)}`
 			miniversion.innerHTML = `GAS: ${Number(balancegas).toFixed(5)}`
-
-
-
 		}
 
 
@@ -2870,7 +2868,7 @@ Wallet encrypted and saved into localstorage
 				document.getElementById('cwContacts').innerHTML += `
 					<li data-address="${addr}"  id="${addr}" class='newmessage'> 
 						<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
-							<img src="./anonym-icon.jpeg" alt="Avatar" class="rounded-circle"> 
+							<img src="./anonym.jpg" alt="Avatar" class="rounded-circle"> 
 								<span>${shortMsg} <span>
 							<i class="fa-solid fa-trash"></i>
 							
@@ -2882,7 +2880,7 @@ Wallet encrypted and saved into localstorage
 					</li> `
 
 			} else {
-				console.log('OVERWRITE last UnknownContact\'s message!.');
+				console.log('OVERWRITE ALREADY EXISTEND  UnknownContact!.');
 
 				// Search for the element with the specified ID
 				var elementToModify = document.getElementById(addr);
@@ -2899,7 +2897,7 @@ Wallet encrypted and saved into localstorage
 					document.getElementById('cwContacts').innerHTML += ` 
 					<li data-address="${addr}" id="${addr}"  class='newmessage'> 
 					<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
-						<img src="./anonym-icon.jpeg" alt="Avatar" class="rounded-circle"> 
+						<img src="./anonym.jpg" alt="Avatar" class="rounded-circle"> 
 						<span>${shortMsg} <span>
 						<i class="fa-solid fa-trash"></i></a> </li> `
 				}
@@ -2942,10 +2940,10 @@ Wallet encrypted and saved into localstorage
 		}
 
 		async function selectChat(el) {
-			console.log('selectChat(), CLICKED CONTACT', el)
+			// console.log('selectChat(), CLICKED CONTACT', el)
 
 			const address = el.dataset.address;
-			console.log('CONTACT SELECTED:', address);
+			console.log('CLICKED CONTACT (selectChat()):', address);
 
 			// 1- close navbar
 			plToggle()
@@ -3006,7 +3004,7 @@ Wallet encrypted and saved into localstorage
 				const functionSignature = tokenInterface.getSighash('permit');
 				const hasPermitFunction = abi.some((item) => item.type === 'function' && item.signature === functionSignature);
 				console.log('EIP-2612 compatible:', hasPermitFunction);
-
+				return
 
 			} catch (error) {
 				console.log('EIP-2612 not compatible:', error);
@@ -3545,27 +3543,17 @@ Wallet encrypted and saved into localstorage
 
 
 
-		async function openSend() {
+		async function openSend(addr) {
 			console.log('openingn SEND VALUE')
-			// 1- CREATE GUEST WALLET (FOR DEMO PURPOSES)
-			// try { guestwallet = await ethers.Wallet.createRandom() }
-			// catch (error) { console.log(error.message); fixedToast.fire('Error', error.message, "error"); }
-			// document.getElementById('CWresult').innerHTML =  ` <pre id='waddr'>guest demo wallet: ${guestwallet.address} </pre> ` 
-			// console.log('GUEST WALLET FOR DEMO:', guestwallet.address)
-			// address.value = guestwallet.address;
-			// amount.value = 30;
-			// message.value = "carottes";
-			// nonce.value = Date.now();
+			if(addr){
+				console.log('there is address',addr)
+				address2.value  = addr;
 
-			// prefill for demo purposes
-			// let toaddr = localStorage.getItem('toAddress')
-			// if (toaddr) {
-			// 	address2.value = toaddr;
-			// }
-			// address2.value = guestwallet.address;
-			// amount2.value = 1;
-			// message2.value = "";
-			// nonce2.value = Date.now();
+			}
+			else{
+				console.log('there is not addr')
+			}
+		
 
 			currencyToSend.innerHTML = optionsList[GLOBALCHAIN].SYMBOL;
 			// open modal
@@ -3873,6 +3861,493 @@ Wallet encrypted and saved into localstorage
 			console.log('OPEN CHAT')
 			plToggle();
 		}
+
+
+
+		/*********************************************************************************************
+		.)   WALlET IMG validation
+		**********************************************************************************************/
+
+
+		itemImgMINT.onclick = function (e) {
+			console.log('itemImgMINT clicked')
+			e.preventDefault()
+			loadCroppedImg()
+			// fileCreateItemFile.click();
+
+		};
+
+
+		// async function loadCroppedImg() {
+
+		// 	await fileCreateItemFile.click();
+		// 	let previewsrc;
+		// 	fileCreateItemFile.onchange = async function () {
+		// 		console.log("img changed");
+
+		// 		if (fileCreateItemFile.files.length == 1) {
+		// 			// itemImgMINT.src = ''
+
+		// 			const data = this.files[0]
+		// 			let name = data.name;// funciona...
+		// 			console.log('name: ', name);
+
+
+		// 			// IMG
+		// 			const files = [
+		// 				new File([data], name, { type: 'application/jpg' })
+		// 			]
+		// 			console.log('FILES: ', files)
+		// 			let reader = new FileReader();
+		// 			reader.readAsDataURL(data);
+
+		// 			reader.onload = await function () {
+		// 				console.log('READER ONLOAD ', reader.result)
+		// 				previewsrc = reader.result;
+		// 				// return reader.result;
+
+		// 				Swal.fire({
+		// 					title: 'Create avatar',
+		// 					html: `
+		// 			<img id="preview" src="${previewsrc}">
+		// 			<div>
+		// 			<img id="cropperjs" src="${previewsrc}">
+		// 			</div>
+		// 			`,
+		// 					// didOpen: () => {
+		// 					willOpen: () => {
+		// 						// const image = Swal.getPopup()!.querySelector('#cropperjs') as HTMLImageElement
+		// 						// const image = Swal.getPopup().querySelector('#cropperjs') as HTMLImageElement
+		// 						const image = document.querySelector('#cropperjs');
+
+		// 						const cropper = new Cropper(image, {
+		// 							aspectRatio: 1,
+		// 							viewMode: 1,
+		// 							crop: throttle(function () {
+		// 								const croppedCanvas = cropper.getCroppedCanvas()
+		// 								// const preview = Swal.getPopup().querySelector('#preview') as HTMLImageElement
+		// 								const preview = document.querySelector('#preview');
+
+		// 								// const preview = Swal.getPopup()!.querySelector('#preview') as HTMLImageElement
+		// 								preview.src = croppedCanvas.toDataURL()
+		// 							}, 25),
+		// 						})
+		// 					},
+		// 					preConfirm: () => {
+
+		// 						const popup = Swal.getPopup();
+
+		// 						if (popup) {
+		// 							const previewElement = popup.querySelector('#preview') as HTMLImageElement;
+
+		// 							console.error('Preview element not found');
+
+		// 							const src = previewElement.src;
+		// 							if ('previewElement:', src) {
+		// 								// Now you can use src safely
+		// 								return src
+		// 							} else {
+		// 								console.error('Preview element not found');
+		// 							}
+		// 						} else {
+		// 							console.error('Popup not found');
+		// 						}
+
+		// 					},
+		// 				}).then(function (result) {
+		// 					console.log('PRECONFIRM:', result)
+		// 					console.log('B64:', result.value)
+		// 					itemImgMINT.src = result.value;
+		// 					let b64 = JSON.stringify(result.value)
+		// 					localStorage.setItem('image', b64);
+		// 					itemImgMINT.style.display = 'block'
+		// 					Toast.fire('Image added', '', "success");
+		// 				})
+
+		// 			};
+		// 		}
+
+		// 	};
+
+		// }
+
+		async function compressImage(imageSrc, maxSizeKB) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = function () {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Calculate new dimensions to maintain aspect ratio
+            const MAX_WIDTH = 800;
+            const MAX_HEIGHT = 600;
+            let width = img.width;
+            let height = img.height;
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
+            }
+
+            // Set canvas dimensions
+            canvas.width = width;
+            canvas.height = height;
+
+            // Draw image on canvas
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // Convert canvas to Blob and compress to target size
+            canvas.toBlob(function (blob) {
+              // Check if compressed image is within target size
+              if (blob.size / 1024 <= maxSizeKB) {
+                // Resolve with the compressed data URL
+                resolve(canvas.toDataURL());
+              } else {
+                // Reject if compressed image size exceeds target size
+                reject('Compressed image size exceeds the specified limit');
+              }
+            }, 'image/jpeg', 0.7); // Adjust the quality factor (0.7 here) to achieve desired compression level
+          };
+          img.src = imageSrc;
+        });
+      }
+
+
+		async function loadCroppedImg() {
+        console.log('loadCroppedImg()');
+
+		// openModalId('#createDIDModal')
+        await fileCreateItemFile.click();
+        let previewsrc;
+
+        fileCreateItemFile.onchange = async function () {
+          if (fileCreateItemFile.files.length == 1) {
+            const data = this.files[0];
+            const name = data.name;
+
+            // Read the file and get its base64 data
+            let reader = new FileReader();
+            reader.readAsDataURL(data);
+
+            reader.onload = async function () {
+              previewsrc = reader.result;
+
+              // Compress the image
+              const compressedDataUrl = await compressImage(previewsrc, 100); // 100KB limit
+
+              // Display the image in a SweetAlert2 popup
+              Swal.fire({
+                title: dictionary[globalLang]["uploadsignature"],
+                html: `
+                        <img id="preview" src="${compressedDataUrl}" style="display:none">
+                        <div>
+                            <img id="cropperjs" src="${compressedDataUrl}">
+                        </div>
+                    `,
+                allowOutsideClick: () => {
+                  const popup = Swal.getPopup();
+                  popup.classList.remove('swal2-show');
+                  setTimeout(() => {
+                    popup.classList.add('animate__animated', 'animate__headShake');
+                  });
+                  setTimeout(() => {
+                    popup.classList.remove('animate__animated', 'animate__headShake');
+                  }, 500);
+                  return false;
+                },
+                willOpen: () => {
+                  const image = document.querySelector('#cropperjs');
+                  const cropper = new Cropper(image, {
+                    aspectRatio: '4:3',
+                    viewMode: 1,
+                    crop: throttle(function () {
+                      const croppedCanvas = cropper.getCroppedCanvas();
+                      console.log('croppedCanvas:', croppedCanvas);
+                      const preview = document.querySelector('#preview');
+                      preview.src = croppedCanvas.toDataURL();
+                    }, 25),
+                  });
+                },
+                preConfirm: () => {
+                  const popup = Swal.getPopup();
+                  if (popup) {
+                    const previewElement = popup.querySelector('#preview'); // Assuming preview is the ID of the image element
+                    if (previewElement instanceof HTMLImageElement) {
+                      return previewElement.src;
+                    }
+                  }
+                },
+              }).then(function (result) {
+                itemImgMINT.src = result.value;
+                let b64 = JSON.stringify(result.value);
+                console.log('b64 image:', b64);
+                localStorage.setItem('avatar', b64);
+                itemImgMINT.style.display = 'block';
+                Toast.fire('Avatar added', '', "success");
+
+
+      // ...........................................................................................
+      // 3.RECORD TO ZKROLLUP
+      // ..........................................................................................
+
+      let avatar = localStorage.getItem('avatar');
+      let cid = '';
+	  
+	  //   CHECK IF THERE IS AN unbackedWallet
+	  // 0- CHECK IF UNBACKED WALLET INLOCALSTORAGE
+	  let unbw = localStorage.getItem('unbackedWallet')
+	  
+	  if (!unbw) {
+		  console.log('1- NO UNBACKED WALLET');
+		  // let jsw = localStorage.getItem('jsonWallet')
+		  signer =  getLocalWalletSigner();
+		   did = `did:ethr:${signer.address}`
+		console.log('DID: ', did)
+
+	return //falta testear
+}
+else {
+	console.log('YES THERE IS AN UNBACKED WALLET > DEDUCTING SIGNER NOW!')
+
+	const walletData = JSON.parse(unbw);
+				try { localWallet = ethers.Wallet.fromMnemonic(walletData); }
+				catch (error) { console.log(error.message, 'ERROR WALLET!'); 
+				// localStorage.removeItem('unbackedWallet');
+			 }
+
+			 let provider = new ethers.providers.JsonRpcProvider(`${optionsList[0].API}`); //v5
+			//  let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v6
+			  signer = localWallet.connect(provider);
+			 console.log('SIGNER!:', signer);
+			//  return signer;
+			did = `did:ethr:${signer.address}`
+			console.log('DID: ', did)
+
+			}
+      try {
+
+	  
+        console.log('creating did RECORD, signer', signer)
+         createDIDRecord(did, avatar,cid,  signer);
+		//  https://explorer.testnet.polybase.xyz/studio/pk%2F0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9%2FIURISNATURALIS/collections/CHATWALLETDID
+      } catch (error) {
+        console.error('An error occurred while creating DID record:', error);
+        return
+      }
+
+
+
+
+              });
+            };
+          }
+        };
+      }
+
+
+
+	  async function createDIDRecord(did, avatar, cid, signer) {
+      if (!signer) {
+        console.log('there is no signer')
+        signer = await getLocalWalletSigner();
+        if (!signer) {
+          console.log('Handle case where signer is not obtained');
+          return; // Or throw an error, or handle the case in another way
+        }
+      } else {
+        console.log('Now you have the signer, do whatever you need with it:', signer);
+        const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
+        const data = [did, avatar, cid];
+        db.signer(async (data) => {
+          const signature = await signer.signMessage(data);//FIXED!
+          return { h: 'eth-personal-sign', sig: signature, };
+        });
+
+        const collectionReference = db.collection("CHATWALLETDID");
+        await collectionReference.create(data);
+      }
+    }
+
+    async function readDIDRecord(id) {
+      const db = new Polybase({
+        defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS"
+      });
+      const collectionReference = db.collection("CHATWALLETDID");
+      const record = await collectionReference.record(id).get();
+      const { data } = record; // or const data = record.data
+      const resultRecord = record.get();
+      console.log('resultRecord:', resultRecord)
+      return resultRecord
+    }
+
+ 
+    async function updateDIDavatar(id, newavatar) {
+      console.log('updateDIDavatar()')
+
+      let signer = await getLocalWalletSigner();
+      if (!signer) {
+        console.log('Handle case where signer is not obtained');
+      }
+      else {
+        console.log('Now you have the signer, do whatever you need with it:', signer);
+        const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
+        db.signer(async (newavatar) => {
+          console.log('data:', newavatar)
+          const signature = await signer.signMessage(newavatar);
+          return { h: 'eth-personal-sign', sig: signature, };
+        });
+        try {
+          const recordData = await db
+            .collection("CHATWALLETDID")
+            .record(id)
+            .call("updateAvatar", [newavatar]);
+          console.log("recordData:", recordData);
+        } catch (error) {
+          console.error("An error occurred:", error);
+          fixedToast.fire('Error', error.message, "error");
+        }
+      }
+    }
+
+
+
+
+    async function deleteDID(id) {
+      console.log('deleteDID()')
+
+      Swal.fire({
+        title: dictionary[globalLang]["deletedidtitle"],
+        text: dictionary[globalLang]["deletediddescription"],
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: dictionary[globalLang]["delete"]
+
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+
+
+
+          let signer = await getLocalWalletSigner();
+          if (!signer) {
+            console.log('Handle case where signer is not obtained');
+          }
+          else {
+            console.log('Now you have the signer, do whatever you need with it:', signer);
+            const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
+            db.signer(async (id) => {
+              const signature = await signer.signMessage(id);
+              // const signature = await signer.signMessage(JSON.stringify(id));
+              console.log('signature:', signature)
+              return { h: 'eth-personal-sign', sig: signature, };
+            });
+            try {
+              const recordData = await db
+                .collection("DID")
+                .record(id)
+                .call("deleteDID");
+              console.log(" recordData:", recordData);
+            } catch (error) {
+              console.error("An error occurred:", error);
+              fixedToast.fire('Error', error.message, "error");
+            }
+            Swal.fire({
+              title: "DELETED!",
+              text: "Your DID was deleted",
+              icon: "success"
+            });
+            await walletDisconnect()
+          }
+
+
+
+
+        }
+      })
+    }
+
+
+
+
+    async function getLocalWalletSigner() {
+      console.log('getLocalWalletSigner()');
+		// check if wallet is backed up or not
+	
+
+		// return
+      return Swal.fire({
+        title: 'Unlock your LOCALWALLET',
+        // title: dictionary[globalLang]["unlocklocalwallet"],
+        input: 'password',
+        inputAttributes: { autocapitalize: 'off' },
+        showCancelButton: true,
+        confirmButtonText: 'Enter',
+        showLoaderOnConfirm: true,
+        backdrop: true,
+        preConfirm: (login) => { },
+        allowOutsideClick: () => {
+          const popup = Swal.getPopup();
+          popup.classList.remove('swal2-show');
+          setTimeout(() => {
+            popup.classList.add('animate__animated', 'animate__headShake');
+          });
+          setTimeout(() => {
+            popup.classList.remove('animate__animated', 'animate__headShake');
+          }, 500);
+          return false;
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          console.log('password entered!');
+          if (result.value == '') {
+            console.log('IS EMPTY');
+            Toast.fire({ icon: 'error', title: 'Password cannot be empty' });
+            return null;
+          }
+
+          let encryptedjson = localStorage.getItem('jsonWallet');
+          let ew = JSON.parse(encryptedjson);
+          console.log('pub key of wallet in localstorage:', ew.address);
+
+          try {
+            return ethers.Wallet.fromEncryptedJson(encryptedjson, result.value).then(async (localWallet) => {
+              console.log('localWallet.publicKey:', localWallet.publicKey);
+              let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v6
+              const signer = localWallet.connect(provider);
+              console.log('SIGNER:', signer);
+              return signer;
+            });
+          } catch (error) {
+            console.error('Error during wallet decryption:', error);
+            Toast.fire('Error', error.message, "error");
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: error.message,
+            });
+            return null;
+          }
+        }
+        return null;
+      }).catch(error => {
+        console.error('Error during Swal prompt:', error.reason);
+        Toast.fire('Error', error.message, "error");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.message,
+        });
+
+        return null;
+      });
+    }
 
 	</script>
 </body>

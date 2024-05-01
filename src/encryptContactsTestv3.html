@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENCRYPT CONTACTS TEST v3</title>
+
+    <style>
+        body {
+            background-color: black;
+            color: green;
+        }
+
+        #result {
+            word-wrap: break-word;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ENCRYPT CONTACTS TEST V3</h1>
+    <p>
+        // ACCOUNT ADDRESS
+        <!-- GANACHE -->
+        // 0xEce6CDC307a55B2c4fE5745208Cea58AB1ec1111
+        <textarea id="inputText" rows="5" cols="50"></textarea><br>
+    <div id="hashResult">Hash:</div>
+    <button onclick="signHash()">SIGN</button>
+    <div id="result"></div>
+
+    <br><br>
+    <button onclick="verify()">VERIFY</button>
+    <div id="resultAddress"></div>
+    <script src="js/ethers.6.12.0.umd.min.js" type="application/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"
+        integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <script>
+
+
+        // AUTOHASH
+        inputText.addEventListener("input", function () {
+            console.log('text changed', inputText.value)
+            const text = inputText.value;
+            // const hash = ethers.keccak256(ethers.toUtf8Bytes(text));
+            const hash = ethers.sha256(ethers.toUtf8Bytes(text));
+            hashResult.innerText = "Hash: " + hash;
+            hashResult.setAttribute("data-hash", hash);
+            console.log('sha-256', hash);
+
+
+        });
+
+
+        // SIGN
+        async function signHash() {
+            const privateKey = '0xc1f2c5c2b4267c92c71fbb092cc241a64c7a9c3a599907eb69ed5e7038175ad4';//address:
+            const wallet = new ethers.Wallet(privateKey);
+            w = wallet;
+            console.log('wallet:', wallet);
+            let h = hashResult.getAttribute("data-hash");
+            console.log('signing: ', h)
+            const signedMessage = await wallet.signMessage(h);
+            console.log('signedMessage()', signedMessage);
+            document.getElementById('result').innerHTML = signedMessage;
+            document.getElementById('result').setAttribute("data-signature", signedMessage);
+        };
+
+
+        //  VERIFY
+        async function verify() {
+            console.log('verify()')
+            let hash = document.getElementById("hashResult").getAttribute("data-hash");
+            let signature = document.getElementById("result").getAttribute("data-signature");
+            let verif = await ethers.verifyMessage(hash, signature);
+            console.log('verification:', verif)
+            document.getElementById('resultAddress').innerHTML = verif;
+
+        }
+
+
+
+        //// ------------------------ ///
+        //// Hybrid encryption 
+        //// ------------------------ ///
+        // 1.Generate a symmetric key.
+        // 2.Encrypt the data with the symmetric key.
+        // 3.Encrypt the symmetric key with the recipient's public key.
+        // 4.Store the encrypted data and encrypted symmetric key in the database.
+        // 5.Retrieve the encrypted data and encrypted symmetric key from the database.
+        // 6.Decrypt the symmetric key with the recipient's private key.
+        // Use the decrypted symmetric key to decrypt the data.
+        // Sample data to encrypt
+        const dataToEncrypt = "Hello, world!";
+
+        // Convert the data to an ArrayBuffer
+        const dataBuffer = new TextEncoder().encode(dataToEncrypt);
+
+        let iv;
+
+        // Generate a random symmetric key
+        window.crypto.subtle.generateKey(
+            {
+                name: "AES-CBC",
+                length: 256, // 256-bit key
+            },
+            true, // extractable
+            ["encrypt", "decrypt"] // key can be used for both encryption and decryption
+        )
+            .then((key) => {
+                // Encrypt the data with the symmetric key
+                window.crypto.subtle.encrypt(
+                    {
+                        name: "AES-CBC",
+                        iv: iv = window.crypto.getRandomValues(new Uint8Array(16)) // Generate a random initialization vector and store it in iv
+                    },
+                    key,
+                    dataBuffer
+                )
+                    .then((encryptedDataBuffer) => {
+                        // Convert the encrypted data to a base64-encoded string
+                        const encryptedData = btoa(String.fromCharCode(...new Uint8Array(encryptedDataBuffer)));
+                        console.log("Encrypted Data:", encryptedData);
+
+                        // Decrypt the data with the symmetric key
+                        window.crypto.subtle.decrypt(
+                            {
+                                name: "AES-CBC",
+                                iv: iv // Use the same initialization vector used for encryption
+                            },
+                            key,
+                            encryptedDataBuffer
+                        )
+                            .then((decryptedDataBuffer) => {
+                                // Convert the decrypted data ArrayBuffer to a string
+                                const decryptedData = new TextDecoder().decode(decryptedDataBuffer);
+                                console.log("Decrypted Data:", decryptedData);
+                            })
+                            .catch((error) => {
+                                console.error("Decryption error:", error);
+                            });
+                    })
+                    .catch((error) => {
+                        console.error("Encryption error:", error);
+                    });
+            })
+            .catch((error) => {
+                console.error("Key generation error:", error);
+            });
+
+
+
+    </script>
+</body>
+
+</html>
