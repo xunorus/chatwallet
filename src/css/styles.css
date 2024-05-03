@@ -1163,3 +1163,7 @@ button {
   flex-grow: 1;
   flex-basis: 70px;
 } */
+
+#actionButtons{
+  display: flex
+}

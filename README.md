@@ -28,4 +28,9 @@ nvm install 20
 yarn parcel src/index.html --dist-dir public  --public-url ./
 firebase deploy --only hosting:chatwallet-x
 ```
-
+# test firebase 
+```
+firebase emulators:start
+```
+# log
+v1.11 Fix duplicate msgs and anonym icon.
