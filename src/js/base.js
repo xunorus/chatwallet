@@ -413,7 +413,7 @@ function openModalId(id, event) {
 
     // Check if the modal is open
     var isModalOpen = window[id + "Modal"]._isShown;
-    console.log("Is modal open?", window[id + "Modal"], isModalOpen);
+    // console.log("Is modal open?", window[id + "Modal"], isModalOpen);
   }, 50);
 }
 
@@ -421,7 +421,7 @@ function closeModalId(id, event) {
   console.log("closing modal", id, event);
   var modal = window[id + "Modal"];
   if (modal && modal._isShown) {
-    console.log("Is modal open?", modal, modal._isShown);
+    // console.log("Is modal open?", modal, modal._isShown);
     modal.hide(event);
   } else {
     console.log("Modal is not open or not defined.");
@@ -448,6 +448,9 @@ function playBeep() {
     oscillator.stop();
   }, 100);
 }
+
+
+
 
 // Initialize Tone.js
 Tone.start();
@@ -514,4 +517,100 @@ lfo.connect(noiseSynth.volume);
 function triggerCatSound() {
   // Trigger the noise synth to produce the cat sound
   noiseSynth.triggerAttackRelease("8n");
+}
+
+
+// Create audio context
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+// Function to generate cat sound
+function generatePhoneToneSound() {
+  // Create an oscillator node
+  const oscillator = audioContext.createOscillator();
+  
+  // Set oscillator type to "meow"
+  oscillator.type = "sine";
+  
+  // Set frequency of the oscillator to produce "meow" sound
+  oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+  
+  // Connect the oscillator to the audio context destination
+  oscillator.connect(audioContext.destination);
+  
+  // Start the oscillator
+  oscillator.start();
+  
+  // Stop the oscillator after 500 milliseconds (adjust as needed)
+  setTimeout(() => {
+    oscillator.stop();
+  }, 500);
+}
+
+
+// Function to trigger cat sound
+function triggerToneSound() {
+  generatePhoneToneSound();
+}
+
+
+//  -----------------
+// Create a simple click sound
+// const clickSynth = new Tone.Synth().toDestination();
+
+function playButtonClickSound() {
+  // Trigger the synth to produce a short click sound
+  clickSynth.triggerAttackRelease("C4", "8n");
+}
+ 
+// Create a buzzer-like sound for error notifications
+const errorSynth = new Tone.Synth({
+  oscillator: {
+    type: "sine"
+  },
+  envelope: {
+    attack: 0.1,
+    decay: 0.2,
+    sustain: 0,
+    release: 0.1
+  }
+}).toDestination();
+
+function playErrorNotificationSound() {
+  // Trigger the synth to produce the error notification sound
+  errorSynth.triggerAttackRelease("G3", "8n");
+}
+ 
+// Create a bright sound for success notifications
+const successSynth = new Tone.Synth({
+  oscillator: {
+    type: "sawtooth"
+  },
+  envelope: {
+    attack: 0.1,
+    decay: 0.2,
+    sustain: 0.3,
+    release: 0.1
+  }
+}).toDestination();
+
+function playSuccessNotificationSound() {
+  // Trigger the synth to produce the success notification sound
+  successSynth.triggerAttackRelease("C5", "8n");
+}
+
+// Create a warning sound for warning notifications
+const warningSynth = new Tone.Synth({
+  oscillator: {
+    type: "triangle"
+  },
+  envelope: {
+    attack: 0.1,
+    decay: 0.2,
+    sustain: 0.5,
+    release: 0.1
+  }
+}).toDestination();
+
+function playWarningNotificationSound() {
+  // Trigger the synth to produce the warning notification sound
+  warningSynth.triggerAttackRelease("D4", "8n");
 }

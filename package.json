@@ -6,15 +6,11 @@
   "author": "xunorus <xunorus@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@aave/contract-helpers": "1.21.1",
-    "@aave/math-utils": "1.21.1",
     "@github/mini-throttle": "^2.1.1",
     "@polybase/client": "^0.6.6",
-    "@web5/api": "^0.8.4",
     "@web5/credentials": "^0.4.1",
-    "@web5/dids": "^0.2.4",
-    "@web5/user-agent": "^0.2.5",
-    "@xmtp/xmtp-js": "11.2.0",
+    "@xmtp/content-type-transaction-reference": "^1.0.3",
+    "@xmtp/xmtp-js": "^11.3.2",
     "bignumber.js": "^9.x",
     "cropperjs": "^1.6.1",
     "crypto-js": "^4.2.0",
@@ -37,5 +33,8 @@
     "crypto-browserify": "^3.12.0",
     "stream-browserify": "^3.0.0",
     "vm-browserify": "^1.1.2"
+  },
+  "@parcel/resolver-default": {
+    "packageExports": true
   }
 }

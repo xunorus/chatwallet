@@ -1021,6 +1021,7 @@ height: 30vh;
     
     #chatAddress {
       margin-right: auto; /* Pushes makeHonorloan to the right */
+      cursor: pointer;
     }
     .honorloanbutton{
       
@@ -1166,4 +1167,50 @@ button {
 
 #actionButtons{
   display: flex
+}
+
+address{
+  cursor: pointer;
+}
+
+
+#activeToken{
+  display: flex;
+  flex-direction: column;
+}
+#troqamount{
+  background: no-repeat;
+  border: none;
+  color: var(--c1);
+}
+/* dirty UI phone fix */
+/* Target devices with a similar aspect ratio to the Samsung Galaxy S9 */
+/* @media only screen and (device-aspect-ratio: 9/18.5) { */
+  @media only screen and (max-width: 767px) {
+.swiper-wrapper{
+  height: calc(100vh - 81px)!important;
+  top: 81px!important;
+  position: fixed!important;
+}
+#chatcontainer{
+  height: calc(100vh - 136px)!important;
+	margin-top: 0!important;
+  overflow-y: scroll!important;
+}
+
+#qrtroqcontainer {
+  margin-top: 2px!important;
+}
+body.swal2-height-auto {
+  height: 100vh !important
+ 
+}
+
+
+#chatfooter {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+}
+ 
 }

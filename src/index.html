@@ -51,6 +51,10 @@
 			/* Grey */
 			cursor: not-allowed;
 		}
+
+
+
+
 	</style>
 </head>
 
@@ -144,11 +148,11 @@
 	<div class="overlay"></div>
 
 	<nav id='navbar' class="  ">
-		<select class="left translation" id="chainSelector"> </select>
+		<!-- <select class="left translation" id="chainSelector"> </select> -->
 		<!-- <div class="center"> <h1 id="fontlogo">CHATWALLET <span id="miniversion">chatwallet v1.00Alpha</span></h1> </div> -->
 		<div class="center" id="center">
 			<h1 id="fontlogo">CHATWALLET </h1>
-			<span id="miniversion">chatwallet v1.11Alpha</span>
+			<span id="miniversion">chatwallet v1.13Alpha</span>
 		</div>
 		<span class="badge bg-primary" id="chatBadge">-</span>
 		<button id="" class="right hamburger hamburger--elastic" type="button" aria-label="Menu"
@@ -169,7 +173,7 @@
 		</a>
 		<input name="inputItemImgMINT" id="fileCreateItemFile" type="file" style="display:none" accept="image/*" />
 		<img id="itemImgMINT" src="img/anonym.jpg" alt="Avatar" class="">
-		 
+
 		<div class="container mt-3">
 			<div class="row settingsBar">
 				<div class="col text-center">
@@ -207,8 +211,10 @@
 			<div class="swiper-slide">
 				<div id="qrtroqcontainer" class=" container swiperSlide">
 					<div>
-						<article class="se-content">
-							<span id="troqamount"></span>
+						<article class="se-content" id="activeToken">
+							<!-- <span id="troqamount"></span> -->
+		<select class="left translation" id="chainSelector"> </select>
+		<button id="troqamount"></button>
 							<span id="ethamount"></span>
 						</article>
 
@@ -254,10 +260,14 @@
 						<span id="chatAddress"></span>
 						<span class="alignright " id="actionButtons"> </span>
 					</div>
-					<div class="" id="chatBox"> </div>
+					<div class="" id="chatBox">
+<!-- 
+						<div id="svg-container"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"> <image href="./nochats.svg" width="100%" height="100%" /> </svg> </div>    <h1 id="banner-text" class="center">Add a contact and start chatting</h1> -->
+
+					</div>
 					<div id="chatfooter" class="">
 						<div class="input-group">
-							<input type="text" class="form-control" id="user-input" placeholder="Type a message..."
+							<input type="text" class="form-control" id="chatTextInput" placeholder="Type a message..."
 								disabled>
 							<button class="btn btn-primary" id="send-button" onclick="sendMessage()" disabled>
 								<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
@@ -363,27 +373,27 @@
 					<h5 class="modal-title" id="">Create Your DID</h5>
 				</div>
 				<div class="modal-body" id="">
-					
-					
-					
+
+
+
 					<div id="modalForm">
 						<label class="name" for="name-field">
-						Name:
-						<input id="name-field" />
+							Name:
+							<input id="name-field" />
 						</label>
 						<label class="email" for="email-field">
-						Email:
-						<input id="email-field" type="email" />
+							Email:
+							<input id="email-field" type="email" />
 						</label>
 						<button>
-						Submit
+							Submit
 						</button>
 					</div>
 
 
 
-					 
- 
+
+
 
 				</div>
 				<div class="modal-footer">
@@ -509,7 +519,7 @@
 						<div id="txbuilder">
 							<p id="txdetails" class="container">
 								to( Address):
- 
+
 
 								<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"
 									onclick="event.stopPropagation(); scanAddress()"
@@ -772,7 +782,7 @@
 						<div class="custom-input-group">
 							<div class="input-group">
 								<select class="custom-select dropdown" name="currency" id="currencySelect">
-							
+
 								</select>
 								<p id='currencyConversor'></p>
 							</div>
@@ -882,8 +892,13 @@
 		import { Client } from '@xmtp/xmtp-js'
 		window.Client = Client;
 
-		import { CompositeCodec } from "@xmtp/xmtp-js";
-		window.CompositeCodec = CompositeCodec;
+		import { ContentTypeTransactionReference, TransactionReferenceCodec } from "@xmtp/content-type-transaction-reference";
+		window.ContentTypeTransactionReference = ContentTypeTransactionReference;
+		window.TransactionReferenceCodec = TransactionReferenceCodec;
+
+		// import { CompositeCodec } from "@xmtp/xmtp-js";
+		// window.CompositeCodec = CompositeCodec;
+
 
 		// CROPPER		
 		import Cropper from 'cropperjs'
@@ -903,16 +918,32 @@
 			},
 		});
 
-		import { Pool, InterestRate } from "@aave/contract-helpers";
-		window.Pool = Pool; //make global
-		window.InterestRate = InterestRate; //make global
+		// import { Pool, InterestRate } from "@aave/contract-helpers";
+		// window.Pool = Pool; //make global
+		// window.InterestRate = InterestRate; //make global
 
-// 		'https://cdn.jsdelivr.net/npm/@polybase/client@latest/dist/bundle.min.js',
-// 'https://cdn.jsdelivr.net/npm/@polybase/auth@latest/dist/bundle.min.js',
-import { Polybase } from "@polybase/client";
-    window.Polybase = Polybase; //make global
+		// 		'https://cdn.jsdelivr.net/npm/@polybase/client@latest/dist/bundle.min.js',
+		// 'https://cdn.jsdelivr.net/npm/@polybase/auth@latest/dist/bundle.min.js',
+		import { Polybase } from "@polybase/client";
+		window.Polybase = Polybase; //make global
 
 	</script>
+
+<script type="module">
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register(new URL('js/sw.js', import.meta.url))
+                .then(function(registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(function(error) {
+                    console.error('Service Worker registration failed:', error);
+                });
+        });
+    } else {
+        console.log('Service Worker is not supported');
+    }
+</script>
 
 	<script src="js/base.js"></script>
 	<script>
@@ -1231,9 +1262,15 @@ import { Polybase } from "@polybase/client";
 
 			// let qrSize
 			if (isMobile.matches) {
-				// Code for mobile screens
 				console.log("Mobile screen detected");
-				qrSize = 310;
+				
+				//get container width
+				var containerWidth = document.getElementById('qrtroqcontainer').offsetWidth;
+				
+				// Code for mobile screens
+				qrSize = containerWidth - 50 ;
+				console.log("Mobile'scontainerWidth: ",containerWidth);
+				// qrSize = 310;
 				window.scrollTo(0, 0);
 
 
@@ -1279,8 +1316,8 @@ import { Polybase } from "@polybase/client";
 			try {
 				wallet = await ethers.Wallet.fromEncryptedJson(encryptedjson, pwd, progressCallback)
 					.then(async (myWallet) => {
-						console.log('mywallet: ', myWallet)
-						console.log('mywallet Address: ', myWallet.address)
+						// console.log('mywallet: ', myWallet)
+						// console.log('mywallet Address: ', myWallet.address)
 
 						const formattedAddress = ethers.utils.getAddress(myWallet.address);
 						console.log('formattedAddress', formattedAddress);
@@ -1374,10 +1411,14 @@ import { Polybase } from "@polybase/client";
 					if (isValid) {
 						console.log(`Address ${value} is valid.`);
 
-						Toast.fire({ icon: 'success', title: 'CHAT WITH:', text: value });
+						Toast.fire({ 
+							icon: 'success', 
+							title: 'CHAT WITH:', 
+							position: 'center',
+							text: value });
 						await chatWith(value)
 						await deleteChat()
-					
+
 
 					} else {
 						console.log(`Address ${value} is not valid.`);
@@ -1404,8 +1445,8 @@ import { Polybase } from "@polybase/client";
 				})
 			console.log('addressToAdd:', addressToAdd)
 
-				// close nav
-				plToggle()
+			// close nav
+			plToggle()
 
 		}
 
@@ -1448,9 +1489,6 @@ import { Polybase } from "@polybase/client";
 					}
 				})
 
-			console.log('jsonWalletAddress:', jsonWalletAddress)
-
-			// }
 
 		}
 
@@ -1693,6 +1731,7 @@ Wallet encrypted and saved into localstorage
 			console.log('USERADDRESS IS SET: ', userAddress)
 			// console.warn('INIT CHAT CLIENT HERE!?')
 			setAddress(userAddress)
+			return userAddress
 		}
 		/*********************************************************************************************
 		.) later now restore
@@ -1781,7 +1820,7 @@ Wallet encrypted and saved into localstorage
 
 		}
 
-		document.getElementById("user-input").addEventListener("keydown", function (event) {
+		document.getElementById("chatTextInput").addEventListener("keydown", function (event) {
 			if (event.key === "Enter") {
 				var userInput = this.value.trim(); // Trim whitespace from input
 				if (userInput !== "") {
@@ -1797,7 +1836,7 @@ Wallet encrypted and saved into localstorage
 			}
 		});
 
-		document.getElementById("user-input").addEventListener("blur", function () {
+		document.getElementById("chatTextInput").addEventListener("blur", function () {
 			var userInput = this.value.trim(); // Trim whitespace from input
 			if (userInput !== "") {
 				console.log("User input:", userInput);
@@ -1812,7 +1851,7 @@ Wallet encrypted and saved into localstorage
 
 		async function sendMessage() {
 			console.log('sendMessage()')
-			var userInput = document.getElementById("user-input").value;
+			var userInput = document.getElementById("chatTextInput").value;
 			var chatBox = document.getElementById("chatBox");
 			var message = document.createElement("div");
 
@@ -1828,8 +1867,14 @@ Wallet encrypted and saved into localstorage
 			// message.classList.add("message");
 			// message.innerHTML = `<strong>You:</strong> ${userInput}`;
 			// chatBox.appendChild(message);
-			document.getElementById("user-input").value = "";
+			document.getElementById("chatTextInput").value = "";
 			chatBox.scrollTop = chatBox.scrollHeight;
+			if(conversation){
+				console.log('CONVESATION AVAILABLE NOW: ', conversation)
+			} else {
+				console.log('NO AVAILABLE CONVESATION: ')
+				
+			}
 			await conversation.send(`${userInput}`);// Send a message
 
 		}
@@ -1854,7 +1899,47 @@ Wallet encrypted and saved into localstorage
 
 
 		}
+		function customcopy2clipboard(text) {
+			console.log('customcopy2clipboard()', text)
+			let textLink = `<a href="${text}">${text}</a>`;
 
+			if (window.clipboardData && window.clipboardData.setData) {
+				console.log('Copied to Clipboard', text, "success");
+
+				document.getElementById('innerAddress').innerHTML = '<path fill="currentColor"  d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/><p>Copied!</p>'
+
+				setTimeout(() => {
+					document.getElementById('innerAddress').innerHTML = ' <path fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z"></path>'
+				}, 1000);
+				return window.clipboardData.setData("Text", text);
+			}
+			else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+				var textarea = document.createElement("textarea");
+				textarea.textContent = text;
+				textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+				document.body.appendChild(textarea);
+				textarea.select();
+				try {
+					console.log('Copied to Clipboard', text, "success");
+					document.getElementById('innerAddress').innerHTML = '<path fill="currentColor"  d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/><p>Copied!</p>'
+
+					setTimeout(() => {
+						document.getElementById('innerAddress').innerHTML = ' <path fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z"></path>'
+					}, 1000);
+
+					return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+				}
+				catch (ex) {
+					console.warn("Copy to clipboard failed.", ex);
+					return prompt("Copy to clipboard: Ctrl+C, Enter", text);
+				}
+				finally {
+					document.body.removeChild(textarea);
+				}
+			}
+
+
+		}
 		function copy2clipboard(text) {
 			// let text = `${ipfsGateway}${cid}`;
 			console.log('COPIED!', text)
@@ -1969,7 +2054,7 @@ Wallet encrypted and saved into localstorage
 
 		async function chatHistory(addr) {
 
-			let conversation = await troqchatclient.conversations.newConversation(addr)
+			let conversation = await chatWalletClient.conversations.newConversation(addr)
 			const messages = await conversation.messages()
 
 			for (const message of messages) {
@@ -1980,29 +2065,29 @@ Wallet encrypted and saved into localstorage
 
 
 		function simplifyDate(dateString) {
-		// Create a new Date object
-		var date = new Date(dateString);
+			// Create a new Date object
+			var date = new Date(dateString);
 
-		// Get current date
-		var currentDate = new Date();
+			// Get current date
+			var currentDate = new Date();
 
-		// Define months array for formatting
-		var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+			// Define months array for formatting
+			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-		// Format the date
-		var formattedDate;
-		if (date.toDateString() === currentDate.toDateString()) {
-		// If the date is today, display only time
-		var hours = date.getHours();
-		var minutes = date.getMinutes().toString().padStart(2, '0');
-		var seconds = date.getSeconds().toString().padStart(2, '0');
-		formattedDate = hours + ':' + minutes + ':' + seconds;
-		} else {
-		// If the date is not today, display day, month, and year
-		formattedDate = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
-		}
+			// Format the date
+			var formattedDate;
+			if (date.toDateString() === currentDate.toDateString()) {
+				// If the date is today, display only time
+				var hours = date.getHours();
+				var minutes = date.getMinutes().toString().padStart(2, '0');
+				var seconds = date.getSeconds().toString().padStart(2, '0');
+				formattedDate = hours + ':' + minutes + ':' + seconds;
+			} else {
+				// If the date is not today, display day, month, and year
+				formattedDate = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+			}
 
-		return formattedDate;
+			return formattedDate;
 		}
 
 		// // Example usage:
@@ -2010,10 +2095,64 @@ Wallet encrypted and saved into localstorage
 		// console.log(simplifyDate(dateString)); // Output: "01 May 2024"
 
 
-		async function chatWith(toAddr) {
+		function openCard(toAddr ,avtr) {
+			console.log(' openCard()', toAddr, avtr)
+let a= toAddr;
+let b= avtr;
+console.log('OPENCARD DATA a:',a)
+console.log('OPENCARD DATA b:',b)
+			let avatar = "./anonym.jpg"
+			let htmlData = `<address>${toAddr} <svg id="innerAddress" onclick="event.stopPropagation();customcopy2clipboard('${toAddr}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"> <path  fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z" ></path></svg> </address><br><p>no info available</p>`;
+			let shortAddr = toAddr.substring(0, 6) + "..." + toAddr.substring(38, 42);
+			// -----------
+			// Swal.fire({
+			// 	imageUrl: avatar,
+			// 	imageWidth: 300,
+			// 	imageHeight: 300,
+			// 	imageAlt: 'Avatar image',
+			// 	html: htmlData,
+			// 	showCancelButton: false,
+			// 	showCloseButton: true,
+			// 	showConfirmButton: false,
+			// })
+
+			// ---
+			
+				Swal.fire({ imageUrl: avatar, 
+						imageWidth: 300, 
+						imageHeight: 300, 
+						imageAlt: 'Avatar image', 
+						html: htmlData,
+						showDenyButton: true,
+			showCancelButton: false,
+			showCloseButton: true, 
+			confirmButtonText: 'trust',
+			denyButtonText: 'Block',
+			customClass: {
+				actions: 'my-actions',
+				cancelButton: 'order-1 right-gap',
+				confirmButton: 'order-2',
+				denyButton: 'order-3',
+			},
+			}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire('Saved into your trusted contacts!', '', 'success')
+			} else if (result.isDenied) {
+				Swal.fire('Address blocked', '', 'info')
+			}
+          })
+			// ---
+		}
+
+
+		// async function chatWith(toAddr ) {
+		async function chatWith(toAddr ,imgsrc) {
 			console.log('chatWith()', toAddr)
 
 			console.log('ESTABLISHING NEW CHAT WITH', toAddr)
+
+			document.getElementById("chatBox").innerHTML='';//clear chat window
+			console.log('clear chatBox window')
 
 			let preferedWallet = localStorage.getItem('preferedWallet');
 			if (!preferedWallet) { console.log('NO PREFERED WALLET SET') }
@@ -2039,40 +2178,40 @@ Wallet encrypted and saved into localstorage
 
 			// save "TO" to localwallet
 			localStorage.setItem('toAddress', toAddr)
-			
+
 			// ---------
 			// ERROR AQUI
-			// let contact = { address: toAddr, username: null, avatar: null, did: null }
-			// SaveContactsToLocalStorage(contact)
+			let contact = { address: toAddr, username: null, avatar: null, did: null }
+			SaveContactsToLocalStorage(contact)
 			// ---------------
 			loadContacts()
 			updateBadge()
 
 
-			// add address in UI
-			let avatar = "./anonym.jpg"
-			// let htmlData =  `<address>${toaddr}</address><br><p>no info available</p>`;
-			let htmlData =  `<address>${toAddr} <svg id="" onclick="event.stopPropagation();copy2clipboard('${toAddr}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"> <path  fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z" ></path></svg> </address><br><p>no info available</p>`;
+			if (imgsrc != null){
+				console.log('YES IMAGE SOURCE', imgsrc)
 
-			
+				 avatar = imgsrc;
+			} else {
+				console.log('NO IMAGE SOURCE')
+				 avatar = "./anonym.jpg"
+			}
+			// add address in UI
+			// let htmlData =  `<address>${toaddr}</address><br><p>no info available</p>`;
+			let htmlData = `<address>${toAddr} <svg id="" onclick="event.stopPropagation();customcopy2clipboard('${toAddr}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"> <path  fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z" ></path></svg> </address><br><p>no info available</p>`;
+
+
 			let shortAddr = toAddr.substring(0, 6) + "..." + toAddr.substring(38, 42);
-			// chatAddress.innerHTML = `${shortAddr} 
-			// 		<svg  fill="green"  class='uiicon' onclick="event.stopPropagation();createAlias('${toAddr}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"> <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg> 
-			// 		`
-// -----------------
-chatAddress.innerHTML = `<div class="">
-                <img src='${avatar}' alt="avatar" class="rounded rounded-circle img-thumbnail" width='40px' id='avatarImage'>
-                <strong onclick="event.stopPropagation();copy2clipboard('${toAddr}')">${shortAddr}</strong>
-               
+
+			chatAddress.innerHTML = `<div class="">
+                <img src='${avatar}' alt="avatar" class="rounded rounded-circle img-thumbnail" width='40px' id='avatarImage'  onclick="event.stopPropagation();openCard('${toAddr}','${avatar}')">
+                <strong onclick="event.stopPropagation();openCard('${toAddr}','${avatar}')">${shortAddr}</strong>
                   </div>`;
 
-      avatarImage.onclick = function (e) {
-        console.log(' avatarImage img clicked')
-        Swal.fire({ imageUrl: avatar, imageWidth: 300, imageHeight: 300, imageAlt: 'Avatar image', html: htmlData,showCancelButton: false, showCloseButton: true, showConfirmButton: false, })
-      }
 
 
-// -------------------
+
+			// -------------------
 
 			actionButtons.innerHTML = `<button type="button" id="" class="btn btn-approve" style="display: inline;"
 					onclick="event.stopPropagation(); openSend('${toAddr.toString()}')">
@@ -2099,56 +2238,57 @@ chatAddress.innerHTML = `<div class="">
 				</button>
 `
 
-			// ACTIVATE CHAT BUTTONS
-			document.getElementById('user-input').disabled = false;
-			document.getElementById('send-button').disabled = false;
 
+				// FIX HERE. AWAIT TO CONVERSATION TO BE AVAILABLE
+			// // ACTIVATE CHAT BUTTONS
+			// document.getElementById('chatTextInput').disabled = false;
+			// document.getElementById('send-button').disabled = false;
 
-			// FOCUS ON INPUT
-			document.getElementById('user-input').focus();
+			// // FOCUS ON INPUT
+			// document.getElementById('chatTextInput').focus();
 
 			// ------------------------------------
 			// AVOID REOPENING COMS WITH ADDRESESS
 			// SACAR/ si lo saco falla...
-			const allConversations = await troqchatclient.conversations.list()
+			const allConversations = await chatWalletClient.conversations.list()
 			console.log('available addresses:', allConversations.length)
 			const customAddressToCheck = toAddr; // Replace this with the address you want to check
 			let addressExists = false;
 			for (const conversation of allConversations) {
 				if (conversation.peerAddress === customAddressToCheck) {
 					addressExists = true;
-					cc= conversation
-				// let history = conversation.messages()
-				// console.log('history:', history)
-				// return conversation
-					break ; // Exit the loop early if the address is found
+					cc = conversation
+					// let history = conversation.messages()
+					// console.log('history:', history)
+					// return conversation
+					break; // Exit the loop early if the address is found
 				}
 			}
 
 			if (addressExists) {
 				console.warn(`YOU DO HAVE A CHAT HISTORY WITH ${customAddressToCheck} `);
 				console.log('USER: ', userAddress)
-				let h = await  cc.messages()
-				
+				let h = await cc.messages()
+
 				// CREATE THIS FUNCTON ==> loadChatHistory(h)
-					for (let i = 0; i < h.length; i++) {
-						console.log('recipient address: ',h[i].recipientAddress)
-						
-				if (h[i].senderAddress === userAddress  ) {
-					console.log('YOU')
-					let timestamp = simplifyDate(h[i].sent)
-					document.getElementById('chatBox').innerHTML += `<div><strong class='who'>You:</strong> ${h[i].content}<span class="timestamp">  ${timestamp} &check; </span></div>`;
-				
-					
-				} else{
-						console.log('NOT YOU')
+				for (let i = 0; i < h.length; i++) {
+					// console.log('recipient address: ', h[i].recipientAddress)
+
+					if (h[i].senderAddress === userAddress) {
+						// console.log('YOU')
+						let timestamp = simplifyDate(h[i].sent)
+						document.getElementById('chatBox').innerHTML += `<div><strong class='who'>You:</strong> ${h[i].content}<span class="timestamp">  ${timestamp} &check; </span></div>`;
+
+
+					} else {
+						// console.log('NOT YOU')
 						let timestamp = simplifyDate(h[i].sent)
 						let shortAddr = h[i].senderAddress.substring(38, 42);
 
 						document.getElementById('chatBox').innerHTML += `<div><strong class='who notyou'>${shortAddr}:</strong> ${h[i].content}<span class="timestamp">  ${timestamp} &check; </span></div>`;
-						} 
-				 
 					}
+
+				}
 
 
 				console.log('history:', history)
@@ -2160,12 +2300,23 @@ chatAddress.innerHTML = `<div class="">
 			// ------------------------------------
 
 			// CREATE CHAT (client was already created)
-			conversation = await troqchatclient.conversations.newConversation(toAddr)
+			conversation = await chatWalletClient.conversations.newConversation(toAddr)
 			console.log('conversation:', conversation)
-			var chatBox = document.getElementById("chatBox");
+			console.warn('------- READY TO CHAT ----------');
 
-			// shorten addresses
-			// let shortTo = toAddr.substring(0, 6) + "..." + toAddr.substring(38, 42);
+			// ADD ATTRIBUTE TO BODY(fix dup messg)
+			document.body.setAttribute('currentChat', toAddr);
+
+				// ACTIVATE CHAT BUTTONS
+				document.getElementById('chatTextInput').disabled = false;
+			document.getElementById('send-button').disabled = false;
+
+			// FOCUS ON INPUT
+			document.getElementById('chatTextInput').focus();
+				// -----------
+
+
+			var chatBox = document.getElementById("chatBox");
 			let shortTo = toAddr.substring(38, 42);
 
 			// Listen for new messages in the conversation
@@ -2217,28 +2368,24 @@ chatAddress.innerHTML = `<div class="">
 			// Create the client with your wallet. This will connect to the XMTP development network by default
 			// const xmtp = await Client.create(wallet)
 			const xmtp = await Client.create(wallet, { env: "dev", })
-			// { env: "dev", }
 
 			// REGISTER CODECS
-			// const xmtp = Client.create(wallet, { codecs: [new CompositeCodec()] })
-			await xmtp.registerCodec(new CompositeCodec());
 
+			// Support on-chain transaction references in your app built with XMTP
+			// https://xmtp.org/docs/build/messages/transaction
+			xmtp.registerCodec(new TransactionReferenceCodec());
+	
+ 
 
-			// const xmtp = await Client.create(signer, {
-			// env: "dev",
-			// });
-			// await xmtp.registerCodec(new ContentTypeMultiplyNumberCodec());
-
-
-			// const troqchatclient = await Client.create(wallet)
-			troqchatclient = xmtp;//make global
-
+			// const chatWalletClient = await Client.create(wallet)
+			chatWalletClient = xmtp;//make global
+			console.warn('chatWalletClient SET TO GLOBAL')
 			// Listen for new conversations
-			const stream = await troqchatclient.conversations.stream()
+			const stream = await chatWalletClient.conversations.stream()
 			console.log('STREAM:', stream)
 
 			//  registerCodecs(xmtp)
-			await listExistingConversations(troqchatclient)
+			await listExistingConversations(chatWalletClient)
 			return xmtp
 		}
 
@@ -2246,21 +2393,17 @@ chatAddress.innerHTML = `<div class="">
 		// -----------------
 		// LISTEN TO ALLLLLL INCOMING!
 		async function listenAllNewAddresses() {
-			console.log('listenAllNewAddresses()')
+			console.log('listenAllNewAddresses() - *B')
 
-			for await (const message of await troqchatclient.conversations.streamAllMessages()) {
-				if (message.senderAddress === troqchatclient.address) {
-					// This message was sent from me
+			for await (const message of await chatWalletClient.conversations.streamAllMessages()) {
+				if (message.senderAddress === chatWalletClient.address) {// This message was sent from me
 					continue
 				}
 
 				document.getElementById('chatBadge').style.display = 'inline'
 				document.getElementById('chatBadge').innerText = '!'
 				console.log(`New message from ${message.senderAddress}: ${message.content}`)
-				playNewMessage();
-				// if (message.content == 'can you pay for the gas? ') {
-
-				// var message = "can you pay for the gas?";
+				playButtonClickSound()
 
 				// peerGasPaymentAccept
 				if (message.content.includes("peerGasPaymentAccepted0x21")) {
@@ -2268,30 +2411,14 @@ chatAddress.innerHTML = `<div class="">
 
 					setTimeout(() => {
 						Swal.fire("Done!", "", "success");
-
-
-						// UI DIRTY
-						// troqamount.innerHTML = 'GHO: 10.000';
 						closeModalId('#walletSend')
-
 					}, 3000);
 				}
 
 				// peerGasPaymentRequest
 				if (message.content.includes("peerGasPaymentReques0x20")) {
 					console.log("You received a peerGasPamentRequest from: ", message.senderAddress);
-
-					conversation = await troqchatclient.conversations.newConversation(message.senderAddress)
-
-					// var match = message.content.match(/0x([a-fA-F0-9]{40})/);
-
-					// if (match) {
-					// 	var ethereumAddress = match[1];
-					// 	console.log("Found Ethereum Address:", ethereumAddress);
-					// } else {
-					// 	console.log("No Ethereum address found");
-					// }
-
+					conversation = await chatWalletClient.conversations.newConversation(message.senderAddress)
 					Swal.fire({
 						title: "Do you have some gas?",
 						text: "your peer is asking you to pay for the gas",
@@ -2331,8 +2458,6 @@ chatAddress.innerHTML = `<div class="">
 					console.log("The message does not contain the text: 'can you pay for the gas?'");
 				}
 
-				// }
-
 				// CHECK IF ADDRESS IS ALREADY IN YOUR CONTACTS (LOCALSTORAGE)
 				var storedContacts = [];
 				let storedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
@@ -2352,36 +2477,31 @@ chatAddress.innerHTML = `<div class="">
 				}
 
 				updateBadge()
-
 			}
 		}
 
 
 		async function listenNewChats(addr) {
-			console.log('listenNewChats(addr):',addr)
-			const conversation = await troqchatclient.conversations.newConversation(addr)
+			console.log('LISTENNEWCHATS - *A (REPLACE  BY   listenAllNewAddresses )')
+			console.log('listenNewChats(addr):', addr)
+			const conversation = await chatWalletClient.conversations.newConversation(addr)
 
 			for await (const message of await conversation.streamMessages()) {
-				if (message.senderAddress === troqchatclient.address) {
-					console.log('This message was sent from me',message)
+				if (message.senderAddress === chatWalletClient.address) {
+					console.log('This message was sent from me', message)
 					continue
 				}
-
 
 				console.log(`New chat message from ${message.senderAddress}: ${message.content}`)
 				console.log('MSG TYPE:', message.contentType.typeId)
 				// let msg = { address: message.senderAddress, message: message.content }
-				playNotification()
-			 
-
-
+				playNewMessage()
 			}
-
 		}
 
 
 		async function listExistingConversations(xmtp) {
-			console.log('listExistingConversations()')
+			console.warn('listExistingConversations()')
 			// List existing conversations
 			const allConversations = await xmtp.conversations.list()
 			console.log('AVAILABLE CHATS:', allConversations.length)
@@ -2389,10 +2509,13 @@ chatAddress.innerHTML = `<div class="">
 
 			allConversations.forEach(async (conversation, index) => {
 				peerAddressesArray.push(conversation.peerAddress);
-				// console.log(`AVAILABLE CHAT ${index}: ${conversation.peerAddress}`)
-				await listenNewChats(conversation.peerAddress)
+				
+				// QUITAR SOLO PARA PRUEBA
+				console.warn('listenNewChats() OMITED HERE')
+				// await listenNewChats(conversation.peerAddress)
 			})
 			paa = peerAddressesArray;
+			console.log('paa DECLARED!')
 		}
 
 
@@ -2416,7 +2539,7 @@ chatAddress.innerHTML = `<div class="">
 			document.getElementById('chatBox').innerHTML = ''
 
 			// DEACTIVATE BUTTONS
-			document.getElementById('user-input').disabled = true;
+			document.getElementById('chatTextInput').disabled = true;
 			document.getElementById('send-button').disabled = true;
 
 
@@ -2443,7 +2566,7 @@ chatAddress.innerHTML = `<div class="">
 			// console.log('CREATE AN ALIAS FOR THIS ADDRESS',formattedAddress)
 
 			// TEST
-			// await troqchatclient.registerCodec(new ContentTypeMultiplyNumberCodec());
+			// await chatWalletClient.registerCodec(new ContentTypeMultiplyNumberCodec());
 
 			// const numbersToMultiply = { a: 3, b: 7 };
 
@@ -2500,11 +2623,11 @@ chatAddress.innerHTML = `<div class="">
 				address2.value = t2AddrValue;
 				Toast.fire({ icon: 'info', title: 'CHAT WITH:', text: t2AddrValue });
 
+				// close nav
+				plToggle()
 				// NOW SETUP THE CHAT AND OPEN IT
 				await chatWith(t2AddrValue)
 
-				// // close nav
-				// plToggle()
 				// const swiperEl = document.getElementById('troqContainer');
 				// swiperEl.swiper.slideNext();
 
@@ -2577,32 +2700,53 @@ chatAddress.innerHTML = `<div class="">
 		window.addEventListener("load", async function (event) {
 			console.log("window loaded!");
 			init();
+			window.scrollTo(0, 0);
+
+			// notifyMe();
+
 		});
+
+		function notifyMe() {
+			if (!("Notification" in window)) {
+			// Check if the browser supports notifications
+			alert("This browser does not support desktop notification");
+			} else if (Notification.permission === "granted") {
+			// Check whether notification permissions have already been granted;
+			// if so, create a notification
+			const notification = new Notification("Hi there!");
+			// …
+			} else if (Notification.permission !== "denied") {
+			// We need to ask the user for permission
+			Notification.requestPermission().then((permission) => {
+			// If the user accepts, let's create a notification
+			if (permission === "granted") {
+				const notification = new Notification("Hi there!");
+				// …
+			}
+			});
+			}
+
+			// At last, if the user has denied notifications, and you
+			// want to be respectful there is no need to bother them anymore.
+			} 
+
+
+// Notification.requestPermission().then((result) => {
+//   console.log(result);
+// });
 
 		let init = async () => {
 			console.log('init: INITIALIZING... ')
 
 			// -----------------------------------------
 			// NOTIFICATION API 
-			if (!("Notification" in window)) {
-				alert("This browser does not support desktop notification");
-			}
-
-			Notification.requestPermission().then(function (permission) {
-				// BUG: [Violation] Only request notification permission in response to a user gesture.
-				if (permission === "granted") {
-					var notification = new Notification("Hello, world!", {
-						body: "This is a notification from your web app",
-					});
-
-					notification.onclick = function () {
-						console.log("Notification clicked");
-					};
-				}
-			});
-
-
-
+			
+			
+			
+			// -----------------------------------------
+			/// ADD BANNER OF EMPTY CHATS TO CHATBOX
+			 
+			document.getElementById('chatBox').innerHTML= '     <div id="svg-container"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"> <image href="./nochats.svg" width="100%" height="100%" /> </svg> </div>    <h1 id="banner-text" class="">Add a contact and start chatting  <button type="button" id="" class="btn btn-primary " style="display: inline;" onclick="event.stopPropagation(); openChat()"> CHAT </button> </h1> '
 
 			// -----------------------------------------
 			// POPULATE TOKEN LIST AND SET LAST SELECTED TOKEN
@@ -2638,11 +2782,15 @@ chatAddress.innerHTML = `<div class="">
 				if (!jsw) {
 					console.log(' NO JSONWALLET ');
 				} else {
-					console.log('YES JSONWALLET  ==> WALLET LOCKED ',jsw);
+			// -----------------------------------------
+			//  IF WALLET IS LOCKED ASK USER TO UNLOCK IT
+					// console.log('YES JSONWALLET  ==> WALLET LOCKED ', jsw);
+					console.log('YES JSONWALLET  ==> WALLET LOCKED ');
 					let pWall = localStorage.getItem('preferedWallet')
 					if (!pWall) { console.error('NO preferedWallet') }
 					else { console.log('YES!: preferedWallet', pWall) }
 					await unlockWallet()
+					// return //for test quitar
 				}
 			}
 
@@ -2650,9 +2798,12 @@ chatAddress.innerHTML = `<div class="">
 			// return 
 
 			console.log('CONTINUE.. to autocreateWallet')
-			await autoCreateWallet() // ==> initChatClient()
-			
-			
+			let address = await autoCreateWallet() // ==> initChatClient()
+			console.log('ADDRESS FROM autoCreateWallet() ', address)
+
+
+			// -----------------------------------------
+			//  CHECK IF USER COMES FROM A LINK
 			const urlParams = new URLSearchParams(window.location.search);
 			const t2AddrValue = urlParams.get('T2Addr');
 			if (t2AddrValue !== null) {
@@ -2663,60 +2814,71 @@ chatAddress.innerHTML = `<div class="">
 			}
 
 
-			// AVATAR AQUI?
-			loadContacts()
-		 
+			// -----------------------------------------
+			//  LOAD CONTACTS
+			console.warn('LOAD CONTACTS')
+			await loadContacts()
 
+			// -----------------------------------------
 			// check balance
 			await syncBalance()
 			setTimeout(syncBalance, 60000);
 
+
+
+			// -----------------------------------------
+			// CHECK IF EIP2612 COMPATIBLE
 			checkEIP2612Compatibility();
 
 
-			// Add an event listener for the onchange event
+			// -----------------------------------------
+			// ADD EVENT LISTENER IF TOKEN IS CHANGED BY USER
 			chainSelector.addEventListener('change', function () {
-				// This function will be called whenever the selected option changes
 				const selectedOption = chainSelector.options[chainSelector.selectedIndex];
 				console.log('Selected option:', selectedOption.value);
-				// Add your logic here to handle the change
-				// Display a message
 				console.log('Selected option:', selectedOption.value);
-
-				// Your logic to display a message can be more sophisticated
-				// toast.fire('Only on sepolia/avax for the moment: ');
 				Toast.fire({ icon: 'success', title: 'Done!:', text: "Network changed" });
-
-				// Reset to the first option
-				// chainSelector.selectedIndex = 0;
-
-				// add to localstorage
 				localStorage.setItem("preferedOption", chainSelector.selectedIndex);
-
-				// OPTIONSLIST SET
 				headerNotes.innerHTML = ''
-				init()//???
+				init()// after changing chain =>init
 
 			});
 
-
-			// LOAD WALLET USER AVATAR
+			
+			// -----------------------------------------
+			// LOAD USER AVATAR
+			console.log('LOAD USER AVATAR')
 			let avatar = localStorage.getItem('avatar')
 
 			if (avatar) {
 				itemImgMINT.src = JSON.parse(avatar);
-			 
-			} else {
-				console.error("loadImg is undefined or null.");
-				// let q= await readDIDRecord('did:ethr:0xA400439DaAaA84eBe1fE9c17649e59D5cc3fc612')
 
+			} else {
+				console.warn("loadImg is undefined or null.");
+				if(address){
+					let did = `did:ethr:${address}`
+					console.log ('checking did', did)
+					try {
+						let avtr= await readDIDRecord(did)
+						console.log('did:',avtr)
+						let avatar = avtr.data.avatar
+						itemImgMINT.src = JSON.parse(avatar);
+					} catch (error) {
+						console.error('Error getting did:', error.message);
+					}
+				}
 
 			}
 
-
-			// console.log((await troqchatclient.conversations.list()).length, "connected addresses.")
-			let chatList = await troqchatclient.conversations.list()
-			c= chatList;
+			// ----------------------------------------- 
+			//PEERADDRESSES GET CHAT LIST
+			
+			// reposicionar esto dentro de initChatClient
+			console.log('GET CHAT LIST')
+			// console.log((await chatWalletClient.conversations.list()).length, "connected addresses.")
+			// if(chatWalletClient)
+			let chatList = await chatWalletClient.conversations.list()
+			c = chatList;
 			// console.log("chatList: ",chatList)
 			let chatLength = chatList.length;
 			console.log(chatLength, "connected addresses.")
@@ -2728,7 +2890,7 @@ chatAddress.innerHTML = `<div class="">
 				peerAddresses.push(chatList[i].peerAddress);
 
 			}
-			console.log('PeerAddresses:', peerAddresses);
+			console.warn('PEERADDRESSES PeerAddresses:', peerAddresses);
 
 
 			await listenAllNewAddresses();
@@ -2806,42 +2968,126 @@ chatAddress.innerHTML = `<div class="">
 			if (cwContacts) {
 				console.log('YOU HAVE', cwContacts.length, 'CONTACTS')
 
+			// Create an array to store promises for asynchronous tasks
+			const promises = [];
+
+			cwContacts.forEach((el, index) => {
+				const isAddressInArray = paa.includes(el.address);// paa?
+				console.log('paa?:' ,paa)
+
+				// is in your contacts or not?
+				if (isAddressInArray) {
+					console.log(`Contact ${index} IS in your contacts \u2714 ${el.address}`);
+				} else {
+					console.log(`This address IS NOT in your contacts \u2718 ${el.address}`);
+				}
+
+				// is username set?
+				if (el.username || null) {
+					console.log('username is not null');
+					contactInfo = `<span>${el.username} <span>`;
+				} else {
+					console.log('username is null');
+					let shortAddr = el.address.substring(0, 6) + "..." + el.address.substring(38, 42);
+					contactInfo = `<span>${shortAddr} <span>`;
+				}
+
+				let did = `did:ethr:${el.address}`;
+
+				// Add each asynchronous operation to the promises array
+				promises.push(
+					new Promise((resolve, reject) => {
+						readDIDRecord(did)
+							.then(didresult => {
+								if (didresult.data != null) {
+									console.log(did + ' HAS A RECORD!!!');
+									let avtr = didresult.data.avatar;
+									let avatar = JSON.parse(avtr);
+									document.getElementById(did).src = avatar;
+								} else {
+									console.log(did + ' DOESN\'T HAVE A RECORD :(');
+								}
+								resolve(); // Resolve the promise once the operation is done
+							})
+							.catch(error => {
+								console.error('Error while processing DID record:', error);
+								reject(error); // Reject the promise if an error occurs
+							});
+					})
+				);
+
+    contct.innerHTML += `<li data-address="${el.address}" id="${el.address}" class=''> 
+                            <a onclick="event.stopPropagation();selectChat((this.parentElement))">  
+                                <img id ="${did}" src="./avatar.png" alt="Avatar" class="rounded-circle"> 
+                                    ${contactInfo} 
+                                <i class="fa-solid fa-trash"></i>
+                                <svg onclick="event.stopPropagation();editContact('${el.address}')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="20" height="25" class='right'>
+                                    <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/>
+                                </svg>
+                            </a> 
+                        </li>`;
+});
+
+// Execute all promises concurrently
+Promise.all(promises)
+    .then(() => {
+        console.log('All DID record processing completed.');
+    })
+    .catch(error => {
+        console.error('Error while processing DID records:', error);
+    });
+
+// 				cwContacts.forEach((el, index) =>  {
+// 					const isAddressInArray = paa.includes(el.address);
+
+// 					// is in your contacts or not?
+// 					if (isAddressInArray) {
+// 						console.log(`Contact ${index} IS in your contacts \u2714  ${el.address} `);
+// 					} else {
+// 						console.log(`This address  IS NOT in your contacts \u2718 ${el.address}`);
+// 					}
+
+// 					//  is username set?
+// 					if (el.username || null) {
+// 						console.log('username is not null')
+
+// 						contactInfo = `<span>${el.username} <span>`
+// 					}
+// 					else {
+// 						console.log('username is  null')
+
+// 						let shortAddr = el.address.substring(0, 6) + "..." + el.address.substring(38, 42);
+// 						contactInfo = `<span>${shortAddr} <span>`
+
+// 					}
+					
+// 					let did = `did:ethr:${el.address}`
+// 					contct.innerHTML += `<li data-address="${el.address}"  id="${el.address}" class=''> 
+// 											<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
+// 												<img id ="${did}" src="./avatar.png" alt="Avatar" class="rounded-circle"> 
+// 													${contactInfo} 
+// 												<i class="fa-solid fa-trash"></i>
+
+// 												<svg onclick="event.stopPropagation();editContact('${el.address}')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"width="20" height="25"  class='right'>
+//   <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg>
 
 
-				cwContacts.forEach((el, index) => {
-					const isAddressInArray = paa.includes(el.address);
+// 											</a> 
+// 										</li> `
 
-					if (isAddressInArray) {
-						console.log(`Contact ${index} IS in your contacts \u2714  ${el.address} `);
-					} else {
-						console.log(`This address  IS NOT in your contacts \u2718 ${el.address}`);
-					}
+// 					// has avatar?
+// 						let didresult=  readDIDRecord(did)
+						
+// 						if(didresult.data != null ){
+// 							console.log(did + 'HAS A RECORD!!!')
+// 							let avtr = didresult.data.avatar
+// 							 avatar = JSON.parse(avtr);
+// 							 document.getElementById(`"${did}"`).src  =avatar ;
+// 						} else {
+// 							console.log(did + 'DOESNT HAVE A RECORD :( ')
+// 						}
 
-					if (el.username || null) {
-						console.log('username is not null')
-
-						contactInfo = `<span>${el.username} <span>`
-					}
-					else {
-						console.log('username is  null')
-
-						let shortAddr = el.address.substring(0, 6) + "..." + el.address.substring(38, 42);
-						contactInfo = `<span>${shortAddr} <span>`
-
-					}
-					contct.innerHTML += `<li data-address="${el.address}"  id="${el.address}" class=''> 
-											<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
-												<img src="./avatar.png" alt="Avatar" class="rounded-circle"> 
-													${contactInfo} 
-												<i class="fa-solid fa-trash"></i>
-
-												<svg onclick="event.stopPropagation();editContact('${el.address}')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"width="20" height="25"  class='right'>
-  <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg>
-
-
-											</a> 
-										</li> `
-				})
+// 				})
 
 			}
 
@@ -2880,7 +3126,7 @@ chatAddress.innerHTML = `<div class="">
 					</li> `
 
 			} else {
-				console.log('OVERWRITE ALREADY EXISTEND  UnknownContact!.');
+				console.log('OVERWRITE ALREADY EXISTENT  UnknownContact!.');
 
 				// Search for the element with the specified ID
 				var elementToModify = document.getElementById(addr);
@@ -2944,14 +3190,40 @@ chatAddress.innerHTML = `<div class="">
 
 			const address = el.dataset.address;
 			console.log('CLICKED CONTACT (selectChat()):', address);
+			var imgElement = el.querySelector("img");
+			var imgSrc = imgElement.getAttribute("src");
+			console.log('IMAGE SOURCE!:',imgSrc); // Output the source URL of the image
 
 			// 1- close navbar
 			plToggle()
 
 			// 2- chat with address funciton 
-			await deleteChat()
-			await chatWith(address)
-			await updateBadge()
+			
+			// let wantTochatwith = el.dataset.address
+			// let isChattingWith = 
+			
+			let currentChat = document.body.getAttribute('currentChat');
+			console.warn('CURRENTCHAT', currentChat)
+			
+			// if(currentChat==address)?alreadyChatting==true
+			let alreadyChatting = (currentChat === address) ? true : false;
+
+			// INTENTO FIX DUPLICA Y MULTIPLICA MENSAJES
+			if (alreadyChatting) {
+    // Do something if alreadyChatting is true
+	console.log('already chatting with this contact')
+} else {
+	// Do something else if alreadyChatting is false
+	console.log('start chatting with new contact')
+	await deleteChat()
+	await chatWith(address,imgSrc)
+	await updateBadge()
+
+}
+
+			
+
+
 
 		}
 
@@ -3545,15 +3817,15 @@ chatAddress.innerHTML = `<div class="">
 
 		async function openSend(addr) {
 			console.log('openingn SEND VALUE')
-			if(addr){
-				console.log('there is address',addr)
-				address2.value  = addr;
+			if (addr) {
+				console.log('there is address', addr)
+				address2.value = addr;
 
 			}
-			else{
+			else {
 				console.log('there is not addr')
 			}
-		
+
 
 			currencyToSend.innerHTML = optionsList[GLOBALCHAIN].SYMBOL;
 			// open modal
@@ -3828,7 +4100,7 @@ chatAddress.innerHTML = `<div class="">
 
 		async function reloadBalanceAfterReceiving(addr, amount) {
 			console.log('reloadBalanceAfterReceiving(addr)')
-			const conversation = await troqchatclient.conversations.newConversation(addr)
+			const conversation = await chatWalletClient.conversations.newConversation(addr)
 			let message = `sent you ${amount} ${optionsList[GLOBALCHAIN].TOKEN_NAME}`
 			await conversation.send(`${message}`);// Send a message
 
@@ -3851,7 +4123,7 @@ chatAddress.innerHTML = `<div class="">
 		async function askPeerToPayForGas() {
 			console.log('askPeerToPayForGas()')
 			let addr = address2.value;
-			const conversation = await troqchatclient.conversations.newConversation(addr)
+			const conversation = await chatWalletClient.conversations.newConversation(addr)
 			let message = `can you pay for the gas? <pre style="display: none;">peerGasPaymentReques0x20</pre> ${amount} ${optionsList[GLOBALCHAIN].TOKEN_NAME}`
 			await conversation.send(`${message}`);// Send a message
 		}
@@ -3972,382 +4244,385 @@ chatAddress.innerHTML = `<div class="">
 		// }
 
 		async function compressImage(imageSrc, maxSizeKB) {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = function () {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
+			return new Promise((resolve, reject) => {
+				const img = new Image();
+				img.onload = function () {
+					const canvas = document.createElement('canvas');
+					const ctx = canvas.getContext('2d');
 
-            // Calculate new dimensions to maintain aspect ratio
-            const MAX_WIDTH = 800;
-            const MAX_HEIGHT = 600;
-            let width = img.width;
-            let height = img.height;
-            if (width > height) {
-              if (width > MAX_WIDTH) {
-                height *= MAX_WIDTH / width;
-                width = MAX_WIDTH;
-              }
-            } else {
-              if (height > MAX_HEIGHT) {
-                width *= MAX_HEIGHT / height;
-                height = MAX_HEIGHT;
-              }
-            }
+					// Calculate new dimensions to maintain aspect ratio
+					const MAX_WIDTH = 800;
+					const MAX_HEIGHT = 600;
+					let width = img.width;
+					let height = img.height;
+					if (width > height) {
+						if (width > MAX_WIDTH) {
+							height *= MAX_WIDTH / width;
+							width = MAX_WIDTH;
+						}
+					} else {
+						if (height > MAX_HEIGHT) {
+							width *= MAX_HEIGHT / height;
+							height = MAX_HEIGHT;
+						}
+					}
 
-            // Set canvas dimensions
-            canvas.width = width;
-            canvas.height = height;
+					// Set canvas dimensions
+					canvas.width = width;
+					canvas.height = height;
 
-            // Draw image on canvas
-            ctx.drawImage(img, 0, 0, width, height);
+					// Draw image on canvas
+					ctx.drawImage(img, 0, 0, width, height);
 
-            // Convert canvas to Blob and compress to target size
-            canvas.toBlob(function (blob) {
-              // Check if compressed image is within target size
-              if (blob.size / 1024 <= maxSizeKB) {
-                // Resolve with the compressed data URL
-                resolve(canvas.toDataURL());
-              } else {
-                // Reject if compressed image size exceeds target size
-                reject('Compressed image size exceeds the specified limit');
-              }
-            }, 'image/jpeg', 0.7); // Adjust the quality factor (0.7 here) to achieve desired compression level
-          };
-          img.src = imageSrc;
-        });
-      }
+					// Convert canvas to Blob and compress to target size
+					canvas.toBlob(function (blob) {
+						// Check if compressed image is within target size
+						if (blob.size / 1024 <= maxSizeKB) {
+							// Resolve with the compressed data URL
+							resolve(canvas.toDataURL());
+						} else {
+							// Reject if compressed image size exceeds target size
+							reject('Compressed image size exceeds the specified limit');
+						}
+					}, 'image/jpeg', 0.7); // Adjust the quality factor (0.7 here) to achieve desired compression level
+				};
+				img.src = imageSrc;
+			});
+		}
 
 
 		async function loadCroppedImg() {
-        console.log('loadCroppedImg()');
+			console.log('loadCroppedImg()');
 
-		// openModalId('#createDIDModal')
-        await fileCreateItemFile.click();
-        let previewsrc;
+			// openModalId('#createDIDModal')
+			await fileCreateItemFile.click();
+			let previewsrc;
 
-        fileCreateItemFile.onchange = async function () {
-          if (fileCreateItemFile.files.length == 1) {
-            const data = this.files[0];
-            const name = data.name;
+			fileCreateItemFile.onchange = async function () {
+				if (fileCreateItemFile.files.length == 1) {
+					const data = this.files[0];
+					const name = data.name;
 
-            // Read the file and get its base64 data
-            let reader = new FileReader();
-            reader.readAsDataURL(data);
+					// Read the file and get its base64 data
+					let reader = new FileReader();
+					reader.readAsDataURL(data);
 
-            reader.onload = async function () {
-              previewsrc = reader.result;
+					reader.onload = async function () {
+						previewsrc = reader.result;
 
-              // Compress the image
-              const compressedDataUrl = await compressImage(previewsrc, 100); // 100KB limit
+						// Compress the image
+						const compressedDataUrl = await compressImage(previewsrc, 100); // 100KB limit
 
-              // Display the image in a SweetAlert2 popup
-              Swal.fire({
-                title: dictionary[globalLang]["uploadsignature"],
-                html: `
+						// Display the image in a SweetAlert2 popup
+						Swal.fire({
+							title: dictionary[globalLang]["uploadsignature"],
+							html: `
                         <img id="preview" src="${compressedDataUrl}" style="display:none">
                         <div>
                             <img id="cropperjs" src="${compressedDataUrl}">
                         </div>
                     `,
-                allowOutsideClick: () => {
-                  const popup = Swal.getPopup();
-                  popup.classList.remove('swal2-show');
-                  setTimeout(() => {
-                    popup.classList.add('animate__animated', 'animate__headShake');
-                  });
-                  setTimeout(() => {
-                    popup.classList.remove('animate__animated', 'animate__headShake');
-                  }, 500);
-                  return false;
-                },
-                willOpen: () => {
-                  const image = document.querySelector('#cropperjs');
-                  const cropper = new Cropper(image, {
-                    aspectRatio: '4:3',
-                    viewMode: 1,
-                    crop: throttle(function () {
-                      const croppedCanvas = cropper.getCroppedCanvas();
-                      console.log('croppedCanvas:', croppedCanvas);
-                      const preview = document.querySelector('#preview');
-                      preview.src = croppedCanvas.toDataURL();
-                    }, 25),
-                  });
-                },
-                preConfirm: () => {
-                  const popup = Swal.getPopup();
-                  if (popup) {
-                    const previewElement = popup.querySelector('#preview'); // Assuming preview is the ID of the image element
-                    if (previewElement instanceof HTMLImageElement) {
-                      return previewElement.src;
-                    }
-                  }
-                },
-              }).then(function (result) {
-                itemImgMINT.src = result.value;
-                let b64 = JSON.stringify(result.value);
-                console.log('b64 image:', b64);
-                localStorage.setItem('avatar', b64);
-                itemImgMINT.style.display = 'block';
-                Toast.fire('Avatar added', '', "success");
+							allowOutsideClick: () => {
+								const popup = Swal.getPopup();
+								popup.classList.remove('swal2-show');
+								setTimeout(() => {
+									popup.classList.add('animate__animated', 'animate__headShake');
+								});
+								setTimeout(() => {
+									popup.classList.remove('animate__animated', 'animate__headShake');
+								}, 500);
+								return false;
+							},
+							willOpen: () => {
+								const image = document.querySelector('#cropperjs');
+								const cropper = new Cropper(image, {
+									aspectRatio: '4:3',
+									viewMode: 1,
+									crop: throttle(function () {
+										const croppedCanvas = cropper.getCroppedCanvas();
+										console.log('croppedCanvas:', croppedCanvas);
+										const preview = document.querySelector('#preview');
+										preview.src = croppedCanvas.toDataURL();
+									}, 25),
+								});
+							},
+							preConfirm: () => {
+								const popup = Swal.getPopup();
+								if (popup) {
+									const previewElement = popup.querySelector('#preview'); // Assuming preview is the ID of the image element
+									if (previewElement instanceof HTMLImageElement) {
+										return previewElement.src;
+									}
+								}
+							},
+						}).then(async  function (result) {
+							itemImgMINT.src = result.value;
+							let b64 = JSON.stringify(result.value);
+							console.log('b64 image:', b64);
+							localStorage.setItem('avatar', b64);
+							itemImgMINT.style.display = 'block';
+							Toast.fire('Avatar added', '', "success");
 
 
-      // ...........................................................................................
-      // 3.RECORD TO ZKROLLUP
-      // ..........................................................................................
+							// ...........................................................................................
+							// 3.RECORD TO ZKROLLUP
+							// ..........................................................................................
 
-      let avatar = localStorage.getItem('avatar');
-      let cid = '';
-	  
-	  //   CHECK IF THERE IS AN unbackedWallet
-	  // 0- CHECK IF UNBACKED WALLET INLOCALSTORAGE
-	  let unbw = localStorage.getItem('unbackedWallet')
-	  
-	  if (!unbw) {
-		  console.log('1- NO UNBACKED WALLET');
-		  // let jsw = localStorage.getItem('jsonWallet')
-		  signer =  getLocalWalletSigner();
-		   did = `did:ethr:${signer.address}`
-		console.log('DID: ', did)
+							let avatar = localStorage.getItem('avatar');
+							let cid = '';
 
-	return //falta testear
-}
-else {
-	console.log('YES THERE IS AN UNBACKED WALLET > DEDUCTING SIGNER NOW!')
+							//   CHECK IF THERE IS AN unbackedWallet
+							// 0- CHECK IF UNBACKED WALLET INLOCALSTORAGE
+							let unbw = localStorage.getItem('unbackedWallet')
 
-	const walletData = JSON.parse(unbw);
-				try { localWallet = ethers.Wallet.fromMnemonic(walletData); }
-				catch (error) { console.log(error.message, 'ERROR WALLET!'); 
-				// localStorage.removeItem('unbackedWallet');
-			 }
+							if (!unbw) {
+								console.log('1- NO UNBACKED WALLET');
+								// let jsw = localStorage.getItem('jsonWallet')
+								signer = await getLocalWalletSigner();
+								did = `did:ethr:${signer.address}`
+								console.log('DID: ', did)
 
-			 let provider = new ethers.providers.JsonRpcProvider(`${optionsList[0].API}`); //v5
-			//  let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v6
-			  signer = localWallet.connect(provider);
-			 console.log('SIGNER!:', signer);
-			//  return signer;
-			did = `did:ethr:${signer.address}`
-			console.log('DID: ', did)
+								return //falta testear
+							}
+							else {
+								console.log('YES THERE IS AN UNBACKED WALLET > DEDUCTING SIGNER NOW!')
 
+								const walletData = JSON.parse(unbw);
+								try { localWallet = ethers.Wallet.fromMnemonic(walletData); }
+								catch (error) {
+									console.log(error.message, 'ERROR WALLET!');
+									// localStorage.removeItem('unbackedWallet');
+								}
+
+								let provider = new ethers.providers.JsonRpcProvider(`${optionsList[0].API}`); //v5
+								//  let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v6
+								signer = localWallet.connect(provider);
+								console.log('SIGNER!:', signer);
+								//  return signer;
+								did = `did:ethr:${signer.address}`
+								console.log('DID: ', did)
+
+							}
+							try {
+
+
+								console.log('creating did RECORD, signer', signer)
+								createDIDRecord(did, avatar, cid, signer);
+
+								//  https://explorer.testnet.polybase.xyz/studio/pk%2F0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9%2FIURISNATURALIS/collections/CHATWALLETDID
+							} catch (error) {
+								console.error('An error occurred while creating DID record:', error);
+								return
+							}
+
+							 localStorage.removeItem('avatar');
+
+
+
+						});
+					};
+				}
+			};
+		}
+
+
+
+		async function createDIDRecord(did, avatar, cid, signer) {
+			if (!signer) {
+				console.log('there is no signer')
+				signer = await getLocalWalletSigner();
+				if (!signer) {
+					console.log('Handle case where signer is not obtained');
+					return; // Or throw an error, or handle the case in another way
+				}
+			} else {
+				console.log('Now you have the signer, do whatever you need with it:', signer);
+				const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
+				const data = [did, avatar, cid];
+				db.signer(async (data) => {
+					const signature = await signer.signMessage(data);//FIXED!
+					return { h: 'eth-personal-sign', sig: signature, };
+				});
+
+				const collectionReference = db.collection("CHATWALLETDID");
+				await collectionReference.create(data);
 			}
-      try {
+		}
 
-	  
-        console.log('creating did RECORD, signer', signer)
-         createDIDRecord(did, avatar,cid,  signer);
-		//  https://explorer.testnet.polybase.xyz/studio/pk%2F0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9%2FIURISNATURALIS/collections/CHATWALLETDID
-      } catch (error) {
-        console.error('An error occurred while creating DID record:', error);
-        return
-      }
-
-
-
-
-              });
-            };
-          }
-        };
-      }
+		async function readDIDRecord(id) {
+			const db = new Polybase({
+				defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS"
+			});
+			const collectionReference = db.collection("CHATWALLETDID");
+			const record = await collectionReference.record(id).get();
+			const { data } = record; // or const data = record.data
+			const resultRecord = record.get();
+			console.log('resultRecord:', resultRecord)
+			return resultRecord
+		}
 
 
+		async function updateDIDavatar(id, newavatar) {
+			console.log('updateDIDavatar()')
 
-	  async function createDIDRecord(did, avatar, cid, signer) {
-      if (!signer) {
-        console.log('there is no signer')
-        signer = await getLocalWalletSigner();
-        if (!signer) {
-          console.log('Handle case where signer is not obtained');
-          return; // Or throw an error, or handle the case in another way
-        }
-      } else {
-        console.log('Now you have the signer, do whatever you need with it:', signer);
-        const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
-        const data = [did, avatar, cid];
-        db.signer(async (data) => {
-          const signature = await signer.signMessage(data);//FIXED!
-          return { h: 'eth-personal-sign', sig: signature, };
-        });
-
-        const collectionReference = db.collection("CHATWALLETDID");
-        await collectionReference.create(data);
-      }
-    }
-
-    async function readDIDRecord(id) {
-      const db = new Polybase({
-        defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS"
-      });
-      const collectionReference = db.collection("CHATWALLETDID");
-      const record = await collectionReference.record(id).get();
-      const { data } = record; // or const data = record.data
-      const resultRecord = record.get();
-      console.log('resultRecord:', resultRecord)
-      return resultRecord
-    }
-
- 
-    async function updateDIDavatar(id, newavatar) {
-      console.log('updateDIDavatar()')
-
-      let signer = await getLocalWalletSigner();
-      if (!signer) {
-        console.log('Handle case where signer is not obtained');
-      }
-      else {
-        console.log('Now you have the signer, do whatever you need with it:', signer);
-        const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
-        db.signer(async (newavatar) => {
-          console.log('data:', newavatar)
-          const signature = await signer.signMessage(newavatar);
-          return { h: 'eth-personal-sign', sig: signature, };
-        });
-        try {
-          const recordData = await db
-            .collection("CHATWALLETDID")
-            .record(id)
-            .call("updateAvatar", [newavatar]);
-          console.log("recordData:", recordData);
-        } catch (error) {
-          console.error("An error occurred:", error);
-          fixedToast.fire('Error', error.message, "error");
-        }
-      }
-    }
+			let signer = await getLocalWalletSigner();
+			if (!signer) {
+				console.log('Handle case where signer is not obtained');
+			}
+			else {
+				console.log('Now you have the signer, do whatever you need with it:', signer);
+				const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
+				db.signer(async (newavatar) => {
+					console.log('data:', newavatar)
+					const signature = await signer.signMessage(newavatar);
+					return { h: 'eth-personal-sign', sig: signature, };
+				});
+				try {
+					const recordData = await db
+						.collection("CHATWALLETDID")
+						.record(id)
+						.call("updateAvatar", [newavatar]);
+					console.log("recordData:", recordData);
+				} catch (error) {
+					console.error("An error occurred:", error);
+					fixedToast.fire('Error', error.message, "error");
+				}
+			}
+		}
 
 
 
 
-    async function deleteDID(id) {
-      console.log('deleteDID()')
+		async function deleteDID(id) {
+			console.log('deleteDID()')
 
-      Swal.fire({
-        title: dictionary[globalLang]["deletedidtitle"],
-        text: dictionary[globalLang]["deletediddescription"],
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: dictionary[globalLang]["delete"]
+			Swal.fire({
+				title: dictionary[globalLang]["deletedidtitle"],
+				text: dictionary[globalLang]["deletediddescription"],
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: dictionary[globalLang]["delete"]
 
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-
-
-
-          let signer = await getLocalWalletSigner();
-          if (!signer) {
-            console.log('Handle case where signer is not obtained');
-          }
-          else {
-            console.log('Now you have the signer, do whatever you need with it:', signer);
-            const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
-            db.signer(async (id) => {
-              const signature = await signer.signMessage(id);
-              // const signature = await signer.signMessage(JSON.stringify(id));
-              console.log('signature:', signature)
-              return { h: 'eth-personal-sign', sig: signature, };
-            });
-            try {
-              const recordData = await db
-                .collection("DID")
-                .record(id)
-                .call("deleteDID");
-              console.log(" recordData:", recordData);
-            } catch (error) {
-              console.error("An error occurred:", error);
-              fixedToast.fire('Error', error.message, "error");
-            }
-            Swal.fire({
-              title: "DELETED!",
-              text: "Your DID was deleted",
-              icon: "success"
-            });
-            await walletDisconnect()
-          }
+			}).then(async (result) => {
+				if (result.isConfirmed) {
 
 
 
-
-        }
-      })
-    }
+					let signer = await getLocalWalletSigner();
+					if (!signer) {
+						console.log('Handle case where signer is not obtained');
+					}
+					else {
+						console.log('Now you have the signer, do whatever you need with it:', signer);
+						const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
+						db.signer(async (id) => {
+							const signature = await signer.signMessage(id);
+							// const signature = await signer.signMessage(JSON.stringify(id));
+							console.log('signature:', signature)
+							return { h: 'eth-personal-sign', sig: signature, };
+						});
+						try {
+							const recordData = await db
+								.collection("DID")
+								.record(id)
+								.call("deleteDID");
+							console.log(" recordData:", recordData);
+						} catch (error) {
+							console.error("An error occurred:", error);
+							fixedToast.fire('Error', error.message, "error");
+						}
+						Swal.fire({
+							title: "DELETED!",
+							text: "Your DID was deleted",
+							icon: "success"
+						});
+						await walletDisconnect()
+					}
 
 
 
 
-    async function getLocalWalletSigner() {
-      console.log('getLocalWalletSigner()');
-		// check if wallet is backed up or not
-	
+				}
+			})
+		}
 
-		// return
-      return Swal.fire({
-        title: 'Unlock your LOCALWALLET',
-        // title: dictionary[globalLang]["unlocklocalwallet"],
-        input: 'password',
-        inputAttributes: { autocapitalize: 'off' },
-        showCancelButton: true,
-        confirmButtonText: 'Enter',
-        showLoaderOnConfirm: true,
-        backdrop: true,
-        preConfirm: (login) => { },
-        allowOutsideClick: () => {
-          const popup = Swal.getPopup();
-          popup.classList.remove('swal2-show');
-          setTimeout(() => {
-            popup.classList.add('animate__animated', 'animate__headShake');
-          });
-          setTimeout(() => {
-            popup.classList.remove('animate__animated', 'animate__headShake');
-          }, 500);
-          return false;
-        },
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          console.log('password entered!');
-          if (result.value == '') {
-            console.log('IS EMPTY');
-            Toast.fire({ icon: 'error', title: 'Password cannot be empty' });
-            return null;
-          }
 
-          let encryptedjson = localStorage.getItem('jsonWallet');
-          let ew = JSON.parse(encryptedjson);
-          console.log('pub key of wallet in localstorage:', ew.address);
 
-          try {
-            return ethers.Wallet.fromEncryptedJson(encryptedjson, result.value).then(async (localWallet) => {
-              console.log('localWallet.publicKey:', localWallet.publicKey);
-              let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v6
-              const signer = localWallet.connect(provider);
-              console.log('SIGNER:', signer);
-              return signer;
-            });
-          } catch (error) {
-            console.error('Error during wallet decryption:', error);
-            Toast.fire('Error', error.message, "error");
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: error.message,
-            });
-            return null;
-          }
-        }
-        return null;
-      }).catch(error => {
-        console.error('Error during Swal prompt:', error.reason);
-        Toast.fire('Error', error.message, "error");
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: error.message,
-        });
 
-        return null;
-      });
-    }
+		async function getLocalWalletSigner() {
+			console.log('getLocalWalletSigner()');
+			// check if wallet is backed up or not
+
+
+			// return
+			return Swal.fire({
+				title: 'Unlock your LOCALWALLET',
+				// title: dictionary[globalLang]["unlocklocalwallet"],
+				input: 'password',
+				inputAttributes: { autocapitalize: 'off' },
+				showCancelButton: true,
+				confirmButtonText: 'Enter',
+				showLoaderOnConfirm: true,
+				backdrop: true,
+				preConfirm: (login) => { },
+				allowOutsideClick: () => {
+					const popup = Swal.getPopup();
+					popup.classList.remove('swal2-show');
+					setTimeout(() => {
+						popup.classList.add('animate__animated', 'animate__headShake');
+					});
+					setTimeout(() => {
+						popup.classList.remove('animate__animated', 'animate__headShake');
+					}, 500);
+					return false;
+				},
+			}).then(async (result) => {
+				if (result.isConfirmed) {
+					console.log('password entered!');
+					if (result.value == '') {
+						console.log('IS EMPTY');
+						Toast.fire({ icon: 'error', title: 'Password cannot be empty' });
+						return null;
+					}
+
+					let encryptedjson = localStorage.getItem('jsonWallet');
+					let ew = JSON.parse(encryptedjson);
+					console.log('pub key of wallet in localstorage:', ew.address);
+
+					try {
+						return ethers.Wallet.fromEncryptedJson(encryptedjson, result.value).then(async (localWallet) => {
+							console.log('localWallet.publicKey:', localWallet.publicKey);
+							let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v6
+							const signer = localWallet.connect(provider);
+							console.log('SIGNER:', signer);
+							return signer;
+						});
+					} catch (error) {
+						console.error('Error during wallet decryption:', error);
+						Toast.fire('Error', error.message, "error");
+						Swal.fire({
+							icon: "error",
+							title: "Error",
+							text: error.message,
+						});
+						return null;
+					}
+				}
+				return null;
+			}).catch(error => {
+				console.error('Error during Swal prompt:', error.reason);
+				Toast.fire('Error', error.message, "error");
+				Swal.fire({
+					icon: "error",
+					title: "Error",
+					text: error.message,
+				});
+
+				return null;
+			});
+		}
 
 	</script>
 </body>
