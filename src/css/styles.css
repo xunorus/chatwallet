@@ -1211,6 +1211,10 @@ body.swal2-height-auto {
   position: fixed;
   bottom: 0;
   width: 100vw;
+  height: 110px;
 }
- 
+ #chatBox{
+  margin-bottom: 50px;
+
+ }
 }
