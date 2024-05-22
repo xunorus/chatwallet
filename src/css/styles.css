@@ -1218,3 +1218,13 @@ body.swal2-height-auto {
 
  }
 }
+
+#cwContacts{
+  overflow-y: scroll;
+  height: 100%;
+  position: relative;
+  display: flex;
+  padding-bottom: 60px;
+  flex-direction: column;
+
+}

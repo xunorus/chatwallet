@@ -152,7 +152,7 @@
 		<!-- <div class="center"> <h1 id="fontlogo">CHATWALLET <span id="miniversion">chatwallet v1.00Alpha</span></h1> </div> -->
 		<div class="center" id="center">
 			<h1 id="fontlogo">CHATWALLET </h1>
-			<span id="miniversion">chatwallet v1.14Alpha</span>
+			<span id="miniversion">chatwallet v1.15Alpha</span>
 		</div>
 		<span class="badge bg-primary" id="chatBadge">-</span>
 		<button id="" class="right hamburger hamburger--elastic" type="button" aria-label="Menu"
@@ -1379,6 +1379,7 @@ async function continueInitForEncryptedWallet(){
 
 			// -----------------------------------------
 			//  LOAD CONTACTS
+			// leer did antes????
 			console.warn('LOAD CONTACTS')
 			await loadContacts()
 
@@ -1412,9 +1413,12 @@ async function continueInitForEncryptedWallet(){
 			// LOAD USER AVATAR
 			console.log('LOAD USER AVATAR')
 			let avatar = localStorage.getItem('avatar')
-
+			// IF AVATAR IN LOCALSTORAGE MEANS SOMETHING WENT WRONG WHEN CREATING THE DID> TRY AGAIN
+			// console.log('LOAD USER AVATAR')
+			
 			if (avatar) {
 				itemImgMINT.src = JSON.parse(avatar);
+				updateDIDavatar(avatar)
 
 			} else {
 				console.warn("loadImg is undefined or null.");
@@ -1442,16 +1446,14 @@ async function continueInitForEncryptedWallet(){
 			// if(chatWalletClient)
 			let chatList = await chatWalletClient.conversations.list()
 			c = chatList;
-			// console.log("chatList: ",chatList)
 			let chatLength = chatList.length;
 			console.log(chatLength, "connected addresses.")
 
 			// Using a for loop
 			let peerAddresses = [];
 			for (let i = 0; i < chatLength; i++) {
-				// console.log(chatList[i].peerAddress);
 				peerAddresses.push(chatList[i].peerAddress);
-
+				// aqui crear chats(es mas simple)
 			}
 			console.warn('PEERADDRESSES PeerAddresses:', peerAddresses);
 
@@ -2249,26 +2251,14 @@ function remember() {
 
 		function openCard(toAddr ,avtr) {
 			console.log(' openCard()', toAddr, avtr)
-let a= toAddr;
-let b= avtr;
-console.log('OPENCARD DATA a:',a)
-console.log('OPENCARD DATA b:',b)
+			let a= toAddr;
+			let b= avtr;
+			console.log('OPENCARD DATA a:',a)
+			console.log('OPENCARD DATA b:',b)
 			let avatar = "./anonym.jpg"
 			let htmlData = `<address>${toAddr} <svg id="innerAddress" onclick="event.stopPropagation();customcopy2clipboard('${toAddr}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"> <path  fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z" ></path></svg> </address><br><p>no more info available</p>`;
 			let shortAddr = toAddr.substring(0, 6) + "..." + toAddr.substring(38, 42);
 			// -----------
-			// Swal.fire({
-			// 	imageUrl: avatar,
-			// 	imageWidth: 300,
-			// 	imageHeight: 300,
-			// 	imageAlt: 'Avatar image',
-			// 	html: htmlData,
-			// 	showCancelButton: false,
-			// 	showCloseButton: true,
-			// 	showConfirmButton: false,
-			// })
-
-			// ---
 			
 				Swal.fire({ imageUrl: avtr, 
 						imageWidth: 300, 
@@ -3095,18 +3085,18 @@ console.log('OPENCARD DATA b:',b)
 			//     lastClickTime = currentTime;
 			// });
 
-var body = document.querySelector('body');
-var lastTapTime = 0;
-var isFullscreen = false;
+// var body = document.querySelector('body');
+// var lastTapTime = 0;
+// var isFullscreen = false;
 
-body.addEventListener('touchstart', function (e) {
-    var currentTime = new Date().getTime();
-    var tapLength = currentTime - lastTapTime;
-    if (tapLength < 500 && tapLength > 0) {
-        toggleFullscreen();
-    }
-    lastTapTime = currentTime;
-});
+// body.addEventListener('touchstart', function (e) {
+//     var currentTime = new Date().getTime();
+//     var tapLength = currentTime - lastTapTime;
+//     if (tapLength < 500 && tapLength > 0) {
+//         toggleFullscreen();
+//     }
+//     lastTapTime = currentTime;
+// });
 
 // END
 		}
@@ -4609,17 +4599,14 @@ Promise.all(promises)
 							let avatar = localStorage.getItem('avatar');
 							let cid = '';
 
-							//   CHECK IF THERE IS AN unbackedWallet
 							// 0- CHECK IF UNBACKED WALLET INLOCALSTORAGE
 							let unbw = localStorage.getItem('unbackedWallet')
 
 							if (!unbw) {
 								console.log('1- NO UNBACKED WALLET');
-								// let jsw = localStorage.getItem('jsonWallet')
 								signer = await getLocalWalletSigner();
 								did = `did:ethr:${signer.address}`
 								console.log('DID: ', did)
-
 								return //falta testear
 							}
 							else {
@@ -4649,6 +4636,7 @@ Promise.all(promises)
 								return
 							}
 
+							// REMOVE FROM LOCALSTORAGE
 							 localStorage.removeItem('avatar');
 
 
@@ -4857,6 +4845,34 @@ Promise.all(promises)
 				return null;
 			});
 		}
+
+
+		var body = document.querySelector('body');
+		var lastTapTime = 0;
+		var isFullscreen = false;
+
+		canvas.onclick = function (e) {
+			console.log('CHATWALLET: clicked on QR')
+			var currentTime = new Date().getTime();
+    var tapLength = currentTime - lastTapTime;
+    if (tapLength < 500 && tapLength > 0) {
+        toggleFullscreen();
+    }
+    lastTapTime = currentTime;
+		}
+
+
+// canvas.addEventListener('touchstart', function (e) {
+// 			console.log('CHATWALLET: clicked on QR')
+
+//     var currentTime = new Date().getTime();
+//     var tapLength = currentTime - lastTapTime;
+//     if (tapLength < 500 && tapLength > 0) {
+//         toggleFullscreen();
+//     }
+//     lastTapTime = currentTime;
+// });
+
 
 	</script>
 </body>

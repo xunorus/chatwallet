@@ -37,6 +37,7 @@ firebase deploy --only hosting:chatwallet-x
 firebase emulators:start
 ```
 # log
+v1.15 fullscreen
 v1.13 Fix did loading, css mobile.Addedcontent-type-transaction-reference
 v1.12 Fix did avatars and contacts.
 v1.11 Fix duplicate msgs and anonym icon.
