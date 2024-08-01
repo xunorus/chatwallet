@@ -1,0 +1,22 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(100,100)">
+    <circle cx="0" cy="0" r="30" fill="none" stroke="black" />
+    <circle cx="30" cy="0" r="30" fill="none" stroke="black" />
+    <circle cx="15" cy="25.98" r="30" fill="none" stroke="black" />
+    <circle cx="-15" cy="25.98" r="30" fill="none" stroke="black" />
+    <circle cx="-30" cy="0" r="30" fill="none" stroke="black" />
+    <circle cx="-15" cy="-25.98" r="30" fill="none" stroke="black" />
+    <circle cx="15" cy="-25.98" r="30" fill="none" stroke="black" />
+    
+    <!-- Additional circles to complete the pattern -->
+    <circle cx="45" cy="25.98" r="30" fill="none" stroke="black" />
+    <circle cx="45" cy="-25.98" r="30" fill="none" stroke="black" />
+    <circle cx="0" cy="51.96" r="30" fill="none" stroke="black" />
+    <circle cx="-45" cy="25.98" r="30" fill="none" stroke="black" />
+    <circle cx="-45" cy="-25.98" r="30" fill="none" stroke="black" />
+    <circle cx="0" cy="-51.96" r="30" fill="none" stroke="black" />
+    
+    <!-- Outer circle to enclose the pattern -->
+    <circle cx="0" cy="0" r="90" fill="none" stroke="black" />
+  </g>
+</svg>

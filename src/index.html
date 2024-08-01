@@ -20,6 +20,7 @@
 	<link href="css/styles.css" rel="stylesheet">
 
 
+
 	<!-- splash -->
 	<link rel="stylesheet" type="text/css" href="css/effect2.css" />
 
@@ -152,7 +153,7 @@
 		<!-- <div class="center"> <h1 id="fontlogo">CHATWALLET <span id="miniversion">chatwallet v1.00Alpha</span></h1> </div> -->
 		<div class="center" id="center">
 			<h1 id="fontlogo">CHATWALLET </h1>
-			<span id="miniversion">chatwallet v1.15Alpha</span>
+			<span id="miniversion">chatwallet v2.03Alpha</span>
 		</div>
 		<span class="badge bg-primary" id="chatBadge">-</span>
 		<button id="" class="right hamburger hamburger--elastic" type="button" aria-label="Menu"
@@ -213,8 +214,8 @@
 					<div>
 						<article class="se-content" id="activeToken">
 							<!-- <span id="troqamount"></span> -->
-		<select class="left translation" id="chainSelector"> </select>
-		<button id="troqamount"></button>
+		<!-- <select class="left translation" id="chainSelector"> </select> -->
+		<button id="troqamount" class="currencySelector"></button>
 							<span id="ethamount"></span>
 						</article>
 
@@ -233,7 +234,7 @@
 						<button type="button" id="send" class="btn btn-approve" style="display: none;"
 							onclick="event.stopPropagation(); openSend()">SEND</button>
 						<button type="button" id="scan" class="btn btn-reject" style="display: none;"
-							onclick="event.stopPropagation(); makeDeposit()">DEPOSIT</button>
+							onclick="event.stopPropagation(); makeDeposit()">SWAP</button>
 						<button type="button" id="chat" class="btn btn-primary" style="display: none;"
 							onclick="event.stopPropagation(); openChat()"> CHAT </button>
 					</div>
@@ -285,7 +286,7 @@
 
 
 
-	<!-----------------------------
+<!-----------------------------
   MODALS 
 --------------------------->
 
@@ -305,16 +306,20 @@
 
 					<button type="button" id="" class="btn btn-primary" onclick="event.stopPropagation(); backup()">
 						<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512">
-							<path
+							<path fill="currentColor"
 								d="M512 32c0 113.6-84.6 207.5-194.2 222c-7.1-53.4-30.6-101.6-65.3-139.3C290.8 46.3 364 0 448 0h32c17.7 0 32 14.3 32 32zM0 96C0 78.3 14.3 64 32 64H64c123.7 0 224 100.3 224 224v32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V320C100.3 320 0 219.7 0 96z" />
 						</svg> Backup </button>
 					<button type="button" id="" class="btn btn-primary"
 						onclick="event.stopPropagation(); restoreWallet()"> <svg xmlns="http://www.w3.org/2000/svg"
 							height="16" width="16" viewBox="0 0 512 512">
-							<path
+							<path fill="currentColor"
 								d="M174.7 45.1C192.2 17 223 0 256 0s63.8 17 81.3 45.1l38.6 61.7 27-15.6c8.4-4.9 18.9-4.2 26.6 1.7s11.1 15.9 8.6 25.3l-23.4 87.4c-3.4 12.8-16.6 20.4-29.4 17l-87.4-23.4c-9.4-2.5-16.3-10.4-17.6-20s3.4-19.1 11.8-23.9l28.4-16.4L283 79c-5.8-9.3-16-15-27-15s-21.2 5.7-27 15l-17.5 28c-9.2 14.8-28.6 19.5-43.6 10.5c-15.3-9.2-20.2-29.2-10.7-44.4l17.5-28zM429.5 251.9c15-9 34.4-4.3 43.6 10.5l24.4 39.1c9.4 15.1 14.4 32.4 14.6 50.2c.3 53.1-42.7 96.4-95.8 96.4L320 448v32c0 9.7-5.8 18.5-14.8 22.2s-19.3 1.7-26.2-5.2l-64-64c-9.4-9.4-9.4-24.6 0-33.9l64-64c6.9-6.9 17.2-8.9 26.2-5.2s14.8 12.5 14.8 22.2v32l96.2 0c17.6 0 31.9-14.4 31.8-32c0-5.9-1.7-11.7-4.8-16.7l-24.4-39.1c-9.5-15.2-4.7-35.2 10.7-44.4zm-364.6-31L36 204.2c-8.4-4.9-13.1-14.3-11.8-23.9s8.2-17.5 17.6-20l87.4-23.4c12.8-3.4 26 4.2 29.4 17L182 241.2c2.5 9.4-.9 19.3-8.6 25.3s-18.2 6.6-26.6 1.7l-26.5-15.3L68.8 335.3c-3.1 5-4.8 10.8-4.8 16.7c-.1 17.6 14.2 32 31.8 32l32.2 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32.2 0C42.7 448-.3 404.8 0 351.6c.1-17.8 5.1-35.1 14.6-50.2l50.3-80.5z" />
 						</svg> Restore </button>
 
+					<br>
+					<br>
+						<input type="checkbox" id="muteCheckbox" name="muteCheckbox">
+						<label for="muteCheckbox">Make Insecure(doenst require a password unlock the wallet)</label>
 					<hr>
 
 					<h4>Language</h4>
@@ -338,19 +343,21 @@
 						<label for="muteCheckbox">Mute</label>
 					</div>
 
+					<hr>
+
+					<h4>Chats</h4>
+
+					<button type="button" id="" class="btn btn-primary"
+					onclick="event.stopPropagation(); createGroupChat()"> 
+				
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"  height="16" width="16" >
+						<!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+						<path fill="currentColor" d="M72 88a56 56 0 1 1 112 0A56 56 0 1 1 72 88zM64 245.7C54 256.9 48 271.8 48 288s6 31.1 16 42.3V245.7zm144.4-49.3C178.7 222.7 160 261.2 160 304c0 34.3 12 65.8 32 90.5V416c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V389.2C26.2 371.2 0 332.7 0 288c0-61.9 50.1-112 112-112h32c24 0 46.2 7.5 64.4 20.3zM448 416V394.5c20-24.7 32-56.2 32-90.5c0-42.8-18.7-81.3-48.4-107.7C449.8 183.5 472 176 496 176h32c61.9 0 112 50.1 112 112c0 44.7-26.2 83.2-64 101.2V416c0 17.7-14.3 32-32 32H480c-17.7 0-32-14.3-32-32zm8-328a56 56 0 1 1 112 0A56 56 0 1 1 456 88zM576 245.7v84.7c10-11.3 16-26.1 16-42.3s-6-31.1-16-42.3zM320 32a64 64 0 1 1 0 128 64 64 0 1 1 0-128zM240 304c0 16.2 6 31 16 42.3V261.7c-10 11.3-16 26.1-16 42.3zm144-42.3v84.7c10-11.3 16-26.1 16-42.3s-6-31.1-16-42.3zM448 304c0 44.7-26.2 83.2-64 101.2V448c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32V405.2c-37.8-18-64-56.5-64-101.2c0-61.9 50.1-112 112-112h32c61.9 0 112 50.1 112 112z"/></svg>
+
+					QR groupe Invite</button>
+					<!-- scan this qr to be added to this group -->
 
 				</div>
-
-				<!-- <hr> -->
-				<!-- 
-				<h4>Language</h4>
-
-				<button type="button" id="" class="btn btn-primary" onclick="event.stopPropagation(); honorLoans()">
-					<svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512">
-						<path
-							d="M80 104c0-22.1-17.9-40-40-40S0 81.9 0 104v56 64V325.5c0 25.5 10.1 49.9 28.1 67.9L128 493.3c12 12 28.3 18.7 45.3 18.7H240c26.5 0 48-21.5 48-48V385.1c0-29.7-11.8-58.2-32.8-79.2l-25.3-25.3 0 0-15.2-15.2-32-32c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l32 32 15.2 15.2c11 11 9.2 29.2-3.7 37.8c-9.7 6.5-22.7 5.2-31-3.1L98.7 309.5c-12-12-18.7-28.3-18.7-45.3V224 144 104zm480 0v40 80 40.2c0 17-6.7 33.3-18.7 45.3l-51.1 51.1c-8.3 8.3-21.3 9.6-31 3.1c-12.9-8.6-14.7-26.9-3.7-37.8l15.2-15.2 32-32c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-32 32-15.2 15.2 0 0-25.3 25.3c-21 21-32.8 49.5-32.8 79.2V464c0 26.5 21.5 48 48 48h66.7c17 0 33.3-6.7 45.3-18.7l99.9-99.9c18-18 28.1-42.4 28.1-67.9V224 160 104c0-22.1-17.9-40-40-40s-40 17.9-40 40z" />
-					</svg> Loans </button> -->
-
 
 
 				<div class="modal-footer">
@@ -536,7 +543,7 @@
 								<h1>Amount</h1>
 								<div class="custom-input-group">
 									<div class="input-group">
-										<span class="input-group-text" id="currencyToSend">GHO$</span>
+										<span class="input-group-text currencySelector" id="currencyToSend">GHO$</span>
 										<input type="number" class="form-control" id="amount2" step="0.01" required>
 									</div>
 								</div>
@@ -875,19 +882,63 @@
 	<!-- fin MODAL WALLET-->
 
 
+	
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.29/Tone.m	in.js"></script>
+	<!-- selectERC20 MODAL -->
+	<div class="modal fade" data-bs-backdrop="static" id="selectERC20" tabindex="-1" role="dialog" aria-labelledby=""
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"  id="">SELECT ERC20</h5>
+					<!-- <h5 class="modal-title" data-translate="scanqr" id="">Scan QR</h5> -->
+				</div>
+
+				<div class="modal-body" id="">
+				<!-- <ul id="chainSelector"></ul> -->
+
+				<div class=" ">
+					<div class="list-group" id="chainSelector">
+						<a href="#" class="list-group-item list-group-item-action">ChatTy(avalanche)</a>
+						<a href="#" class="list-group-item list-group-item-action">USDT(arb)</a>
+						<a href="#" class="list-group-item list-group-item-action">Add+</a>
+					</div>
+				</div>
+
+
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-secondary closeWalletBkp" id=""
+							data-translate="close" onclick="closeModalId('#selectERC20')">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fin SCAN MODAL-->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.29/Tone.min.js"></script>
+	
+	<!-- <script src="js/ethers-6.11.1.umd.min.js" type="application/javascript"></script> -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.1/ethers.umd.min.js" type="application/javascript"></script> -->
+	<!-- <script src="js/ethers-6.12.2.umd.min.js" type="application/javascript"></script> -->
+	<script src="js/ethers-6.12.1.umd.min.js" type="application/javascript"></script>
+
 
 	<script type="module">
+		import EthCrypto from 'eth-crypto';
+		window.EthCrypto = EthCrypto;
+
 		import QrScanner from "qr-scanner/qr-scanner.min.js";
 		window.QrScanner = QrScanner; //make global
 		QrScanner.hasCamera(); // test
 
-		import { ethers } from "ethers";
-		window.ethers = ethers;
+		// import { ethers } from "ethers";
+		// window.ethers = ethers;
 
-		import { Wallet } from 'ethers'
-		window.Wallet = Wallet;
+		// import { Wallet } from 'ethers'
+		// window.Wallet = Wallet;
 
 		import { Client } from '@xmtp/xmtp-js'
 		window.Client = Client;
@@ -898,6 +949,53 @@
 
 		// import { CompositeCodec } from "@xmtp/xmtp-js";
 		// window.CompositeCodec = CompositeCodec;
+
+		// ---÷
+		import { ContentTypeId } from "@xmtp/xmtp-js";
+		window.ContentTypeId = ContentTypeId;
+
+		export const ContentTypeTransactionHash = new ContentTypeId({
+		authorityId: "your.domain",
+		typeId: "transaction-hash",
+		versionMajor: 1,
+		versionMinor: 0,
+		});
+		window.ContentTypeTransactionHash = ContentTypeTransactionHash;
+
+// export class ContentTypeTransactionHashCodec {
+//   get contentType() {
+//     return ContentTypeTransactionHash;
+//   }
+
+//   encode(hash) {
+//     return {
+//       type: ContentTypeTransactionHash,
+//       parameters: {},
+//       content: new TextEncoder().encode(hash),
+//     };
+//   }
+
+//   decode(content: { content: any }) {
+//     const uint8Array = content.content;
+//     const hash = new TextDecoder().decode(uint8Array);
+//     return hash;
+//   }
+// }
+
+		// import {
+		// ContentTypeTransactionHash,
+		// ContentTypeTransactionHashCodec,
+		// } from "./xmtp-content-type-transaction-hash";
+
+		// const xmtp = await Client.create(signer, {
+		// env: "dev",
+		// });
+
+		// xmtp.registerCodec(new ContentTypeTransactionHashCodec());
+
+
+
+
 
 
 		// CROPPER		
@@ -918,12 +1016,7 @@
 			},
 		});
 
-		// import { Pool, InterestRate } from "@aave/contract-helpers";
-		// window.Pool = Pool; //make global
-		// window.InterestRate = InterestRate; //make global
-
-		// 		'https://cdn.jsdelivr.net/npm/@polybase/client@latest/dist/bundle.min.js',
-		// 'https://cdn.jsdelivr.net/npm/@polybase/auth@latest/dist/bundle.min.js',
+	 
 		import { Polybase } from "@polybase/client";
 		window.Polybase = Polybase; //make global
 
@@ -990,7 +1083,20 @@
 		// https://sepolia.etherscan.io/address/0xc4bF5CbDaBE595361438F8c6a187bDc330539c60#code
 		**********************************************************************************************/
 		optionsList = [
+		{
+				"TOKEN_ADDRESS": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",//usdc sepolia
+				"TOKEN_CHAIN_NAME": 'USDC(sepolia)',
+				"TOKEN_NAME": "USDC",
+				"SYMBOL": "USDC",
+				"API": 'https://ethereum-sepolia.publicnode.com',
+				"TOKEN_CHAINID": '11155111',
+				"ERC20_TOKEN_ABI": 'usdctoken',
+				"EXPLORER": 'https://sepolia.etherscan.io/',
+				"ERC20_CONTRACT_ADDRESS": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"//gho token
+
+			},
 			{
+				"TOKEN_ADDRESS": "0x0118148a6E156b5B39d1D184F8763e65Df8d36C7",//master v3
 				"TOKEN_CHAIN_NAME": 'GHO(sepolia)',
 				"TOKEN_NAME": "GHO",
 				"SYMBOL": "GHO",
@@ -1002,7 +1108,6 @@
 				"DEPOSIT_CONTRACT_ABI": 'depositonbehalfv9',//
 				"DEPOSIT_CONTRACT_CHAINID": '11155111',//sepolia
 				"DEPOSIT_CONTRACT_API": 'https://ethereum-sepolia.publicnode.com',//fuji c-chain
-				"TOKEN_ADDRESS": "0x0118148a6E156b5B39d1D184F8763e65Df8d36C7",//master v3
 				"TOKEN_ABI": 'hloantokev6',
 				"EXPLORER": 'https://sepolia.etherscan.io/',
 				"NFTSENDER_CONTRACT_ADDRESS": "0xd9A7Bba88C4bFBD2EA44d18A52Dc404eaE86C0db",//fuji
@@ -1017,6 +1122,7 @@
 
 			},
 			{
+				"TOKEN_ADDRESS": "0xa45EEE39395B32fDf753aFd53f66fa1aB88ed525",//MyToken sepolia
 				"DEPOSIT_CONTRACT_CHAINID": '11155111',//sepolia
 				"TOKEN_CHAIN_NAME": 'MTk(sepolia)',
 				"TOKEN_NAME": "MTK(MyToken)",
@@ -1028,7 +1134,6 @@
 				"DEPOSIT_CONTRACT": "0x76FCE76d2214Ec2DE56dBD43E93FDA598FA1F7cB",//deposit sepolia
 				"DEPOSIT_CONTRACT_ABI": 'depositv1',//
 				"DEPOSIT_CONTRACT_API": 'https://ethereum-sepolia.publicnode.com',//sepolia
-				"TOKEN_ADDRESS": "0xa45EEE39395B32fDf753aFd53f66fa1aB88ed525",//MyToken sepolia
 				"TOKEN_ABI": 'mytoken',
 				"EXPLORER": 'https://sepolia.etherscan.io/',
 				"CCIP_EXPLORER": "https://ccip.chain.link/",
@@ -1062,43 +1167,7 @@
 				]
 
 			}
-			,
-			{
-				"DEPOSIT_CONTRACT_CHAINID": '11155111',//sepolia
-				"TOKEN_CHAIN_NAME": 'CCIP_BnM(sepolia)',
-				"TOKEN_NAME": "CCIP_BnM",
-				"SYMBOL": "BnM",
-				"API": 'https://ethereum-sepolia.publicnode.com',
-				"TOKEN_CHAINID": '11155111',
-				"ERC20_CONTRACT_ADDRESS": "0xFd57b4ddBf88a4e07fF4e34C487b99af2Fe82a05",//MyToken sepolia
-				"ERC20_TOKEN_ABI": 'mytoken',
-				"DEPOSIT_CONTRACT": "0x76FCE76d2214Ec2DE56dBD43E93FDA598FA1F7cB",//deposit sepolia
-				"DEPOSIT_CONTRACT_ABI": 'depositv1',//
-				"DEPOSIT_CONTRACT_API": 'https://ethereum-sepolia.publicnode.com',//sepolia
-				"TOKEN_ADDRESS": "0xa45EEE39395B32fDf753aFd53f66fa1aB88ed525",//MyToken sepolia
-				"TOKEN_ABI": 'mytoken',
-				"EXPLORER": 'https://sepolia.etherscan.io/',
-				"CCIP_EXPLORER": "https://ccip.chain.link/",
-				"CCIP_RECEIVER_SEPOLIA": "0x41b54c7Bc077ca9AaD9eD8D0E3bABC52F7Dd74f7",
-				"CCIP_SENDER_FUJI": "0x9664998335b10dE774DEa385C71428AE14EF7BdC",
-				'deposits': [
-					{
-						'value': "avalanche",
-						'contract': "0x0b3b2F4a81B6d6141be9E8da0324fA9bC4Dc1148",
-						'abi': 'function transferToSepolia( address , uint256 )',
-						'oracle': "0x5498BB86BC934c8D34FDA08E81D444153d0D06aD",
-						'assetSymbol': 'AVAX / USD',
-						'chainid': "43113",
-						'symbol': "AVAX",
-						'api': 'https://avalanche-fuji-c-chain.publicnode.com',
-						'label': "AVALANCHE"
-					},
-					{ 'value': "polygon-network", 'label': "MATIC", 'chainid': "80001", 'disabled': 'true' },
-					{ 'value': "dai", 'label': "DAI", 'disabled': 'true' }
-
-				]
-
-			}
+			
 
 		];
 
@@ -1113,7 +1182,8 @@
 		ABIs = {
 			mytoken: [{ "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [], "name": "ECDSAInvalidSignature", "type": "error" }, { "inputs": [{ "internalType": "uint256", "name": "length", "type": "uint256" }], "name": "ECDSAInvalidSignatureLength", "type": "error" }, { "inputs": [{ "internalType": "bytes32", "name": "s", "type": "bytes32" }], "name": "ECDSAInvalidSignatureS", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "allowance", "type": "uint256" }, { "internalType": "uint256", "name": "needed", "type": "uint256" }], "name": "ERC20InsufficientAllowance", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "sender", "type": "address" }, { "internalType": "uint256", "name": "balance", "type": "uint256" }, { "internalType": "uint256", "name": "needed", "type": "uint256" }], "name": "ERC20InsufficientBalance", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "approver", "type": "address" }], "name": "ERC20InvalidApprover", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "receiver", "type": "address" }], "name": "ERC20InvalidReceiver", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "sender", "type": "address" }], "name": "ERC20InvalidSender", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }], "name": "ERC20InvalidSpender", "type": "error" }, { "inputs": [{ "internalType": "uint256", "name": "deadline", "type": "uint256" }], "name": "ERC2612ExpiredSignature", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "signer", "type": "address" }, { "internalType": "address", "name": "owner", "type": "address" }], "name": "ERC2612InvalidSigner", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "uint256", "name": "currentNonce", "type": "uint256" }], "name": "InvalidAccountNonce", "type": "error" }, { "inputs": [], "name": "InvalidShortString", "type": "error" }, { "inputs": [{ "internalType": "string", "name": "str", "type": "string" }], "name": "StringTooLong", "type": "error" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "spender", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [], "name": "EIP712DomainChanged", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "inputs": [], "name": "DOMAIN_SEPARATOR", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }], "name": "INFINITEallowanceLOCAL", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" }], "name": "allowance", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "approve", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "eip712Domain", "outputs": [{ "internalType": "bytes1", "name": "fields", "type": "bytes1" }, { "internalType": "string", "name": "name", "type": "string" }, { "internalType": "string", "name": "version", "type": "string" }, { "internalType": "uint256", "name": "chainId", "type": "uint256" }, { "internalType": "address", "name": "verifyingContract", "type": "address" }, { "internalType": "bytes32", "name": "salt", "type": "bytes32" }, { "internalType": "uint256[]", "name": "extensions", "type": "uint256[]" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "mint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "name", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }], "name": "nonces", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }, { "internalType": "uint256", "name": "deadline", "type": "uint256" }, { "internalType": "uint8", "name": "v", "type": "uint8" }, { "internalType": "bytes32", "name": "r", "type": "bytes32" }, { "internalType": "bytes32", "name": "s", "type": "bytes32" }], "name": "permit", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "symbol", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalSupply", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "transfer", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "transferFrom", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }],
 			depositv1: [{ "inputs": [{ "internalType": "address", "name": "customAddress", "type": "address" }], "name": "depositToCustomAddress", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "tokenAddress", "type": "address" }], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [], "name": "withdraw", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "stateMutability": "payable", "type": "receive" }, { "inputs": [{ "internalType": "uint256", "name": "ethAmount", "type": "uint256" }], "name": "convertEthToGHO", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getLatestGHOPrice", "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getLatestPrice", "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "token", "outputs": [{ "internalType": "contract TokenInterface", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "tokenPrice", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }],
-			ghotoken: [{ "inputs": [{ "internalType": "address", "name": "admin", "type": "address" }], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "spender", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": true, "internalType": "bytes32", "name": "label", "type": "bytes32" }, { "indexed": false, "internalType": "uint256", "name": "bucketCapacity", "type": "uint256" }], "name": "FacilitatorAdded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "oldCapacity", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "newCapacity", "type": "uint256" }], "name": "FacilitatorBucketCapacityUpdated", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "oldLevel", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "newLevel", "type": "uint256" }], "name": "FacilitatorBucketLevelUpdated", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }], "name": "FacilitatorRemoved", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "bytes32", "name": "previousAdminRole", "type": "bytes32" }, { "indexed": true, "internalType": "bytes32", "name": "newAdminRole", "type": "bytes32" }], "name": "RoleAdminChanged", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }], "name": "RoleGranted", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }], "name": "RoleRevoked", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "inputs": [], "name": "BUCKET_MANAGER_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "DEFAULT_ADMIN_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "DOMAIN_SEPARATOR", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "FACILITATOR_MANAGER_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "PERMIT_TYPEHASH", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "internalType": "string", "name": "facilitatorLabel", "type": "string" }, { "internalType": "uint128", "name": "bucketCapacity", "type": "uint128" }], "name": "addFacilitator", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }, { "internalType": "address", "name": "", "type": "address" }], "name": "allowance", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "approve", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "burn", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }], "name": "getFacilitator", "outputs": [{ "components": [{ "internalType": "uint128", "name": "bucketCapacity", "type": "uint128" }, { "internalType": "uint128", "name": "bucketLevel", "type": "uint128" }, { "internalType": "string", "name": "label", "type": "string" }], "internalType": "struct IGhoToken.Facilitator", "name": "", "type": "tuple" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }], "name": "getFacilitatorBucket", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }, { "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getFacilitatorsList", "outputs": [{ "internalType": "address[]", "name": "", "type": "address[]" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }], "name": "getRoleAdmin", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "grantRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "hasRole", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "mint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "name", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "nonces", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }, { "internalType": "uint256", "name": "deadline", "type": "uint256" }, { "internalType": "uint8", "name": "v", "type": "uint8" }, { "internalType": "bytes32", "name": "r", "type": "bytes32" }, { "internalType": "bytes32", "name": "s", "type": "bytes32" }], "name": "permit", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitatorAddress", "type": "address" }], "name": "removeFacilitator", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "renounceRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "revokeRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }, { "internalType": "uint128", "name": "newCapacity", "type": "uint128" }], "name": "setFacilitatorBucketCapacity", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "symbol", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalSupply", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "transfer", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "transferFrom", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }]
+			ghotoken: [{ "inputs": [{ "internalType": "address", "name": "admin", "type": "address" }], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "spender", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": true, "internalType": "bytes32", "name": "label", "type": "bytes32" }, { "indexed": false, "internalType": "uint256", "name": "bucketCapacity", "type": "uint256" }], "name": "FacilitatorAdded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "oldCapacity", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "newCapacity", "type": "uint256" }], "name": "FacilitatorBucketCapacityUpdated", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "oldLevel", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "newLevel", "type": "uint256" }], "name": "FacilitatorBucketLevelUpdated", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "facilitatorAddress", "type": "address" }], "name": "FacilitatorRemoved", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "bytes32", "name": "previousAdminRole", "type": "bytes32" }, { "indexed": true, "internalType": "bytes32", "name": "newAdminRole", "type": "bytes32" }], "name": "RoleAdminChanged", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }], "name": "RoleGranted", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }], "name": "RoleRevoked", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "inputs": [], "name": "BUCKET_MANAGER_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "DEFAULT_ADMIN_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "DOMAIN_SEPARATOR", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "FACILITATOR_MANAGER_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "PERMIT_TYPEHASH", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitatorAddress", "type": "address" }, { "internalType": "string", "name": "facilitatorLabel", "type": "string" }, { "internalType": "uint128", "name": "bucketCapacity", "type": "uint128" }], "name": "addFacilitator", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }, { "internalType": "address", "name": "", "type": "address" }], "name": "allowance", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "approve", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "burn", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }], "name": "getFacilitator", "outputs": [{ "components": [{ "internalType": "uint128", "name": "bucketCapacity", "type": "uint128" }, { "internalType": "uint128", "name": "bucketLevel", "type": "uint128" }, { "internalType": "string", "name": "label", "type": "string" }], "internalType": "struct IGhoToken.Facilitator", "name": "", "type": "tuple" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }], "name": "getFacilitatorBucket", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }, { "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getFacilitatorsList", "outputs": [{ "internalType": "address[]", "name": "", "type": "address[]" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }], "name": "getRoleAdmin", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "grantRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "hasRole", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "mint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "name", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "nonces", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" }, { "internalType": "uint256", "name": "deadline", "type": "uint256" }, { "internalType": "uint8", "name": "v", "type": "uint8" }, { "internalType": "bytes32", "name": "r", "type": "bytes32" }, { "internalType": "bytes32", "name": "s", "type": "bytes32" }], "name": "permit", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitatorAddress", "type": "address" }], "name": "removeFacilitator", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "renounceRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }, { "internalType": "address", "name": "account", "type": "address" }], "name": "revokeRole", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "facilitator", "type": "address" }, { "internalType": "uint128", "name": "newCapacity", "type": "uint128" }], "name": "setFacilitatorBucketCapacity", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "symbol", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalSupply", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "transfer", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "transferFrom", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }],
+			usdctoken: [{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"authorizer","type":"address"},{"indexed":true,"internalType":"bytes32","name":"nonce","type":"bytes32"}],"name":"AuthorizationCanceled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"authorizer","type":"address"},{"indexed":true,"internalType":"bytes32","name":"nonce","type":"bytes32"}],"name":"AuthorizationUsed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_account","type":"address"}],"name":"Blacklisted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"newBlacklister","type":"address"}],"name":"BlacklisterChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"burner","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"newMasterMinter","type":"address"}],"name":"MasterMinterChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"minter","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"minter","type":"address"},{"indexed":false,"internalType":"uint256","name":"minterAllowedAmount","type":"uint256"}],"name":"MinterConfigured","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"oldMinter","type":"address"}],"name":"MinterRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":false,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[],"name":"Pause","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"newAddress","type":"address"}],"name":"PauserChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"newRescuer","type":"address"}],"name":"RescuerChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_account","type":"address"}],"name":"UnBlacklisted","type":"event"},{"anonymous":false,"inputs":[],"name":"Unpause","type":"event"},{"inputs":[],"name":"CANCEL_AUTHORIZATION_TYPEHASH","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"DOMAIN_SEPARATOR","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"PERMIT_TYPEHASH","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"RECEIVE_WITH_AUTHORIZATION_TYPEHASH","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"TRANSFER_WITH_AUTHORIZATION_TYPEHASH","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"authorizer","type":"address"},{"internalType":"bytes32","name":"nonce","type":"bytes32"}],"name":"authorizationState","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_account","type":"address"}],"name":"blacklist","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"blacklister","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"authorizer","type":"address"},{"internalType":"bytes32","name":"nonce","type":"bytes32"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"cancelAuthorization","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"authorizer","type":"address"},{"internalType":"bytes32","name":"nonce","type":"bytes32"},{"internalType":"bytes","name":"signature","type":"bytes"}],"name":"cancelAuthorization","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"minter","type":"address"},{"internalType":"uint256","name":"minterAllowedAmount","type":"uint256"}],"name":"configureMinter","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"currency","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"decrement","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"increment","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"tokenName","type":"string"},{"internalType":"string","name":"tokenSymbol","type":"string"},{"internalType":"string","name":"tokenCurrency","type":"string"},{"internalType":"uint8","name":"tokenDecimals","type":"uint8"},{"internalType":"address","name":"newMasterMinter","type":"address"},{"internalType":"address","name":"newPauser","type":"address"},{"internalType":"address","name":"newBlacklister","type":"address"},{"internalType":"address","name":"newOwner","type":"address"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"newName","type":"string"}],"name":"initializeV2","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"lostAndFound","type":"address"}],"name":"initializeV2_1","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address[]","name":"accountsToBlacklist","type":"address[]"},{"internalType":"string","name":"newSymbol","type":"string"}],"name":"initializeV2_2","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_account","type":"address"}],"name":"isBlacklisted","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"isMinter","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"masterMinter","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_to","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"mint","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"minter","type":"address"}],"name":"minterAllowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"nonces","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"pause","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"pauser","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"bytes","name":"signature","type":"bytes"}],"name":"permit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"permit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"validAfter","type":"uint256"},{"internalType":"uint256","name":"validBefore","type":"uint256"},{"internalType":"bytes32","name":"nonce","type":"bytes32"},{"internalType":"bytes","name":"signature","type":"bytes"}],"name":"receiveWithAuthorization","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"validAfter","type":"uint256"},{"internalType":"uint256","name":"validBefore","type":"uint256"},{"internalType":"bytes32","name":"nonce","type":"bytes32"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"receiveWithAuthorization","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"minter","type":"address"}],"name":"removeMinter","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"contract IERC20","name":"tokenContract","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"rescueERC20","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rescuer","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"validAfter","type":"uint256"},{"internalType":"uint256","name":"validBefore","type":"uint256"},{"internalType":"bytes32","name":"nonce","type":"bytes32"},{"internalType":"bytes","name":"signature","type":"bytes"}],"name":"transferWithAuthorization","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"validAfter","type":"uint256"},{"internalType":"uint256","name":"validBefore","type":"uint256"},{"internalType":"bytes32","name":"nonce","type":"bytes32"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"transferWithAuthorization","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_account","type":"address"}],"name":"unBlacklist","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"unpause","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_newBlacklister","type":"address"}],"name":"updateBlacklister","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_newMasterMinter","type":"address"}],"name":"updateMasterMinter","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_newPauser","type":"address"}],"name":"updatePauser","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newRescuer","type":"address"}],"name":"updateRescuer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"version","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"pure","type":"function"}]
 		}
 
 		/*********************************************************************************************
@@ -1198,7 +1268,7 @@
 			})
 				.then(async (result) => {
 					if (result.isConfirmed) {
-						console.log('PASSWORD RESULT:', result.value)
+						// console.log('PASSWORD RESULT:', result.value)
 
 						await createWallet(result.value)
 						return result.value
@@ -1293,8 +1363,33 @@
 			console.log('qr code APPENDED')
 		}
 
+	
+		// const progressCallback = (percent) => {
+		// 		console.log(`Decrypting... `,percent);
+		// 		walletProgressContent.innerHTML = `<div class="progress">
+		// 			<div class="progress-bar" role="progressbar" style="width:  ${percent * 100}%;" aria-valuenow="${percent * 100}" aria-valuemin="0" aria-valuemax="100">${Math.round(percent * 100)}%</div>
+		// 			</div>`
+
+		// 			if(percent ==1){
+		// 				console.warn('walletProgress ENDED LOADING')
+		// 			}
+		// 	};
+
+		function pgbar(percent){
+			console.log('pgbar()')
+			// openModalId('#walletProgress')
+
+			document.getElementById('decryptProgress').style.width=percent*1000
+			document.getElementById('decryptProgress').innerText= percent;
 
 
+			if(percent ==1){
+						console.warn('walletProgress ENDED LOADING')
+					
+				// closeModalId('#walletProgress')
+					
+					}
+		}
 
 		async function decryptWallet(pwd) {
 			console.log(' decryptWallet(pwd)')
@@ -1304,53 +1399,64 @@
 
 
 			let wallet;
-			openModalId('#walletProgress')
-			const progressCallback = (percent) => {
-				console.log(`Decrypting... `);
-				walletProgressContent.innerHTML = `<div class="progress">
-					<div class="progress-bar" role="progressbar" style="width:  ${percent * 100}%;" aria-valuenow="${percent * 100}" aria-valuemin="0" aria-valuemax="100">${Math.round(percent * 100)}%</div>
-					</div>`
-			};
+		 
+			try{
+				wallet = await ethers.Wallet.fromEncryptedJson(encryptedjson, pwd, pgbar)
+			}
+			catch (error) {
+				console.error('ERROR wallet:', error);
+				await Toast.fire({ icon: 'error', title: 'Password incorrect' })
+				console.log(' DESCONECCION DE EMERGENCIA, BUG FIX')
+				document.getElementById('lock').style.display = 'inline'
+					document.getElementById('send').style.display = 'none'
+					document.getElementById('scan').style.display = 'none'
+					document.getElementById('chat').style.display = 'none'
+				return;
+			}
 
 
-
-			try {
-				wallet = await ethers.Wallet.fromEncryptedJson(encryptedjson, pwd, progressCallback)
-					.then(async (myWallet) => {
-						const formattedAddress = ethers.utils.getAddress(myWallet.address);
+			const formattedAddress = ethers.getAddress(wallet.address);
 						console.log('formattedAddress', formattedAddress);
 						localStorage.setItem('preferedWallet', `LOCALWALLET, ${formattedAddress}`)
 						displayDecrypt.innerHTML = formattedAddress;
 						console.log('USERADDRESS IS SET:', formattedAddress)
 						setAddress(formattedAddress)
-
 						console.warn('INIT CHAT CLIENT!!!')
-						await initChatClient(myWallet)
-
-						closeModalId('#walletProgress')
-
+						await initChatClient(wallet)
 						document.getElementById('lock').style.display = 'none'
 						document.getElementById('send').style.display = 'inline'
 						document.getElementById('scan').style.display = 'inline'
 						document.getElementById('chat').style.display = 'inline'
-
 						console.warn('WALLET IS COMPLETELY DECRYPTED, WE CAN CONTINUE HERE...')
 						await continueInitForEncryptedWallet()
-					})
-			}
-			catch (error) {
-				console.error('ERROR wallet:', error);
-				// document.getElementById('loader').style.display='none';
-				closeModalId('#walletProgress')
-				// walletDisconnect()
-				await Toast.fire({ icon: 'error', title: 'Password incorrect' })
-				console.log(' DESCONECCION DE EMERGENCIA, BUG FIX')
 
 
-				// init2();
-
-				return;
-			}
+			// try {
+			// 	wallet = await ethers.Wallet.fromEncryptedJson(encryptedjson, pwd, pgbar)
+			// 		.then(async (myWallet) => {
+			// 			const formattedAddress = ethers.getAddress(myWallet.address);
+			// 			console.log('formattedAddress', formattedAddress);
+			// 			localStorage.setItem('preferedWallet', `LOCALWALLET, ${formattedAddress}`)
+			// 			displayDecrypt.innerHTML = formattedAddress;
+			// 			console.log('USERADDRESS IS SET:', formattedAddress)
+			// 			setAddress(formattedAddress)
+			// 			console.warn('INIT CHAT CLIENT!!!')
+			// 			await initChatClient(myWallet)
+			// 			document.getElementById('lock').style.display = 'none'
+			// 			document.getElementById('send').style.display = 'inline'
+			// 			document.getElementById('scan').style.display = 'inline'
+			// 			document.getElementById('chat').style.display = 'inline'
+			// 			console.warn('WALLET IS COMPLETELY DECRYPTED, WE CAN CONTINUE HERE...')
+			// 			await continueInitForEncryptedWallet()
+			// 		})
+			// }
+			// catch (error) {
+			// 	console.error('ERROR wallet:', error);
+			// 	closeModalId('#walletProgress')
+			// 	await Toast.fire({ icon: 'error', title: 'Password incorrect' })
+			// 	console.log(' DESCONECCION DE EMERGENCIA, BUG FIX')
+			// 	return;
+			// }
 
 
 
@@ -1359,11 +1465,7 @@
 async function continueInitForEncryptedWallet(){
 	console.log('continueInitForEncryptedWallet()')
 
-
-	// console.log('CONTINUE.. to autocreateWallet')
-	// 		let address = await autoCreateWallet() // ==> initChatClient()
-	// 		console.log('ADDRESS FROM autoCreateWallet() ', address)
-
+ 
 
 			// -----------------------------------------
 			//  CHECK IF USER COMES FROM A LINK
@@ -1371,6 +1473,9 @@ async function continueInitForEncryptedWallet(){
 			const t2AddrValue = urlParams.get('T2Addr');
 			if (t2AddrValue !== null) {
 				console.log(`TRYING TO CHAT WITH: ${t2AddrValue}`);
+
+				// if starnetAddress then get eth adddress from DID
+				
 				await chatWith(t2AddrValue)
 			} else {
 				console.log('T2Addr parameter not found in the URL');
@@ -1388,46 +1493,49 @@ async function continueInitForEncryptedWallet(){
 			await syncBalance()
 			setTimeout(syncBalance, 60000);
 
-
-
 			// -----------------------------------------
 			// CHECK IF EIP2612 COMPATIBLE
 			checkEIP2612Compatibility();
 
 
 			// -----------------------------------------
-			// ADD EVENT LISTENER IF TOKEN IS CHANGED BY USER
-			chainSelector.addEventListener('change', function () {
-				const selectedOption = chainSelector.options[chainSelector.selectedIndex];
-				console.log('Selected option:', selectedOption.value);
-				console.log('Selected option:', selectedOption.value);
-				Toast.fire({ icon: 'success', title: 'Done!:', text: "Network changed" });
-				localStorage.setItem("preferedOption", chainSelector.selectedIndex);
-				headerNotes.innerHTML = ''
-				init()// after changing chain =>init
-
-			});
-
-			
-			// -----------------------------------------
 			// LOAD USER AVATAR
 			console.log('LOAD USER AVATAR')
 			let avatar = localStorage.getItem('avatar')
 			// IF AVATAR IN LOCALSTORAGE MEANS SOMETHING WENT WRONG WHEN CREATING THE DID> TRY AGAIN
-			// console.log('LOAD USER AVATAR')
 			
-			if (avatar) {
+			if (avatar != null) {
+				console.log('AVATAR IN LOCALSTORAGE')
+
 				itemImgMINT.src = JSON.parse(avatar);
-				updateDIDavatar(avatar)
+				let updateDID = await updateDIDavatar(avatar)
+				if(updateDID==true){
+
+					console.log('suscesfully updated DID')
+					localStorage.removeItem('avatar')
+					
+				}else{
+					console.log('failed to update DID')
+				}
 
 			} else {
 				console.warn("loadImg is undefined or null.");
 				if(address){
+					
+					let addr= localStorage.getItem('preferedWallet')
+					// Split the input string by comma and trim the resulting parts
+					const parts = addr.split(',').map(part => part.trim());
+
+					// Get the second part which is the address
+					const address = parts[1];
+
+					console.log('Extracted address:', address);
+
 					let did = `did:ethr:${address}`
 					console.log ('checking did', did)
 					try {
 						let avtr= await readDIDRecord(did)
-						console.log('did:',avtr)
+						console.warn('did:',avtr)
 						let avatar = avtr.data.avatar
 						itemImgMINT.src = JSON.parse(avatar);
 					} catch (error) {
@@ -1436,14 +1544,10 @@ async function continueInitForEncryptedWallet(){
 				}
 
 			}
-
+			// FIN LOAD USER AVATAR
+	// -----------------------------------------
 			// ----------------------------------------- 
-			//PEERADDRESSES GET CHAT LIST
-			
-			// reposicionar esto dentro de initChatClient
 			console.log('GET CHAT LIST')
-			// console.log((await chatWalletClient.conversations.list()).length, "connected addresses.")
-			// if(chatWalletClient)
 			let chatList = await chatWalletClient.conversations.list()
 			c = chatList;
 			let chatLength = chatList.length;
@@ -1500,7 +1604,8 @@ async function continueInitForEncryptedWallet(){
 		// function writepassword (f){
 
 		async function isValidAddress(address) {
-			return ethers.utils.isAddress(address);
+			// return ethers.utils.isAddress(address);
+			return ethers.isAddress(address);
 		}
 
 		async function addAddress() {
@@ -1530,6 +1635,14 @@ async function continueInitForEncryptedWallet(){
 							title: 'CHAT WITH:', 
 							position: 'center',
 							text: value });
+
+				// ---------------
+				// / FIX
+				// functiona como resetar la address
+				let contact = { address: value, username: null, avatar: null, did: null }
+				SaveContactsToLocalStorage(contact)
+				// ---------------
+
 						await chatWith(value)
 						await deleteChat()
 
@@ -1552,7 +1665,7 @@ async function continueInitForEncryptedWallet(){
 			})
 				.then(async (result) => {
 					if (result.isConfirmed) {
-						console.log('result.isConfirmed:', result.value)
+						console.log('result.isConfirmed:')
 						// await decryptWallet(result.value)
 						return result.value
 					}
@@ -1573,9 +1686,13 @@ async function continueInitForEncryptedWallet(){
 			// CREATE WALLET
 			let jsonWalletAddress = await Swal.fire({
 				title: dictionary[globalLang]["decryptlocalwallet"],
+				html: `<div class="progress" >
+					<div id="decryptProgress" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+					</div>`,
 				input: 'password',
 				inputAttributes: { autocapitalize: 'off' },
 				showCancelButton: true,
+				showConfirmButton: false,
 				confirmButtonText: 'ok',
 				showLoaderOnConfirm: true,
 				preConfirm: (login) => { },
@@ -1595,9 +1712,18 @@ async function continueInitForEncryptedWallet(){
 				},
 			})
 				// .then(async (result) => {
-				.then((result) => {
+				.then(async (result) => {
 					if (result.isConfirmed) {
-						console.log('result.isConfirmed:', result.value)
+						console.log('result.isConfirmed:')
+						
+
+						// return 
+						// let encryptedjson = localStorage.getItem('jsonWallet')
+						// setTimeout(async() => {
+							
+						// 	wallet = await ethers.Wallet.fromEncryptedJson(encryptedjson, result.value, pgbar)
+						// }, 2000);
+
 						decryptWallet(result.value)
 						return result.value
 					}
@@ -1743,7 +1869,8 @@ function remember() {
 					// INIT CHAT CLIENT
 					console.warn('INIT CHAT CLIENT HERE!?, YES IF FIRST TIME')
 					await initChatClient(wallet)
-					const formattedAddress = ethers.utils.getAddress(wallet.address);
+					// const formattedAddress = ethers.utils.getAddress(wallet.address);
+					const formattedAddress = ethers.getAddress(wallet.address);
 					console.log('formattedAddress', formattedAddress);
 					localStorage.setItem('preferedWallet', `UNBACKEDLOCALWALLET, ${formattedAddress}`)
 
@@ -1775,8 +1902,6 @@ function remember() {
 					}, 5000);
 				}
 
-
-
 				else {
 					console.log('2- YES jsonWallet WALLET');
 					// DISPLAY UNLOCK BUTTON 
@@ -1795,18 +1920,27 @@ function remember() {
 
 
 			}
+			// if(w)
 			else {
-				console.log('1- YES UNBACKED WALLET')
+				console.log('1- YES UNBACKED WALLET',w)
 				document.getElementById('lock').style.display = 'none'
 				document.getElementById('send').style.display = 'inline'
 				document.getElementById('scan').style.display = 'inline'
 				document.getElementById('chat').style.display = 'inline'
 				const walletData = JSON.parse(w);
-				try { wallet = ethers.Wallet.fromMnemonic(walletData); }
-				catch (error) { console.log(error.message, 'ERROR WALLET!'); localStorage.removeItem('unbackedWallet'); }
+				// try { wallet = ethers.Wallet.fromPhrase(walletData); }
+				// try { wallet = ethers.HDNodeWallet.fromMnemonic(mnemonic);}
+				// try{ wallet = ethers.Wallet.fromPhrase(w);}
+				try{ wallet = ethers.Wallet.fromPhrase(walletData);}
+				catch (error) { 
+					console.warn(error.message, 'ERROR WALLET!'); 
+					localStorage.removeItem('unbackedWallet');
+					// return
+				}
 				console.warn('INIT CHAT CLIENT HERE?, yes if UNBACKED WALLET')
 
-				const formattedAddress = ethers.utils.getAddress(wallet.address);
+				// const formattedAddress = ethers.utils.getAddress(wallet.address);
+				const formattedAddress = ethers.getAddress(wallet.address);
 				console.log('formattedAddress', formattedAddress);
 				localStorage.setItem('preferedWallet', `UNBACKEDLOCALWALLET, ${formattedAddress}`)
 
@@ -2038,7 +2172,8 @@ function remember() {
 
 			console.log('setting TO adddress: ', toaddr)
 
-			if (ethers.utils.isAddress(toaddr)) {
+			// if (ethers.utils.isAddress(toaddr)) {
+			if (ethers.isAddress(toaddr)) {
 				console.log('VALID ADDRESS')
 				document.getElementById("invalid-address-alert").style.display = "none";
 				localStorage.setItem('toAddress', toaddr)
@@ -2302,7 +2437,8 @@ function remember() {
 				const values = preferedWallet.split(',').map(item => item.trim());
 				walletChoice = values[0];
 				// userAddress = values[1];
-				userAddress = ethers.utils.getAddress(values[1]);
+				// userAddress = ethers.utils.getAddress(values[1]);
+				userAddress = ethers.getAddress(values[1]);
 				console.log('USER ADDRESS IN CHAT WITH', userAddress)
 			}
 
@@ -2323,8 +2459,8 @@ function remember() {
 
 			// ---------
 			// ERROR AQUI
-			let contact = { address: toAddr, username: null, avatar: null, did: null }
-			SaveContactsToLocalStorage(contact)
+			// let contact = { address: toAddr, username: null, avatar: null, did: null }
+			// SaveContactsToLocalStorage(contact)
 			// ---------------
 			loadContacts()
 			updateBadge()
@@ -2355,13 +2491,23 @@ function remember() {
 
 			// -------------------
 
-			actionButtons.innerHTML = `<button type="button" id="" class="btn btn-approve" style="display: inline;"
+			actionButtons.innerHTML = `
+			<button type="button" id="" class="btn btn-approve" style="display: inline;"
 					onclick="event.stopPropagation(); openSend('${toAddr.toString()}')">
 					<svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 512 512">
 						<path
 							d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480V396.4c0-4 1.5-7.8 4.2-10.7L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z" />
 						</svg>
 					SEND</button>
+
+					<button type="button" id="" class="btn btn-reject" style="display: inline;"
+					onclick="event.stopPropagation(); openSend('${toAddr.toString()}')">
+					<svg height="16" width="20" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+						<path
+							d="m 506.43491,498.16358 c -7,10.1 -19.1,15.4 -31.2,13.5 l -416.000001,-64 c -9.7,-1.5 -18.2,-7.4 -23,-16 -4.8,-8.6 -5.4,-18.9 -1.6,-28 l 49.7,-119.6 -74.1,-68.5 c -9.70000029,-8.9 -12.9000003,-22.9 -8.1000003,-35.2 4.8,-12.3 16.7000003,-20.3 29.9000003,-20.3 h 83.600001 c 4,0 7.8,1.5 10.7,4.2 l 182.9,167.6 c 6.3,5.8 16,5.6 22,-0.4 6,-6 6.4,-15.7 0.7,-22 l -180.7,-203.4 44.2,-88.300001 c 5.3,-10.5999996 15.9,-17.39999965 27.7,-17.69999965 11.8,-0.3 22.8,5.90000005 28.7,16.09999965 l 256,448.000001 c 6.1,10.7 5.5,23.9 -1.4,34 z"
+							id="path992" />
+						</svg>
+					RECEIVE</button>
 				<button class="honorloanbutton btn btn-secondary" onclick="sendHonorloanRequest(${toAddr.toString()})"
 					style='display:none'>Loan
 					<svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512" style=" fill: #7cfc00; ">
@@ -2545,8 +2691,15 @@ function remember() {
 				document.getElementById('chatBadge').style.display = 'inline'
 				document.getElementById('chatBadge').innerText = '!'
 				console.log(`New message from ${message.senderAddress}: ${message.content}`)
-				playButtonClickSound()
-
+				// toast.fire(`New message from ${message.senderAddress}: ${message.content}`)
+				Toast.fire({ icon: 'info', title: 'New message from:', text: message.content});
+				
+				try{
+					await playButtonClickSound()
+				}
+				catch (error) {
+						console.error('Error getting did:', error.message);
+					}
 				// peerGasPaymentAccept
 				if (message.content.includes("peerGasPaymentAccepted0x21")) {
 					Swal.fire({ title: "Your gas is being payed by your peer!", width: 600, padding: "3em", background: "lightgreen ", backdrop: ` rgba(0,123,123,0.4) url("./nyan-cat.gif") left top no-repeat ` });
@@ -2645,6 +2798,7 @@ function remember() {
 			})
 			paa = peerAddressesArray;
 			console.log('paa DECLARED!')
+
 		}
 
 
@@ -2825,18 +2979,7 @@ function remember() {
 
 
 		}
-		/*********************************************************************************************
-		.)  INIT
-		**********************************************************************************************/
 
-		window.addEventListener("load", async function (event) {
-			console.log("window loaded!");
-			init();
-			window.scrollTo(0, 0);
-
-			// notifyMe();
-
-		});
 
 		function notifyMe() {
 			if (!("Notification" in window)) {
@@ -2866,7 +3009,35 @@ function remember() {
 // Notification.requestPermission().then((result) => {
 //   console.log(result);
 // });
+	/*********************************************************************************************
+		.)  TOKENs
+		**********************************************************************************************/
 
+function tokenSelector(tokenIndex){
+				console.log('TOKENSELECTOR()',tokenIndex)
+				let href = tokenIndex.getAttribute('href');
+				console.log('href:',href)
+
+				// const selectedOption = chainSelector.options[chainSelector.selectedIndex];
+				console.log('Selected option:', tokenIndex.value);
+				Toast.fire({ icon: 'success', title: 'Done!:', text: "Token changed" });
+				localStorage.setItem("preferedOption", chainSelector.selectedIndex);
+				headerNotes.innerHTML = ''
+				init()// after changing chain =>init
+
+			}
+		/*********************************************************************************************
+		.)  INIT
+		**********************************************************************************************/
+
+		window.addEventListener("load", async function (event) {
+			console.log("window loaded!");
+			init();
+			window.scrollTo(0, 0);
+
+			// notifyMe();
+
+		});
 		let init = async () => {
 			console.log('init: INITIALIZING... ')
 
@@ -2877,19 +3048,49 @@ function remember() {
 			
 			// -----------------------------------------
 			/// ADD BANNER OF EMPTY CHATS TO CHATBOX
-			// document.getElementById('chatBox').innerHTML= '     <div id="svg-container"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"> <image href="./nochats.svg" width="100%" height="100%" /> </svg> </div>    <h1 id="banner-text" class="">Add a contact and start chatting  <button type="button" id="" class="btn btn-primary " style="display: inline;" onclick="event.stopPropagation(); openChat()"> CHAT </button> </h1> '
 			document.getElementById('chatBox').innerHTML=`<div class="container"> <div class="row justify-content-center"> <div class="col-10"> <div class="rounded-circle border border-primary p-3" style="width: 90%; height: auto;"> <div id="svg-container"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"> <image href="./nochats.svg" width="100%" height="100%"></image> </svg>  <button type="button" id="" class="btn btn-primary " style="display: inline;" onclick="event.stopPropagation(); openChat()"> CHAT </button>   </div> </div> </div> </div> </div> `
 			
 			// -----------------------------------------
 			// POPULATE TOKEN LIST AND SET LAST SELECTED TOKEN
 			const chainSelector = document.getElementById('chainSelector');
 			document.getElementById('chainSelector').innerHTML = ''
-			optionsList.forEach(option => {
-				const optionElement = document.createElement('option');
-				optionElement.value = option.TOKEN_CHAIN_NAME;
-				optionElement.text = option.TOKEN_CHAIN_NAME;
-				chainSelector.appendChild(optionElement);
-			});
+
+	optionsList.forEach((option, index)  => {
+
+			const optionElement = document.createElement('a');
+			optionElement.classList.add('list-group-item', 'list-group-item-action');
+			optionElement.value = option.TOKEN_CHAIN_NAME;
+			optionElement.text = option.TOKEN_CHAIN_NAME;
+			optionElement.id = `tokenAddress-${option.TOKEN_ADDRESS}`;
+			// optionElement.id = EthCrypto.hash.keccak256(JSON.stringify(optionsList[index]))
+            optionElement.setAttribute('index', index);
+
+
+			// Add an event listener to handle click events
+				optionElement.addEventListener('click', function(event) {
+					event.preventDefault(); // Prevent the default action if necessary
+					
+					// Get the clicked element
+					var clickedElement = event.target;
+					var id = event.target.id;
+					var indexValue = clickedElement.getAttribute('index');
+					console.log('You clicked INDEX: ' + indexValue);
+					console.log('You clicked ID: ' + id);
+
+					// SET OPTION
+					console.log('OPTION:',optionsList[indexValue])
+					Toast.fire({ icon: 'success', title: 'Done!:', text: "Token changed" });
+					
+					localStorage.setItem("preferedOption", indexValue);
+					// headerNotes.innerHTML = ''
+					init()// after changing chain =>init
+					closeModalId('#selectERC20')
+
+				});
+
+			chainSelector.appendChild(optionElement);
+	});
+
 			GLOBALCHAIN = localStorage.getItem("preferedOption");
 			if (GLOBALCHAIN === null) {
 				console.log('GLOBALCHAIN is null');
@@ -2967,16 +3168,17 @@ function remember() {
 
 			// -----------------------------------------
 			// ADD EVENT LISTENER IF TOKEN IS CHANGED BY USER
-			chainSelector.addEventListener('change', function () {
-				const selectedOption = chainSelector.options[chainSelector.selectedIndex];
-				console.log('Selected option:', selectedOption.value);
-				console.log('Selected option:', selectedOption.value);
-				Toast.fire({ icon: 'success', title: 'Done!:', text: "Network changed" });
-				localStorage.setItem("preferedOption", chainSelector.selectedIndex);
-				headerNotes.innerHTML = ''
-				init()// after changing chain =>init
+			// chainSelector.addEventListener('change', function () {
+			// 	console.log('chainSelector CHANGED')
+			// 	const selectedOption = chainSelector.options[chainSelector.selectedIndex];
+			// 	console.log('Selected option:', selectedOption.value);
+			// 	console.log('Selected option:', selectedOption.value);
+			// 	Toast.fire({ icon: 'success', title: 'Done!:', text: "Network changed" });
+			// 	localStorage.setItem("preferedOption", chainSelector.selectedIndex);
+			// 	headerNotes.innerHTML = ''
+			// 	init()// after changing chain =>init
 
-			});
+			// });
 
 			
 			// -----------------------------------------
@@ -2984,16 +3186,34 @@ function remember() {
 			console.log('LOAD USER AVATAR')
 			let avatar = localStorage.getItem('avatar')
 
-			if (avatar) {
+			if (avatar != null) {
+				console.log('AVATAR IN LOCALSTORAGE')
+
 				itemImgMINT.src = JSON.parse(avatar);
 
-			} else {
-				console.warn("loadImg is undefined or null.");
+				// --------------------
+				// UPDATE AVATAR IN DID AND DELETE FROM LOCALSTORAGE
+				let updateDID = await updateDIDavatar(avatar)
+				if(updateDID==true){
+
+					console.log('suscesfully updated DID')
+					localStorage.removeItem('avatar')
+					
+				}else{
+					console.log('failed to update DID')
+				}
+				// -----------------------
+
+			} 
+			
+			else {
+				console.warn("there is no avatar in localstorage: undefined or null.");
 				if(address){
 					let did = `did:ethr:${address}`
 					console.log ('checking did', did)
 					try {
-						let avtr= await readDIDRecord(did)
+						let avtr = await readDIDRecord(did)
+						a=avtr;
 						console.log('did:',avtr)
 						let avatar = avtr.data.avatar
 						itemImgMINT.src = JSON.parse(avatar);
@@ -3038,66 +3258,6 @@ function remember() {
 
 			}
 
-			// FULLSCREEN
-
-			
-			
-			// var qrcanvas = document.getElementById('canvas');
-			// var lastTapTime = 0;
-			
-			// qrcanvas.addEventListener('touchstart', function (e) {
-				// 	console.log('DOUBLE TAPPING...')
-				//     var currentTime = new Date().getTime();
-				//     var tapLength = currentTime - lastTapTime;
-				//     if (tapLength < 500 && tapLength > 0) {
-					//         toggleFullscreen();
-					//     }
-					//     lastTapTime = currentTime;
-					// });
-					
-					
-					
-					// var qrcanvas = document.getElementById('canvas');
-					// var lastTapTime = 0;
-					
-					// qrcanvas.addEventListener('touchend', function (e) {
-						// 	console.log('DOUBLE TAPPING...')
-						
-						//     var currentTime = new Date().getTime();
-						//     var tapLength = currentTime - lastTapTime;
-						//     if (tapLength < 500 && tapLength > 0) {
-							//         toggleFullscreen();
-							//     }
-							//     lastTapTime = currentTime;
-							// });
-							
-
-// var lastClickTime = 0;
-
-// document.querySelector('#canvas').addEventListener('click', function (event) {
-	
-	// qrcanvas.addEventListener('dblclick', function (e) {
-		//     var currentTime = new Date().getTime();
-		//     var clickInterval = currentTime - lastClickTime;
-		//     if (clickInterval < 500) { // 500 milliseconds threshold for double-click
-			//         toggleFullscreen();
-			//     }
-			//     lastClickTime = currentTime;
-			// });
-
-// var body = document.querySelector('body');
-// var lastTapTime = 0;
-// var isFullscreen = false;
-
-// body.addEventListener('touchstart', function (e) {
-//     var currentTime = new Date().getTime();
-//     var tapLength = currentTime - lastTapTime;
-//     if (tapLength < 500 && tapLength > 0) {
-//         toggleFullscreen();
-//     }
-//     lastTapTime = currentTime;
-// });
-
 // END
 		}
 
@@ -3136,7 +3296,8 @@ function toggleFullscreen() {
 
 		async function checkNetwork() {
 			console.log('CHEKGINS NETWORK!')
-			let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			// let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			let provider = await new ethers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
 			var selectElement = document.getElementById('chainSelector');
 			try {
 				const blockNumber = await provider.getBlockNumber();
@@ -3467,6 +3628,15 @@ Promise.all(promises)
 		/*********************************************************************************************
 		.)  BALANCES
 		**********************************************************************************************/
+		function formatUSDC(balance) {
+			// USDC has 6 decimal places
+			const usdcDecimals = 6;
+			
+			// Convert the balance from a BigNumber to a string, then format it with the correct decimals
+			const formattedBalance = ethers.utils.formatUnits(balance, usdcDecimals);
+			
+			return formattedBalance;
+		}
 
 		async function checkERC20Balance(userAddress) {
 
@@ -3476,15 +3646,37 @@ Promise.all(promises)
 
 				const abi = ABIs[optionsList[GLOBALCHAIN].ERC20_TOKEN_ABI]
 				const contractAddress = optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS //'YOUR_ERC20_CONTRACT_ADDRESS';
-				let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+				let provider = await new ethers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
 				const tokenContract = new ethers.Contract(contractAddress, abi, provider);
-				const formattedAddress = ethers.utils.getAddress(userAddress);
+				const formattedAddress = ethers.getAddress(userAddress);
 
 				const balance = await tokenContract.balanceOf(formattedAddress);
 				b = balance;
-				const formatedBalance = ethers.utils.formatEther(balance);
+
+				// ------------------
+				const decimals = await tokenContract.decimals();
+				console.log('decimals:',decimals)
+				// const formatedBalance = ethers.utils.formatEther(balance);
+
+				// if(decimals==6n){
+				// 	console.log('has 6 decimals')
+				// 	//  formattedBalance = formatUSDC(balance);
+				// 	 formattedBalance =  ethers.formatUnits(balance, decimals);
+
+				// 	console.log(formattedBalance); // Output: "1.0"
+
+				// } else{
+				// 	 formatedBalance = ethers.formatEther(balance);
+				// 	console.log(`Balance of ERC-20 ${optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS}: ${formatedBalance} ${optionsList[GLOBALCHAIN].TOKEN_NAME}`);
+
+				// }
+				// ------------------
+
+				// let formatedBalance = ethers.formatEther(balance);
+				let formatedBalance = ethers.formatUnits(balance, decimals);
 				console.log(`Balance of ERC-20 ${optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS}: ${formatedBalance} ${optionsList[GLOBALCHAIN].TOKEN_NAME}`);
 
+				
 				return formatedBalance
 			} catch (error) {
 				console.error('Error checking balance:', error);
@@ -3496,7 +3688,8 @@ Promise.all(promises)
 		async function checkEIP2612Compatibility() {
 			const abi = ABIs[optionsList[GLOBALCHAIN].ERC20_TOKEN_ABI]
 			// const contractAddress = optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS //'YOUR_ERC20_CONTRACT_ADDRESS';
-			const tokenInterface = new ethers.utils.Interface(abi);
+			// const tokenInterface = new ethers.utils.Interface(abi);
+			const tokenInterface = new ethers.Interface(abi);
 
 
 			try {
@@ -3527,10 +3720,12 @@ Promise.all(promises)
 		async function checkGasBalance(walletAddress) {
 			console.log('checkGasBalance() of ', walletAddress)
 
-			let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			// let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			let provider = await new ethers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
 			try {
 				const balance = await provider.getBalance(walletAddress);
-				const gasBalance = ethers.utils.formatEther(balance);
+				// const gasBalance = ethers.utils.formatEther(balance);
+				const gasBalance = ethers.formatEther(balance);
 				console.log(`GAS Balance of ${optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS}: ${gasBalance} GAS`);
 
 				return gasBalance;
@@ -3618,6 +3813,25 @@ Promise.all(promises)
 			await init()
 
 		}
+
+
+		/*********************************************************************************************
+		.)  CURRENCIES
+		**********************************************************************************************/
+		const currencySelectors = document.querySelectorAll('.currencySelector');
+		currencySelectors.forEach(function(element) {
+    element.addEventListener('click', function(e) {
+        console.log('clicked currencySelector');
+        openModalId('#selectERC20');
+    });
+});
+
+		// troqamount.onclick = function (e) {
+		// 	console.log('clicked troqamount')
+		// 	openModalId('#selectERC20')
+
+		// };
+		
 		/*********************************************************************************************
 		.)  DEPOSIT
 		**********************************************************************************************/
@@ -3718,11 +3932,13 @@ Promise.all(promises)
 
 		async function getOraclePricefromContract(contract, api, assetSymbol) {
 			console.log('getOraclePricefromContract()', contract)
-			let provider = await new ethers.providers.JsonRpcProvider(api);//SEPOLIA
+			// let provider = await new ethers.providers.JsonRpcProvider(api);//SEPOLIA
+			let provider = await new ethers.JsonRpcProvider(api);//SEPOLIA
 			const chainlinkContract = await new ethers.Contract(contract, ["function latestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)"], provider);
 			try {
 				const priceData = await chainlinkContract.latestRoundData();
-				const price = ethers.utils.formatUnits(priceData.answer, 8); // Assuming 8 decimals for USD
+				// const price = ethers.utils.formatUnits(priceData.answer, 8); // Assuming 8 decimals for USD
+				const price = ethers.formatUnits(priceData.answer, 8); // Assuming 8 decimals for USD
 				console.log(`Latest ${assetSymbol} Price: $${price}`);
 				return price
 			} catch (error) {
@@ -3751,7 +3967,8 @@ Promise.all(promises)
 				const values = preferedWallet.split(',').map(item => item.trim());
 				walletChoice = values[0];
 				// userAddress = values[1];
-				userAddress = ethers.utils.getAddress(values[1]);
+				// userAddress = ethers.utils.getAddress(values[1]);
+				userAddress = ethers.getAddress(values[1]);
 				console.log('USER ADDRESS IN CHAT WITH', userAddress)
 			}
 
@@ -3766,7 +3983,8 @@ Promise.all(promises)
 
 			console.log('DEPOSIT CONTRACTS OPTIONS:', contractAddress, depositChainId, recipientAddress)
 
-			let provider = await new ethers.providers.JsonRpcProvider(`${api}`);
+			// let provider = await new ethers.providers.JsonRpcProvider(`${api}`);
+			let provider = await new ethers.JsonRpcProvider(`${api}`);
 			// let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
 			// const functionSignature = 'depositToCustomAddress(address)'; // Function signature for the depositToCustomAddress function
 			const gasPrice = await provider.getGasPrice();
@@ -3781,7 +3999,8 @@ Promise.all(promises)
 
 			// let amountTosend = AMDcrypto.value;
 			let uri;
-			const amountInWei = ethers.utils.parseUnits(AMDcrypto.value, 'ether');
+			// const amountInWei = ethers.utils.parseUnits(AMDcrypto.value, 'ether');
+			const amountInWei = ethers.parseUnits(AMDcrypto.value, 'ether');
 			console.log('X weiValue:', amountInWei.toString());
 
 
@@ -3848,9 +4067,8 @@ Promise.all(promises)
 				qrSize = 310;
 				window.scrollTo(0, 0);
 			} else {
-				console.log("Not a mobile screen");
+				console.log("Not a mobile screen detected");
 				qrSize = 370
-
 			}
 
 			console.log(uri, title)
@@ -3905,7 +4123,8 @@ Promise.all(promises)
 			console.log('getEvent()')
 			const contractAddress = `${optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT}`; // Replace with the smart contract address
 			const contractABI = ABIs[optionsList[GLOBALCHAIN].DEPOSIT_CONTRACT_ABI]
-			let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			// let provider = await new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			let provider = await new ethers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
 			const contracty = new ethers.Contract(contractAddress, contractABI, provider);
 
 			const eventListener = contracty.on("newDeposit", (depositor, recipient, amount, event) => {
@@ -4016,7 +4235,8 @@ Promise.all(promises)
 
 			// let amountTosend = amount;
 			// const userInput = amount; // User enters 1.5 ETH
-			const weiValue = ethers.utils.parseUnits(amount, 'ether');
+			// const weiValue = ethers.utils.parseUnits(amount, 'ether');
+			const weiValue = ethers.parseUnits(amount, 'ether');
 			console.log('weiValue:', weiValue.toString());
 
 
@@ -4091,16 +4311,18 @@ Promise.all(promises)
 			SendERC20Payment.disabled = true;
 
 
-			let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			// let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			let provider = new ethers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
 			console.log('provider:', provider)
 			// p = provider;
 			let pk = JSON.parse(localStorage.getItem('unbackedWallet'))
-			let localWallet = await ethers.Wallet.fromMnemonic(pk);
+			let localWallet = await ethers.Wallet.fromPhrase(pk);
 			let addr = localWallet.address;
 			let amount = document.getElementById('amount2').value;
 			let message = document.getElementById('message2').value;
 			let to = document.getElementById('address2').value;
-			const toAddress = ethers.utils.getAddress(to);
+			// const toAddress = ethers.utils.getAddress(to);
+			const toAddress = ethers.getAddress(to);
 			const nonce = await provider.getTransactionCount(addr);
 
 			console.log("Nonce:", nonce);
@@ -4116,10 +4338,14 @@ Promise.all(promises)
 
 			// FIN CREAR CONTRATO
 			// ------------------------
-			const amountToSend = ethers.utils.parseEther(amount); // 1 ETH
+			// const amountToSend = ethers.utils.parseEther(amount); // 1 ETH
+			const amountToSend = ethers.parseEther(amount); // 1 ETH
 			console.log('amount to send:', amountToSend)
-			const gasPrice = await provider.getGasPrice();
-			const gasPriceGwei = ethers.utils.formatUnits(gasPrice, 'gwei');
+			// const gasPrice = await provider.getGasPrice();
+			const gasPrice =  (await provider.getFeeData()).gasPrice;
+			// provider.getFeeData()).gasPrice
+			// const gasPriceGwei = ethers.utils.formatUnits(gasPrice, 'gwei');
+			const gasPriceGwei = ethers.formatUnits(gasPrice, 'gwei');
 			console.log(`Current Gas Price: ${gasPriceGwei} Gwei`);
 			const network = await provider.getNetwork();
 			const chainId = network.chainId;
@@ -4163,8 +4389,24 @@ Promise.all(promises)
 
 				///////////////////////////
 				console.log('reloadBalanceAfterReceiving', toAddress, amount)
+				// ---------
 				reloadBalanceAfterReceiving(toAddress, amount)
 
+				// ---------
+				// SEND WITH CUSTOM CONTENT TYPE
+				// const conversation = await chatWalletClient.conversations.newConversation(addr)
+		// await conversation
+			// .send(tx.hash, {
+			// 	contentType: ContentTypeTransactionHash,
+			// })
+			// .then(() => {
+			// 	console.log("Transaction data sent", tx.hash);
+			// })
+			// .catch((error) => {
+			// 	console.log("Error sending transaction data: ", error);
+			// });
+
+				// --------
 				txbuilder.style.display = 'none';
 				document.getElementById('result2').innerHTML = ` <div class="success-message"> <svg viewBox="0 0 76 76" class="success-message__icon icon-checkmark"> <circle cx="38" cy="38" r="36"/> <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M17.7,40.9l10.9,10.9l28.7-28.7"/> </svg> </div> `
 				txlink.innerHTML = ` <a href="${txLink}" target="_blank">Link</a> `
@@ -4210,16 +4452,18 @@ Promise.all(promises)
 			SendERC20Payment.disabled = true;
 
 
-			let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			// let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			let provider = new ethers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
 			console.log('provider:', provider)
 			// p = provider;
 			let pk = JSON.parse(localStorage.getItem('unbackedWallet'))
-			let localWallet = await ethers.Wallet.fromMnemonic(pk);
+			let localWallet = await ethers.Wallet.fromPhrase(pk);
 			let addr = localWallet.address;
 			let amount = document.getElementById('amount2').value;
 			let message = document.getElementById('message2').value;
 			let to = document.getElementById('address2').value;
-			const toAddress = ethers.utils.getAddress(to);
+			// const toAddress = ethers.utils.getAddress(to);
+			const toAddress = ethers.getAddress(to);
 			const nonce = await provider.getTransactionCount(addr);
 
 
@@ -4236,10 +4480,12 @@ Promise.all(promises)
 
 			// PREPARANDO TX
 			// ------------------------
-			const amountToSend = ethers.utils.parseEther(amount); // 1 ETH
+			// const amountToSend = ethers.utils.parseEther(amount); // 1 ETH
+			const amountToSend = ethers.parseEther(amount); // 1 ETH
 			console.log('amount to send:', amountToSend)
 			const gasPrice = await provider.getGasPrice();
-			const gasPriceGwei = ethers.utils.formatUnits(gasPrice, 'gwei');
+			// const gasPriceGwei = ethers.utils.formatUnits(gasPrice, 'gwei');
+			const gasPriceGwei = ethers.formatUnits(gasPrice, 'gwei');
 			console.log(`Current Gas Price: ${gasPriceGwei} Gwei`);
 			const network = await provider.getNetwork();
 			const chainId = network.chainId;
@@ -4293,23 +4539,24 @@ Promise.all(promises)
 			// let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
 			// console.log('provider:', provider)
 			// let pk = JSON.parse(localStorage.getItem('unbackedWallet'))
-			// let localWallet = await ethers.Wallet.fromMnemonic(pk);
+			// let localWallet = await ethers.Wallet.fromPhrase(pk);
 			// let addr = localWallet.address;
 
 			// v3
 			// '0xf89a80850ce3598de5837a12008080b844a9059cbb000000000000000000000000840d99475b584236763affe8ec12ba12e5ee80d10000000000000000000000000000000000000000000000000de0b6b3a76400008401546d71a0b797c8806f14b10a1e166410229dd9b3bb28f3489092a33370b8434a3e161fbaa03f066ae3127c4bebb7cf716bccef03706a7d3853dfbb9e33b400f425e48e64b4'
 			// let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
 			// let pk = JSON.parse(localStorage.getItem('unbackedWallet'))
-			// let localWallet = await ethers.Wallet.fromMnemonic(pk);
+			// let localWallet = await ethers.Wallet.fromPhrase(pk);
 			// let signer = await localWallet.connect(provider); 
 
 			// const broadcastTransaction = await signer.sendTransaction(signedTransaction);
 			// console.log(` broadcastTransaction Transaction hash: ${broadcastTransaction.hash}`);
 
 			// v4
-			let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			// let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+			let provider = new ethers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
 			let pk = JSON.parse(localStorage.getItem('unbackedWallet'))
-			let localWallet = await ethers.Wallet.fromMnemonic(pk);
+			let localWallet = await ethers.Wallet.fromPhrase(pk);
 			let connectedLocalWallet = await localWallet.connect(provider);
 			const tx = connectedLocalWallet.sendTransaction(signedTransaction)
 
@@ -4330,9 +4577,25 @@ Promise.all(promises)
 			console.log('reloadBalanceAfterReceiving(addr)')
 			const conversation = await chatWalletClient.conversations.newConversation(addr)
 			let message = `sent you ${amount} ${optionsList[GLOBALCHAIN].TOKEN_NAME}`
-			await conversation.send(`${message}`);// Send a message
+// <button onclick="event.stopPropagation();addCoin(${optionsList[GLOBALCHAIN].TOKEN_NAME})"></button>
+			
+			// ---
+			// await conversation.send(`${message}`);// Send a message
+			await conversation
+			.send(`${message}`, {
+				contentType: TextCodec
+				// contentType: ContentTypeTransactionHash,
+			})
+			// .then(() => {
+			// 	console.log("Transaction data sent", tx.hash);
+			// })
+			// .catch((error) => {
+			// 	console.log("Error sending transaction data: ", error);
+			// });
 
 
+
+// ---
 
 			//       // UPLOAD BALANCE
 			let preElement = document.getElementById('yourAddress');
@@ -4613,32 +4876,64 @@ Promise.all(promises)
 								console.log('YES THERE IS AN UNBACKED WALLET > DEDUCTING SIGNER NOW!')
 
 								const walletData = JSON.parse(unbw);
-								try { localWallet = ethers.Wallet.fromMnemonic(walletData); }
+								try { localWallet = ethers.Wallet.fromPhrase(walletData); }
 								catch (error) {
 									console.log(error.message, 'ERROR WALLET!');
 									// localStorage.removeItem('unbackedWallet');
 								}
 
-								let provider = new ethers.providers.JsonRpcProvider(`${optionsList[0].API}`); //v5
+								// let provider = new ethers.providers.JsonRpcProvider(`${optionsList[0].API}`); //v5
+								let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v5
 								//  let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v6
 								signer = localWallet.connect(provider);
 								console.log('SIGNER!:', signer);
 								//  return signer;
 								did = `did:ethr:${signer.address}`
 								console.log('DID: ', did)
+
+
+							// IF DID EXISTS UPDATE ELSE CREATE
+						let getDID= await readDIDRecord(did);
+						console.log('getDID: ', getDID)
+
+							if(getDID!=null){
+								// UPDATE
+						console.log('UPDATE: ')
+
+
+
+								try {
+									console.log('UPDATE did RECORD')
+									await updateDIDavatar( avatar)
+								} catch (error) {
+									console.error('An error occurred while updating DID record:', error);
+									return
+								}
+
+							} else {
+								// CREATE
+						console.log('CREATE ')
+
+								try {
+									console.log('creating did RECORD, signer', signer)
+									await createDIDRecord(did, avatar, cid, signer);
+									//  https://explorer.testnet.polybase.xyz/studio/pk%2F0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9%2FIURISNATURALIS/collections/CHATWALLETDID
+								} catch (error) {
+									console.error('An error occurred while creating DID record:', error);
+									return
+								}
+
 							}
-							try {
-								console.log('creating did RECORD, signer', signer)
-								createDIDRecord(did, avatar, cid, signer);
-								//  https://explorer.testnet.polybase.xyz/studio/pk%2F0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9%2FIURISNATURALIS/collections/CHATWALLETDID
-							} catch (error) {
-								console.error('An error occurred while creating DID record:', error);
-								return
-							}
+					
 
 							// REMOVE FROM LOCALSTORAGE
 							 localStorage.removeItem('avatar');
+							 Toast.fire({ icon: 'success', title: 'Avatar Updated!', text: ''});
 
+
+
+
+								}
 
 
 						});
@@ -4684,33 +4979,64 @@ Promise.all(promises)
 		}
 
 
-		async function updateDIDavatar(id, newavatar) {
+		// async function updateDIDavatar(id, newavatar, signer) {
+
+		// async function updateDIDavatar(id, newavatar) {
+		async function updateDIDavatar( newavatar) {
 			console.log('updateDIDavatar()')
 
-			let signer = await getLocalWalletSigner();
-			if (!signer) {
-				console.log('Handle case where signer is not obtained');
-			}
-			else {
-				console.log('Now you have the signer, do whatever you need with it:', signer);
-				const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
-				db.signer(async (newavatar) => {
-					console.log('data:', newavatar)
-					const signature = await signer.signMessage(newavatar);
-					return { h: 'eth-personal-sign', sig: signature, };
-				});
-				try {
-					const recordData = await db
-						.collection("CHATWALLETDID")
-						.record(id)
-						.call("updateAvatar", [newavatar]);
-					console.log("recordData:", recordData);
-				} catch (error) {
-					console.error("An error occurred:", error);
-					fixedToast.fire('Error', error.message, "error");
-				}
-			}
-		}
+				// 0- CHECK IF UNBACKED WALLET INLOCALSTORAGE
+				let unbw = localStorage.getItem('unbackedWallet')
+
+							if (!unbw) {
+								console.log('1- NO UNBACKED WALLET');
+								signer = await getLocalWalletSigner();
+								did = `did:ethr:${signer.address}`
+								console.log('DID: ', did)
+								// return //falta testear
+							}
+							else {
+								console.log('YES THERE IS AN UNBACKED WALLET > DEDUCTING SIGNER NOW!')
+
+								const walletData = JSON.parse(unbw);
+								try { localWallet = ethers.Wallet.fromPhrase(walletData); }
+								catch (error) {
+									console.log(error.message, 'ERROR WALLET!');
+								}
+								let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v5
+								signer = localWallet.connect(provider);
+								console.log('SIGNER!:', signer);
+								//  return signer;
+								did = `did:ethr:${signer.address}`
+								console.log('DID: ', did)
+								
+							}
+							
+
+
+					// .............
+								console.log('Now you have the signer, do whatever you need with it:', signer);
+								const db = new Polybase({ defaultNamespace: "pk/0xee1b340c80295bb60ada66e0396a44b70c479a857c357b37883d27efe030aaf8baf25fde75eaf8881bb6c0f34fac20dbf6896fc373d5835e43ffe01f216feab9/IURISNATURALIS" });
+								db.signer(async (newavatar) => {
+									console.log('data:', newavatar)
+									const signature = await signer.signMessage(newavatar);
+									return { h: 'eth-personal-sign', sig: signature, };
+								});
+								try {
+									const recordData = await db
+										.collection("CHATWALLETDID")
+										.record(did)
+										.call("updateAvatar", [newavatar]);
+									console.log("recordData:", recordData);
+								} catch (error) {
+									console.error("An error occurred:", error);
+									fixedToast.fire('Error', error.message, "error");
+								}
+								return true
+
+
+							// }
+						}
 
 
 
@@ -4816,7 +5142,12 @@ Promise.all(promises)
 					try {
 						return ethers.Wallet.fromEncryptedJson(encryptedjson, result.value).then(async (localWallet) => {
 							console.log('localWallet.publicKey:', localWallet.publicKey);
-							let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v6
+
+							// THIS IS ETHERS V6???
+							// let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`); //v6
+							// let provider = new ethers.providers.JsonRpcProvider(`${optionsList[0].API}`);//v5
+							let provider = new ethers.JsonRpcProvider(`${optionsList[0].API}`);//v5
+
 							const signer = localWallet.connect(provider);
 							console.log('SIGNER:', signer);
 							return signer;
@@ -4834,7 +5165,8 @@ Promise.all(promises)
 				}
 				return null;
 			}).catch(error => {
-				console.error('Error during Swal prompt:', error.reason);
+				// console.error('Error during Swal prompt:', error.reason);
+				console.error('Error during Swal prompt:', error);
 				Toast.fire('Error', error.message, "error");
 				Swal.fire({
 					icon: "error",

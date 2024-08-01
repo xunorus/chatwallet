@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ERC20 Permit</title>
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+  />
+  <script src="js/ethers.6.12.0.umd.min.js" type="application/javascript"></script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/web3modal@1.9.9/dist/index.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script> -->
+
+    <script src="https://bundle.run/buffer@6.0.3"></script>
+    <style>
+        #permitAddress {
+            width: 350px;
+        }
+
+        body {
+            background-color: black;
+            color: green;
+        }
+
+        input{
+            font-size: x-small;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>permit with METAMASK</h1>
+
+    Token
+  <input type="address" id="permitToken">
+  <br>
+    amount
+    <input type="number" id="permitAmount">
+
+    <br>
+   Spender  Address
+    <input type="address" id="permitAddress">
+
+    <br>
+    <button onclick="event.stopPropagation();useMetamaskWallet()">CONNECT</button>
+    <button id="" onclick="permitWithMetamask()">Permit </button>
+
+    <!-- <button onclick="main()">SIGN</button> -->
+
+    <div id="result"></div>
+
+    <script type="text/javascript">
+        // function prefill() {
+        //     // Your code here
+        //     console.log("Window has finished loading!");
+
+        //     // ALICE 0xe8eef46864cD03548c8F30C810F100A2cBd9FcBc, has 11 GHO but no gas
+        //     // BOB 0x79e69349450176764eeABED27F245E9555c01D38 has some gas but no GHO
+
+        //     permitAmount.value = 1000;
+        //     permitAddress.value = '0x79e69349450176764eeABED27F245E9555c01D38'; //spender
+        // }
+
+        function prefill() {
+      // Your code here
+      console.log("Window has finished loading!");
+      permitToken.value = '0x2d4C40Ef4f8bd35ae4AEFD260C9fa961B65C51AB';
+      permitAmount.value = 1000;
+      permitAddress.value = '0xAD081A53EC742781f802eEd8B19D38572166e99A'//metamask 2
+
+    }
+
+
+
+        // Attach the function to the window.onload event
+        window.onload = prefill;
+        window.Buffer = buffer.Buffer; // getting this from buffer module for frontend.
+
+        const domainName = "MyToken"; // put your token name 
+        const domainVersion = "1"; // leave this to "1"
+        const chainId = 11155111; // this is for the chain's ID. value is 1 for remix
+        const contractAddress = "0xc4bF5CbDaBE595361438F8c6a187bDc330539c60"; // Put the address here from remix
+
+        let account = null;
+        let provider;
+        let signer;
+
+        const domain = {
+            name: domainName,
+            version: domainVersion,
+            verifyingContract: contractAddress,
+            chainId
+        };
+
+        const domainType = [
+            { name: 'name', type: 'string' },
+            { name: 'version', type: 'string' },
+            { name: 'chainId', type: 'uint256' },
+            { name: 'verifyingContract', type: 'address' },
+        ];
+ 
+
+        const splitSig = (sig) => {
+            const pureSig = sig.replace("0x", "");
+            const r = `0x${pureSig.substring(0, 64)}`;
+            const s = `0x${pureSig.substring(64, 128)}`;
+            const v = parseInt(pureSig.substring(128, 130), 16);
+
+            return { r, s, v };
+        };
+
+        const signTyped = async (dataToSign) => {
+            return await signer._signTypedData(domain, { Permit: permitType }, dataToSign);
+        };
+
+        async function createPermit(spender, value, nonce, deadline) {
+            console.log('createPermit()');
+
+            const permit = { owner: account, spender, value, nonce, deadline };
+            const permitType = [
+                { name: "owner", type: "address" },
+                { name: "spender", type: "address" },
+                { name: "value", type: "uint256" },
+                { name: "nonce", type: "uint256" },
+                { name: "deadline", type: "uint256" },
+            ];
+
+            const signature = await signTyped(permit);
+            const split = splitSig(signature);
+
+            result.innerHTML = ` OWNER: ${account} <br> SPENDER: ${spender} <br> VALUE: ${value} <br> DEADLINE: ${deadline} <br> sig: ${signature} <br> <br> v: ${split.v}, <br> r: ${split.r} <br> s: ${split.s} `;
+
+            return {
+                ...split, signature
+            };
+        }
+
+        async function main() {
+            await connect();
+
+            const addr = permitAddress.value;
+            const amount = permitAmount.value;
+            const permit = await createPermit(addr, amount, 0, 2661766724);
+            console.log(`r: ${permit.r}, s: ${permit.s}, v: ${permit.v}, sig: ${permit.signature}`);
+        }
+
+
+// -----------------------------------
+
+
+    // CONNECT METAMASK
+    async function useMetamaskWallet() {
+        console.log('useMetamaskWallet()')
+      const provider = new ethers.BrowserProvider(window.ethereum);
+    //   let psend = await provider.send("eth_requestAccounts", []);
+      const signer = await provider.getSigner();
+      const account = await signer.getAddress();
+
+      console.log(" METAMASK WALLET ADDRESS:", account);
+
+
+      
+      
+      const network = await provider.getNetwork();
+      const chId = network.chainId;
+      console.log('chainId:', chId);
+      
+      result.innerHTML = ` ADDRESS: ${account} <br> CHAIN: ${chId} <br> `
+
+
+
+      // LISTEN TO CHANGES
+      ethereum.on("accountsChanged", function (accounts) {
+        console.log("ethereum account changed to: ", accounts);
+        // walletDisconnect();
+      });
+      
+      ethereum.on("chainChanged", function (accounts) {
+        console.log("ethereum account changed to: ", accounts);
+        // walletDisconnect();
+      });
+
+      ethereum.on("disconnect", function (accounts) {
+        console.log("ethereum account changed to: ", accounts);
+        // walletDisconnect();
+      });
+
+    }
+
+
+    // ---------------------
+    // PERMIT
+    // ---------------------
+    async function permitWithMetamask() {
+      console.log('permitWithMetamask()')
+    //   const providerUrl = "https://ethereum-sepolia.publicnode.com";
+		
+      
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const account = await signer.getAddress();
+
+      const nonce = await provider.getTransactionCount(account);
+      console.log("Nonce:", nonce);
+
+      const network = await provider.getNetwork();
+			console.log('network:', network);
+
+			const chainId = network.chainId;
+			console.log('chainId:', chainId);
+
+      const domainData = {
+        name: "MyToken",
+        version: "1",
+        chainId: 11155111,
+        verifyingContract: permitToken.value
+      };
+      // ------
+      const permitType = {
+        "Permit": [
+          { "name": "owner", "type": "address" },
+          { "name": "spender", "type": "address" },
+          { "name": "value", "type": "uint256" },
+          { "name": "nonce", "type": "uint256" },
+          { "name": "deadline", "type": "uint256" }
+        ]
+      }
+
+      let spender = permitAddress.value;
+      let amount = permitAmount.value;
+      let deadline = 2661766724;
+      
+      // Convert the deadline to milliseconds
+      const deadlineInMilliseconds = deadline * 1000;
+      const date = new Date(deadlineInMilliseconds);
+      const readableDate = date.toLocaleString(); // This will format the date according to the locale
+      console.log(readableDate);
+      
+      const permitData = { 'owner': account, 'spender': spender, 'value': amount, 'nonce': nonce, 'deadline': deadline };
+
+      signature = await signer.signTypedData(domainData, permitType, permitData);
+      console.log('signature:', signature)
+      const split = splitSig(signature)
+      console.log('split:', split, signature)
+      console.log(`r: 0x${split.r.toString('hex')}, s: 0x${split.s.toString('hex')}, v: ${split.v}, sig: ${signature}`)
+      result.innerHTML = ` OWNER: ${account} <br> SPENDER: ${spender} <br> VALUE: ${amount} <br> DEADLINE: ${readableDate} <br> sig: ${signature} <br> <br> v: ${split.v}, <br> r: 0x${split.r.toString('hex')} <br> s: 0x${split.s.toString('hex')} `
+
+      result.innerHTML +=`NOW ${spender} CAN SPEND THOSE PERMITED DOLARS ON BEHALF OF ${account} `
+    }
+
+
+
+
+    </script>
+</body>
+
+</html>

@@ -54,7 +54,6 @@
       --navshadow: #241b19;
       --modalborder: #fce806;
 
-
   }
   
   
@@ -980,9 +979,12 @@ height: 30vh;
       width: 100% !important;
       word-wrap: break-word;
       max-width: 80em!important; /* Set a maximum width for the input */
-      font-size: xx-small!important; 
-    
+      /* font-size: xx-small!important;  */
       text-align: center; /* Center-align the text within the input */
+      font-size: x-small!important; 
+    color: var(--c3)!important;
+    border: none;
+    padding: 0;
     }
   
     @media (min-width: 576px) {
@@ -1211,10 +1213,12 @@ body.swal2-height-auto {
   position: fixed;
   bottom: 0;
   width: 100vw;
-  height: 110px;
+  /* esto es ambiguo, no lo probe en phone aun */
+  /* height: 110px; */
 }
  #chatBox{
-  margin-bottom: 50px;
+  /* esto es ambiguo, no lo probe en phone aun */
+  /* margin-bottom: 50px; */
 
  }
 }
@@ -1227,4 +1231,19 @@ body.swal2-height-auto {
   padding-bottom: 60px;
   flex-direction: column;
 
+}
+
+
+/* ---------- */
+
+#closeChat{
+  display: inline;
+    border: 3px solid var(--bs-gray-300);
+    background: no-repeat;
+    fill: white;
+}
+.list-group-item{
+  cursor: pointer;
+  color: var(--bs-gray-200);
+  background-color: var(--bs-purple);
 }
