@@ -767,8 +767,8 @@ header, main  {
 }
 
 #chatfooter {
-  position: sticky;
-  bottom: 0;
+  /* position: sticky;
+  bottom: 0; */
 }
 swiper-container{
 
@@ -1210,9 +1210,9 @@ body.swal2-height-auto {
 
 
 #chatfooter {
-  position: fixed;
+  /* position: fixed;
   bottom: 0;
-  width: 100vw;
+  width: 100vw; */
   /* esto es ambiguo, no lo probe en phone aun */
   /* height: 110px; */
 }
@@ -1246,4 +1246,52 @@ body.swal2-height-auto {
   cursor: pointer;
   color: var(--bs-gray-200);
   background-color: var(--bs-purple);
+}
+
+
+
+/* FIXES */
+
+#chatfooter {
+  padding: 10px;
+}
+
+.input-group {
+  display: flex!important;
+  align-items: center;
+}
+
+.form-control {
+  flex: 1;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  
+}
+
+#send-button {
+  border: none;
+  cursor: pointer;
+}
+
+
+ 
+#history {
+  z-index: 1;
+  border-radius: initial;
+  background-color: #384b5e;
+  border-color: #0000;
+  bottom: 82px;
+width: 100%;
+  position: relative;
+  margin: 0;
+}
+
+
+
+#cwContacts {
+  padding-bottom: 120px;
+}
+
+.nav{
+  flex-wrap: nowrap;
 }

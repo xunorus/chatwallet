@@ -200,6 +200,7 @@
 			</div>
 		</div>
 		<ul id="cwContacts" class='nav'> </ul>
+		<button class="btn btn-primary fullwidth" id="history" onclick="event.stopPropagation(); loadHistory()" > Load history </button>
 	</div>
 
 
@@ -925,6 +926,7 @@
 	<!-- <script src="js/ethers-6.12.2.umd.min.js" type="application/javascript"></script> -->
 	<script src="js/ethers-6.12.1.umd.min.js" type="application/javascript"></script>
 
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 
 	<script type="module">
 		import EthCrypto from 'eth-crypto';
@@ -1040,6 +1042,41 @@
 
 	<script src="js/base.js"></script>
 	<script>
+
+
+
+    // CONFETI
+
+    const defaults = {
+      spread: 360,
+      ticks: 100,
+      gravity: 0,
+      decay: 0.94,
+      startVelocity: 30,
+    };
+
+    function shoot() {
+      confetti({
+        ...defaults,
+        particleCount: 30,
+        scalar: 1.2,
+        shapes: ["circle", "square"],
+        colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
+      });
+
+      confetti({
+        ...defaults,
+        particleCount: 20,
+        scalar: 2,
+        shapes: ["emoji"],
+        shapeOptions: {
+          emoji: {
+            value: ["🦄", "🌈"],
+          },
+        },
+      });
+    }
+
 
 		async function borrow() {
 			console.log('borrow()')
@@ -1639,6 +1676,8 @@ async function continueInitForEncryptedWallet(){
 				// ---------------
 				// / FIX
 				// functiona como resetar la address
+				// CAMBIAR ESTO A SOLO AGREGAR SI NO ESTA EN LA addToAgenda 
+				// y PONER RESET ADDRES APARTE
 				let contact = { address: value, username: null, avatar: null, did: null }
 				SaveContactsToLocalStorage(contact)
 				// ---------------
@@ -1922,7 +1961,7 @@ function remember() {
 			}
 			// if(w)
 			else {
-				console.log('1- YES UNBACKED WALLET',w)
+				console.log('1- YES UNBACKED WALLET')
 				document.getElementById('lock').style.display = 'none'
 				document.getElementById('send').style.display = 'inline'
 				document.getElementById('scan').style.display = 'inline'
@@ -2283,13 +2322,15 @@ function remember() {
 					}
 				}
 			});
+
 			if (userName) {
 
-				let contact = { address: addr, username: userName, avatar: null, did: null }
 
-				SaveContactsToLocalStorage(contact)
+				await updateUsername(addr, userName)
+				// let contact = { address: addr, username: userName, avatar: null, did: null }
+				// SaveContactsToLocalStorage(contact)
 				loadContacts()
-				console.log('Contact Updated', userName)
+				console.log('Contact Editedpok', userName)
 				// Swal.fire(`Your IP address is ${userName}`);
 			}
 
@@ -2321,6 +2362,7 @@ function remember() {
 
 		// SAVE CONTACTS
 		function SaveContactsToLocalStorage(contact) {
+			console.log('SaveContactsToLocalStorage()')
 			var a = [];
 			a = JSON.parse(localStorage.getItem('contacts')) || [];
 
@@ -2328,17 +2370,74 @@ function remember() {
 			var isDuplicate = a.some(existingContact => existingContact.address === contact.address);
 
 			if (!isDuplicate) {
+				console.warn('CONTACT IS ALREDY HERE, DUPLICATE!')
 				a.push(contact);
 				localStorage.setItem('contacts', JSON.stringify(a));
 			}
 			else {
-				// console.log('Address already exists in your contacts, skipping save.');
-				console.log('Address already exists in your contacts, UPDATING.');
-				updateContactList(contact)
+				console.warn('Address already exists in your contacts, skipping save.');
+				// DECIDIR?????
+				console.warn('Address already exists in your contacts, UPDATING.');
+				// updateContactList(contact)
 			}
 		}
 
+		function RemoveContactFromLocalStorage(address) {
+    console.log('RemoveContactFromLocalStorage()');
+    
+    // Get the current contacts from local storage
+    var contacts = JSON.parse(localStorage.getItem('contacts')) || [];
 
+    // Filter out the contact with the specified address
+    var updatedContacts = contacts.filter(contact => contact.address !== address);
+
+    // Save the updated contacts back to local storage
+    localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+    
+    console.log('Contact removed successfully.');
+	Toast.fire({ icon: 'warning', title: 'Contact removed successfully!', text:''});
+	loadContacts()
+}
+
+
+		function addToAgenda(){
+			console.log('addToAgenda()')
+			// check if contact is already in your agenda
+
+		}
+
+	async	function updateUsername(ethAddress, newUsername) {
+    console.log('updateUsername()');
+    var contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+    
+    // Find the contact by address and update the username
+    for (let i = 0; i < contacts.length; i++) {
+        if (contacts[i].address === ethAddress) {
+            contacts[i].username = newUsername;
+            localStorage.setItem('contacts', JSON.stringify(contacts));
+            console.log(`Username updated for contact with address ${ethAddress}`);
+			Toast.fire({ icon: 'success', title: 'Contact updated!', text:''});
+
+            return;
+        }
+		else{
+			console.log(`Contact with address ${ethAddress} not present`);
+
+		}
+    }
+    
+    console.log(`Contact with address ${ethAddress} not found`);
+				// let contact = { address: ethAddress, username: newUsername, avatar: null, did: null }
+				let contact = { address: ethAddress, username: newUsername,  did: null }
+				SaveContactsToLocalStorage(contact)
+}
+
+// Example usage
+// let ethAddress = '0x123...'; // Replace with actual Ethereum address
+// let newUsername = 'NewUsername'; // Replace with the new username you want to set
+
+// updateUsername(ethAddress, newUsername);
+		
 
 
 		async function chatHistory(addr) {
@@ -2390,10 +2489,17 @@ function remember() {
 			let b= avtr;
 			console.log('OPENCARD DATA a:',a)
 			console.log('OPENCARD DATA b:',b)
+			let did = `did:ethr:${toAddr}`
+			let userDataFromDID =  readDIDRecord(did)
+			console.log('callUserData:', userDataFromDID)
+			let userData ='No available data'
+			// ${callUserData.data.cid}
+
 			let avatar = "./anonym.jpg"
-			let htmlData = `<address>${toAddr} <svg id="innerAddress" onclick="event.stopPropagation();customcopy2clipboard('${toAddr}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"> <path  fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z" ></path></svg> </address><br><p>no more info available</p>`;
+			let htmlData = `<address>${toAddr} <svg id="innerAddress" onclick="event.stopPropagation();customcopy2clipboard('${toAddr}')" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"> <path  fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z" ></path></svg> </address><br><p id='userData'>${userData}</p>`;
 			let shortAddr = toAddr.substring(0, 6) + "..." + toAddr.substring(38, 42);
 			// -----------
+
 			
 				Swal.fire({ imageUrl: avtr, 
 						imageWidth: 300, 
@@ -2413,9 +2519,12 @@ function remember() {
 			},
 			}).then((result) => {
 			if (result.isConfirmed) {
-				Swal.fire('Saved into your trusted contacts!', '', 'success')
+				editContact(toAddr)
+
 			} else if (result.isDenied) {
-				Swal.fire('Address blocked', '', 'info')
+				// Swal.fire('Address blocked', '', 'info')
+				RemoveContactFromLocalStorage(toAddr)
+
 			}
           })
 			// ---
@@ -2472,7 +2581,29 @@ function remember() {
 				 avatar = imgsrc;
 			} else {
 				console.log('NO IMAGE SOURCE')
-				 avatar = "./anonym.jpg"
+				//  avatar = "./anonym.jpg"
+
+			// TRY TO LOAD FROM DID
+			let did = `did:ethr:${toAddr}`
+					console.log ('checking did', did)
+					// try {
+						// let didRecord= await readDIDRecord(did)
+						let didRecord= await readDIDRecord(did)
+						d4 = didRecord
+						console.warn('HAS A RECORD: ',didRecord)
+
+						let avtr = didRecord.data.avatar;
+						 avatar = JSON.parse(avtr);
+						// document.getElementById(did).src = avatar;
+						// document.getElementById('avatarImage').src = avatar;
+
+
+					// } catch (error) {
+					// 	console.error('Error getting did:', error.message);
+					// }
+
+
+
 			}
 			// add address in UI
 			// let htmlData =  `<address>${toaddr}</address><br><p>no info available</p>`;
@@ -2691,11 +2822,11 @@ function remember() {
 				document.getElementById('chatBadge').style.display = 'inline'
 				document.getElementById('chatBadge').innerText = '!'
 				console.log(`New message from ${message.senderAddress}: ${message.content}`)
-				// toast.fire(`New message from ${message.senderAddress}: ${message.content}`)
 				Toast.fire({ icon: 'info', title: 'New message from:', text: message.content});
 				
 				try{
 					await playButtonClickSound()
+					addToAgenda()
 				}
 				catch (error) {
 						console.error('Error getting did:', error.message);
@@ -2736,7 +2867,7 @@ function remember() {
 					});
 				}
 				else { console.log("(DIRTYFIX)The message does not contain the text: 'can you pay for the gas?'"); }
- b
+ 
 				// CHECK IF ADDRESS IS ALREADY IN YOUR CONTACTS (LOCALSTORAGE)
 				var storedContacts = [];
 				let storedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
@@ -2755,6 +2886,8 @@ function remember() {
 					addknownContact(message.senderAddress, message.content)
 
 				}
+
+
 
 				updateBadge()
 			}
@@ -2798,6 +2931,12 @@ function remember() {
 			})
 			paa = peerAddressesArray;
 			console.log('paa DECLARED!')
+
+			// peerAddressesArray.forEach((el, i) => {
+			// 	addUnknownContact(peerAddressesArray[i], ' ')
+
+			// });
+
 
 		}
 
@@ -3143,7 +3282,12 @@ function tokenSelector(tokenIndex){
 			const t2AddrValue = urlParams.get('T2Addr');
 			if (t2AddrValue !== null) {
 				console.log(`TRYING TO CHAT WITH: ${t2AddrValue}`);
-				await chatWith(t2AddrValue)
+				 chatWith(t2AddrValue)
+				console.warn('CAN CONTINUE?')
+				
+				let contact = { address: t2AddrValue }
+				SaveContactsToLocalStorage(contact)
+				// return
 			} else {
 				console.log('T2Addr parameter not found in the URL');
 			}
@@ -3243,9 +3387,19 @@ function tokenSelector(tokenIndex){
 				// console.log(chatList[i].peerAddress);
 				peerAddresses.push(chatList[i].peerAddress);
 
+				// addUnknownContact(chatList[i].peerAddress, chatList[i].createdAt.toString())
+				// addHistoryContact(chatList[i].peerAddress, chatList[i].createdAt.toString())
+				// console.log( 'ADD =: ', chatList[i].peerAddress, chatList[i].createdAt.toString())
+				// chatList[i].isDenied
+				// chatList[i].consentState
+				// chatList[i].createdAt
 			}
 			console.warn('PEERADDRESSES PeerAddresses:', peerAddresses);
+		
+			// peerAddresses.forEach((el, i) => {
+			// 	addUnknownContact(peerAddresses[i], peerAddresses[i])
 
+			// });
 
 			await listenAllNewAddresses();
 
@@ -3347,7 +3501,31 @@ function toggleFullscreen() {
 			miniversion.innerHTML = `GAS: ${Number(balancegas).toFixed(5)}`
 		}
 
+async function loadHistory(){
+	console.log('loadHistory()')
 
+	// 1 check ist not in your agenda
+
+	let chatList = await chatWalletClient.conversations.list()
+			// c = chatList;
+			let chatLength = chatList.length;
+			console.log(chatLength, "addresses in history.")
+
+			// Using a for loop
+			for (let i = 0; i < chatLength; i++) {
+				// console.log(chatList[i].peerAddress);
+				// peerAddresses.push(chatList[i].peerAddress);
+
+				// addUnknownContact(chatList[i].peerAddress, chatList[i].createdAt.toString())
+				addHistoryContact(chatList[i].peerAddress, chatList[i].createdAt.toString())
+
+	// paa.forEach((el, i) => {
+	// 			addHistoryContact(paa[i], paa[i])
+
+			}
+
+
+}
 
 		async function loadContacts() {
 			console.log('loadContacts()')
@@ -3362,7 +3540,11 @@ function toggleFullscreen() {
 
 			cwContacts.forEach((el, index) => {
 				const isAddressInArray = paa.includes(el.address);// paa?
+				// iaia= isAddressInArray;
 				console.log('paa?:' ,paa)
+
+			// 			addknownContact(el[index].peerAddress, el[index].createdAt)
+			// console.log('created: ', el[index].createdAt)
 
 				// is in your contacts or not?
 				if (isAddressInArray) {
@@ -3393,6 +3575,7 @@ function toggleFullscreen() {
 									let avtr = didresult.data.avatar;
 									let avatar = JSON.parse(avtr);
 									document.getElementById(did).src = avatar;
+									// document.getElementById('avatarImage').src = avatar;
 								} else {
 									console.log(did + ' DOESN\'T HAVE A RECORD :(');
 								}
@@ -3425,64 +3608,35 @@ Promise.all(promises)
     .catch(error => {
         console.error('Error while processing DID records:', error);
     });
-
-// 				cwContacts.forEach((el, index) =>  {
-// 					const isAddressInArray = paa.includes(el.address);
-
-// 					// is in your contacts or not?
-// 					if (isAddressInArray) {
-// 						console.log(`Contact ${index} IS in your contacts \u2714  ${el.address} `);
-// 					} else {
-// 						console.log(`This address  IS NOT in your contacts \u2718 ${el.address}`);
-// 					}
-
-// 					//  is username set?
-// 					if (el.username || null) {
-// 						console.log('username is not null')
-
-// 						contactInfo = `<span>${el.username} <span>`
-// 					}
-// 					else {
-// 						console.log('username is  null')
-
-// 						let shortAddr = el.address.substring(0, 6) + "..." + el.address.substring(38, 42);
-// 						contactInfo = `<span>${shortAddr} <span>`
-
-// 					}
-					
-// 					let did = `did:ethr:${el.address}`
-// 					contct.innerHTML += `<li data-address="${el.address}"  id="${el.address}" class=''> 
-// 											<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
-// 												<img id ="${did}" src="./avatar.png" alt="Avatar" class="rounded-circle"> 
-// 													${contactInfo} 
-// 												<i class="fa-solid fa-trash"></i>
-
-// 												<svg onclick="event.stopPropagation();editContact('${el.address}')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"width="20" height="25"  class='right'>
-//   <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg>
-
-
-// 											</a> 
-// 										</li> `
-
-// 					// has avatar?
-// 						let didresult=  readDIDRecord(did)
-						
-// 						if(didresult.data != null ){
-// 							console.log(did + 'HAS A RECORD!!!')
-// 							let avtr = didresult.data.avatar
-// 							 avatar = JSON.parse(avtr);
-// 							 document.getElementById(`"${did}"`).src  =avatar ;
-// 						} else {
-// 							console.log(did + 'DOESNT HAVE A RECORD :( ')
-// 						}
-
-// 				})
+ 
 
 			}
 
 		}// fin loadContacts
 
+async function addHistoryContact(addr, date){
+	console.log('addHistoryContact()', addr, date)
+	let shortDate = date.substring(0, 16);
+	let shortAddr = addr.substring(38, 42);
 
+	// <img src="./anonym.jpg" alt="Avatar" class="rounded-circle"> 
+	document.getElementById('cwContacts').innerHTML += `
+					<li data-address="${addr}"  id="${addr}" class='historyMessage'> 
+						<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
+							<img src="./anonym.jpg" alt="Avatar" class="rounded-circle"  style="display: none;"> 
+								<span>${shortAddr} ${shortDate} </span>
+
+							<i class="fa-solid fa-trash"></i>
+							     
+							<svg onclick="event.stopPropagation();editContact('${addr}')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="20" height="25" class='right'>
+                                    <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/>
+                                </svg>
+							
+							
+							</a> 
+							</li> `
+
+}
 
 		async function addUnknownContact(addr, msg) {
 			console.log('addUnknownContact()', addr, msg)
@@ -3504,15 +3658,16 @@ Promise.all(promises)
 					<li data-address="${addr}"  id="${addr}" class='newmessage'> 
 						<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
 							<img src="./anonym.jpg" alt="Avatar" class="rounded-circle"> 
-								<span>${shortMsg} <span>
+								<span>${shortMsg} </span>
 							<i class="fa-solid fa-trash"></i>
+							     
+							<svg onclick="event.stopPropagation();editContact('${addr}')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="20" height="25" class='right'>
+                                    <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/>
+                                </svg>
 							
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"width="18" height="16" >
-  <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg>
-
-
-						</a> 
-					</li> `
+							
+							</a> 
+							</li> `
 
 			} else {
 				console.log('OVERWRITE ALREADY EXISTENT  UnknownContact!.');
@@ -3533,8 +3688,12 @@ Promise.all(promises)
 					<li data-address="${addr}" id="${addr}"  class='newmessage'> 
 					<a onclick="event.stopPropagation();selectChat((this.parentElement))" >  
 						<img src="./anonym.jpg" alt="Avatar" class="rounded-circle"> 
-						<span>${shortMsg} <span>
-						<i class="fa-solid fa-trash"></i></a> </li> `
+						<span>${shortMsg} </span>
+						<i class="fa-solid fa-trash"></i>
+							<svg onclick="event.stopPropagation();editContact('${addr}')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="20" height="25" class='right'>
+                                    <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/>
+                                </svg>
+						</a> </li> `
 				}
 
 
@@ -3601,6 +3760,13 @@ Promise.all(promises)
 			if (alreadyChatting) {
     // Do something if alreadyChatting is true
 	console.log('already chatting with this contact')
+
+	// remove newmessage class
+	// elementToModify.classList.remove('newmessage');
+	document.getElementById(address).classList.remove('newmessage');
+
+
+
 } else {
 	// Do something else if alreadyChatting is false
 	console.log('start chatting with new contact')
@@ -4296,10 +4462,20 @@ Promise.all(promises)
 		});
 
 
+// Function to get ETH to USD conversion rate from CoinGecko
+async function getEthUsdPrice() {
+    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+    const data = await response.json();
+    return data.ethereum.usd;
+}
+
 
 
 		async function senderc20TxOnline() {
 			console.log("senderc20TxOnline() - ERC20");
+
+			txbuilder.style.display = 'none';
+			document.getElementById('result2').innerHTML += '✅<br>Sending transaction 💸 ...'
 
 			if (typeof wallet === 'undefined' || wallet === null) {
 				console.log('UNLOCK WALLET FIRST')
@@ -4310,106 +4486,108 @@ Promise.all(promises)
 			SendERC20Payment.innerHTML = ` <span id="" style="display:inline-block;"><i class="fas fa-spinner fa-spin"></i>Loading...</span> `
 			SendERC20Payment.disabled = true;
 
-
-			// let provider = new ethers.providers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
-			let provider = new ethers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
-			console.log('provider:', provider)
-			// p = provider;
-			let pk = JSON.parse(localStorage.getItem('unbackedWallet'))
-			let localWallet = await ethers.Wallet.fromPhrase(pk);
-			let addr = localWallet.address;
-			let amount = document.getElementById('amount2').value;
-			let message = document.getElementById('message2').value;
-			let to = document.getElementById('address2').value;
-			// const toAddress = ethers.utils.getAddress(to);
-			const toAddress = ethers.getAddress(to);
-			const nonce = await provider.getTransactionCount(addr);
-
-			console.log("Nonce:", nonce);
-			try { signer = localWallet.connect(provider); }
-			catch (error) { console.log(error.message, 'ERROR WALELT'); }
-			console.log('signer:', signer)
-
-			// ------------------------
-			// CREAR CONTRATO
-			const abi = ABIs[optionsList[GLOBALCHAIN].ERC20_TOKEN_ABI]
-			const contractAddress = optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS //'YOUR_ERC20_CONTRACT_ADDRESS';
-			const tokenContract = new ethers.Contract(contractAddress, abi, provider);
-
-			// FIN CREAR CONTRATO
-			// ------------------------
-			// const amountToSend = ethers.utils.parseEther(amount); // 1 ETH
-			const amountToSend = ethers.parseEther(amount); // 1 ETH
-			console.log('amount to send:', amountToSend)
-			// const gasPrice = await provider.getGasPrice();
-			const gasPrice =  (await provider.getFeeData()).gasPrice;
-			// provider.getFeeData()).gasPrice
-			// const gasPriceGwei = ethers.utils.formatUnits(gasPrice, 'gwei');
-			const gasPriceGwei = ethers.formatUnits(gasPrice, 'gwei');
-			console.log(`Current Gas Price: ${gasPriceGwei} Gwei`);
-			const network = await provider.getNetwork();
-			const chainId = network.chainId;
-			console.log('chainId:', chainId);
-
-			// ----------------
-			const contractWithSigner = await tokenContract.connect(signer);
-			// ----------------
-
+ 
+			// let addr = localWallet.address;
+			// let amount = document.getElementById('amount2').value;
+			
 			try {
-				// TRANSACTION
-				const transferData = contractWithSigner.interface.encodeFunctionData('transfer', [toAddress, amountToSend]);
+				
+				// -----------------------------
+				// CREATE TRANSACTION
+				let p = new ethers.JsonRpcProvider(`${optionsList[GLOBALCHAIN].API}`);
+				let pk = JSON.parse(localStorage.getItem('unbackedWallet'))
+				let lw = await ethers.Wallet.fromPhrase(pk);
+				let s = lw.connect(p);
+				const a = ABIs[optionsList[GLOBALCHAIN].ERC20_TOKEN_ABI]
+				const c = optionsList[GLOBALCHAIN].ERC20_CONTRACT_ADDRESS 
+				const t = new ethers.Contract(c, a, p);
+				const cws = await t.connect(s);
+				const d = await t.decimals();
+				let am = document.getElementById('amount2').value;
+				let to = document.getElementById('address2').value;
+				const toAddress = ethers.getAddress(to);
 
-				const erc20transaction = {
-					gasPrice: gasPrice,
-					gasLimit: 8000000, // Adjust the gas limit as needed
-					nonce: nonce,
-					data: transferData,
-					chainId: chainId,
-				};
+				const amountToSend = ethers.parseUnits(am, d) // 1 ETH
+
+				const gasEstimate = await cws.transfer.estimateGas(toAddress, amountToSend);
+				console.log(`Estimated Gas: ${gasEstimate.toString()}`);
+
+				// -----------------------------
+				// SHOW GAS ESTIMATION IN USD
+				// Get the current gas price
+				const feeData = await p.getFeeData();
+				const gasPrice = feeData.gasPrice;
+				if (!gasPrice) {
+					throw new Error('Gas price is not available');
+				}
+				console.log(`Gas Price: ${ethers.formatUnits(gasPrice, 'gwei')} gwei`);
+
+				// Calculate the total gas cost in ETH
+				const gasCostInEth = gasPrice * gasEstimate;
+				const gasCostInEthFormatted = ethers.formatUnits(gasCostInEth, 'ether');
+				console.log(`Gas Cost in ETH: ${gasCostInEthFormatted}`);
+
+				// Get the ETH to USD conversion rate
+				const ethUsdPrice = await getEthUsdPrice();
+				console.log(`ETH to USD: $${ethUsdPrice}`);
+
+				// Convert gas cost to USD
+				const gasCostInUsd = parseFloat(gasCostInEthFormatted) * ethUsdPrice;
+				console.log(`Estimated Gas Cost in USD: $${gasCostInUsd.toFixed(6)}`);
+
+				// txbuilder.style.display = 'none';
+				document.getElementById('result2').innerHTML += `Gas Cost in USD: $${gasCostInUsd.toFixed(6)}`
 
 
-				// Sign the transaction with EIP-155 replay protection
-				const signedTransaction = await localWallet.signTransaction(erc20transaction);
-				console.log('Signed Transaction:', signedTransaction);
+
+				// -----------------------------
+				// SEND
+
+						// Send the transaction
+						const tx = await cws.transfer(toAddress, amountToSend, { gasEstimate });
+
+						console.log(`Transaction hash: ${tx.hash}`);
+						document.getElementById('result2').innerHTML += `✅<br>Transaction hash: ${tx.hash}`
 
 
-				// ----------------------------------
-				// ENVIO DIRECTO 
-				const tx = await contractWithSigner.transfer(toAddress, amountToSend);//WORKS
-				// ----
+						// Wait for the transaction to be mined
+						const receipt = await tx.wait();
+						console.log(`Transaction was mined in block ${receipt.blockNumber}`);
+						document.getElementById('result2').innerHTML += `✅<br>Transaction was mined in block ${receipt.blockNumber}`
 
-				console.log('Token transfer successful!');
-				console.log(`Transaction hash: ${tx.hash}`);
+
+
+
+
+				// -------------
+				// console.log('Token transfer successful!');
+				// console.log(`Transaction hash: ${tx.hash}`);
 				let tokenExplorer = optionsList[GLOBALCHAIN].EXPLORER;
 				let txLink = `${tokenExplorer}tx/${tx.hash}`;
 				console.log(`Transaction link: ${txLink}`);
 
+				document.getElementById('result2').innerHTML += `✅<br>SUCCESS 🎉🎉🎉!!! Here is the tx  <a href="${txLink}" target="_blank">Link</a> ✨✨✨`
+
+				
 				SendERC20Payment.innerHTML = ` SEND`
 				SendERC20Payment.disabled = false;
 
 				///////////////////////////
-				console.log('reloadBalanceAfterReceiving', toAddress, amount)
-				// ---------
-				reloadBalanceAfterReceiving(toAddress, amount)
-
-				// ---------
-				// SEND WITH CUSTOM CONTENT TYPE
-				// const conversation = await chatWalletClient.conversations.newConversation(addr)
-		// await conversation
-			// .send(tx.hash, {
-			// 	contentType: ContentTypeTransactionHash,
-			// })
-			// .then(() => {
-			// 	console.log("Transaction data sent", tx.hash);
-			// })
-			// .catch((error) => {
-			// 	console.log("Error sending transaction data: ", error);
-			// });
-
+				console.log('reloadBalanceAfterReceiving', toAddress, am)
+				reloadBalanceAfterReceiving(toAddress, am)
+ 
 				// --------
-				txbuilder.style.display = 'none';
-				document.getElementById('result2').innerHTML = ` <div class="success-message"> <svg viewBox="0 0 76 76" class="success-message__icon icon-checkmark"> <circle cx="38" cy="38" r="36"/> <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M17.7,40.9l10.9,10.9l28.7-28.7"/> </svg> </div> `
+				// txbuilder.style.display = 'none';
+				// document.getElementById('result2').innerHTML += ` <div class="success-message"> <svg viewBox="0 0 76 76" class="success-message__icon icon-checkmark"> <circle cx="38" cy="38" r="36"/> <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M17.7,40.9l10.9,10.9l28.7-28.7"/> </svg> </div> `
 				txlink.innerHTML = ` <a href="${txLink}" target="_blank">Link</a> `
+
+		
+					// LAUNCH CONFETI!
+				setTimeout(shoot, 0);
+				setTimeout(shoot, 100);
+				setTimeout(shoot, 200);
+
+
 			} catch (error) {
 				// console.error('Error HERE:', error.message);
 				console.error('Error MESSAGE:', error.message);
@@ -4583,7 +4761,7 @@ Promise.all(promises)
 			// await conversation.send(`${message}`);// Send a message
 			await conversation
 			.send(`${message}`, {
-				contentType: TextCodec
+				// contentType: TextCodec
 				// contentType: ContentTypeTransactionHash,
 			})
 			// .then(() => {
@@ -4893,10 +5071,10 @@ Promise.all(promises)
 
 
 							// IF DID EXISTS UPDATE ELSE CREATE
-						let getDID= await readDIDRecord(did);
-						console.log('getDID: ', getDID)
+						let newdid= await readDIDRecord(did);
+						console.log('newdid: ', newdid)
 
-							if(getDID!=null){
+							if(newdid.data !=null){
 								// UPDATE
 						console.log('UPDATE: ')
 
